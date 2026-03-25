@@ -1,5 +1,5 @@
-﻿using ECoffee.Application;
-using ECoffee.Application.Models;
+﻿using ECoffee.Application.Models;
+using ECoffee.Application.Repositories;
 using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Entities;
 using Mapster;

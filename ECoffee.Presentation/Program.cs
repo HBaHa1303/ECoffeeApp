@@ -1,4 +1,4 @@
-using ECoffee.Application;
+using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
 using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Repositories;
