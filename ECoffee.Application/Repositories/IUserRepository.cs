@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECoffee.Application
+namespace ECoffee.Application.Repositories
 {
     public interface IUserRepository
     {
