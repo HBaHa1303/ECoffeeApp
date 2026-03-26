@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECoffee.Application.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,9 @@ namespace ECoffee.Infrastructure.Entities
         public string Email { get; set; } = null!;
         public string PasswordHash { get; set; } = null!;
         public string FullName { get; set; } = null!;
-
+        public string Address { get; set; } = string.Empty;
+        public DateOnly DateOfBirth { get; set; } 
+        public UserStatus Status { get; set; }
         public ICollection<UserRoleEntity> UserRoles { get; set; } = new List<UserRoleEntity>();
         public ICollection<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
     }
