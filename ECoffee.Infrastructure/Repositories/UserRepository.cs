@@ -121,22 +121,29 @@ namespace ECoffee.Infrastructure.Repositories
 
             var toRemove = entity.UserRoles
                 .Where(ur => removedRoles.Contains(ur.Role.Name))
-                .ToList(); // ToList() để tránh modify collection đang lặp
+                .ToList();
 
             foreach (var ur in toRemove)
             {
                 entity.UserRoles.Remove(ur);
             }
 
-            foreach (var roleName in newRoles)
+            if (newRoles.Any())
             {
-                var roleEntity = _db.Roles.First(r => r.Name == roleName);
-                entity.UserRoles.Add(new UserRoleEntity
+                var roles = _db.Roles.Where(r => newRoles.Contains(r.Name)).ToList();
+
+                foreach (var roleName in newRoles)
                 {
-                    RoleId = roleEntity.Id,
-                    UserId = entity.Id
-                });
+                    var roleEntity = roles.First(r => r.Name == roleName);
+                    entity.UserRoles.Add(new UserRoleEntity
+                    {
+                        RoleId = roleEntity.Id,
+                        UserId = entity.Id
+                    });
+                }
             }
+
+            
         }
 
         //public void Update(User user)
