@@ -27,11 +27,10 @@ namespace ECoffee.Presentation
 
             Services = services.BuildServiceProvider();
 
-            //var loginForm = Services.GetRequiredService<LoginForm>();
+            var mapster = Services.GetRequiredService<IMapster>();
+            mapster.Configure();
 
-            //System.Windows.Forms.Application.Run(loginForm);
-
-            var loginForm = Services.GetRequiredService<StaffManagementForm>();
+            var loginForm = Services.GetRequiredService<LoginForm>();
 
             System.Windows.Forms.Application.Run(loginForm);
         }
@@ -41,7 +40,9 @@ namespace ECoffee.Presentation
             // repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+            services.AddScoped<IMapster, MapsterConfiguration>();
 
             // services
             services.AddScoped<AuthService>();

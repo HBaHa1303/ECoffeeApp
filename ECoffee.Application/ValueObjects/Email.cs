@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using System;
 using System.Text.RegularExpressions;
+using ECoffee.Application.Exceptions;
 
 namespace ECoffee.Application.ValueObjects
 {
@@ -21,10 +22,10 @@ namespace ECoffee.Application.ValueObjects
         public Email(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Email cannot be empty.", nameof(value));
+                throw new BadRequestException("Email cannot be empty.");
 
             if (!EmailRegex.IsMatch(value))
-                throw new ArgumentException("Email is not valid.", nameof(value));
+                throw new BadRequestException("Email is not valid.");
 
             Value = value;
         }

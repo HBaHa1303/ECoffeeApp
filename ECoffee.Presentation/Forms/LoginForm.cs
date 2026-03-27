@@ -1,16 +1,20 @@
 ﻿using ECoffee.Application.DTOs.Request;
 using ECoffee.Application.Exceptions;
 using ECoffee.Application.Services;
+using ECoffee.Presentation.Forms;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ECoffee.Presentation
 {
     public partial class LoginForm : Form
     {
         private readonly AuthService _authService;
-        public LoginForm(AuthService authService)
+        private readonly IServiceProvider _services;
+        public LoginForm(AuthService authService, IServiceProvider Services)
         {
             InitializeComponent();
             _authService = authService;
+            _services = Services;
         }
 
         private void bLogin_Click(object sender, EventArgs e)
@@ -19,8 +23,6 @@ namespace ECoffee.Presentation
             {
                 string email = tbEmail.Text;
                 string password = tbPassword.Text;
-                // validate textbox
-                // Code demo chưa validate
 
                 LoginRequest loginRequest = new LoginRequest
                 {
@@ -30,6 +32,8 @@ namespace ECoffee.Presentation
                 _authService.Login(loginRequest);
 
                 MessageBox.Show("Đăng nhập thành công", "Thành công");
+                var form = _services.GetRequiredService<StaffManagementForm>();
+                form.ShowDialog(this);
             }
             catch (BadRequestException ex)
             {

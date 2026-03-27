@@ -1,17 +1,10 @@
 ﻿using ECoffee.Application.DTOs.Response;
-using ECoffee.Application.Exceptions;
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
-using ECoffee.Application.ValueObjects;
 using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECoffee.Infrastructure.Repositories
 {
@@ -44,11 +37,16 @@ namespace ECoffee.Infrastructure.Repositories
                 entity.Id,
                 entity.Email,
                 entity.PasswordHash,
+                null,
                 entity.FullName,
                 entity.Address,
                 entity.DateOfBirth,
                 entity.Status,
-                entity.UserRoles.Select(x => x.Role.Name)
+                entity.UserRoles.Select(x => x.Role.Name),
+                entity.CreatedBy,
+                entity.UpdatedBy,
+                entity.CreatedAt,
+                entity.UpdatedAt
             );
         }
 
@@ -66,11 +64,16 @@ namespace ECoffee.Infrastructure.Repositories
                 entity.Id,
                 entity.Email,
                 entity.PasswordHash,
+                null,
                 entity.FullName,
                 entity.Address,
                 entity.DateOfBirth,
                 entity.Status,
-                entity.UserRoles.Select(x => x.Role.Name)
+                entity.UserRoles.Select(x => x.Role.Name),
+                entity.CreatedBy,
+                entity.UpdatedBy,
+                entity.CreatedAt,
+                entity.UpdatedAt
             );
         }
 
@@ -145,55 +148,5 @@ namespace ECoffee.Infrastructure.Repositories
 
             
         }
-
-        //public void Update(User user)
-        //{
-        //    // 1. Lấy user kèm UserRoles + Role
-        //    var entity = _db.Users
-        //        .Include(u => u.UserRoles)
-        //            .ThenInclude(ur => ur.Role)
-        //        .FirstOrDefault(u => u.Id == user.Id);
-
-        //    if (entity == null)
-        //        throw new NotFoundException("Người dùng không tồn tại");
-
-        //    // 2. Update các field cơ bản
-        //    entity.FullName = user.FullName;
-        //    entity.Address = user.Address;
-        //    entity.DateOfBirth = user.DateOfBirth;
-        //    entity.Status = user.Status;
-
-        //    // 3. Xác định roles cần thêm và xoá
-        //    var currentRoleNames = entity.UserRoles.Select(ur => ur.Role.Name).ToList();
-        //    var newRoles = user.Roles.Except(currentRoleNames).ToList();
-        //    var removedRoles = currentRoleNames.Except(user.Roles).ToList();
-
-        //    // 4. Remove roles không còn
-        //    var toRemove = entity.UserRoles
-        //        .Where(ur => removedRoles.Contains(ur.Role.Name))
-        //        .ToList(); // ToList để tránh modify collection đang lặp
-        //    foreach (var ur in toRemove)
-        //        entity.UserRoles.Remove(ur);
-
-        //    // 5. Thêm roles mới (1 query duy nhất)
-        //    if (newRoles.Any())
-        //    {
-        //        var roleDict = _db.Roles
-        //            .Where(r => newRoles.Contains(r.Name))
-        //            .ToDictionary(r => r.Name, r => r.Id);
-
-        //        foreach (var roleName in newRoles)
-        //        {
-        //            if (!roleDict.TryGetValue(roleName, out var roleId))
-        //                throw new NotFoundException($"Role '{roleName}' không tồn tại");
-
-        //            entity.UserRoles.Add(new UserRoleEntity
-        //            {
-        //                RoleId = roleId,
-        //                UserId = entity.Id
-        //            });
-        //        }
-        //    }
-        //}
     }
 }

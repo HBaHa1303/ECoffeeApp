@@ -14,12 +14,22 @@ namespace ECoffee.Application.Services
         private readonly IRoleRepository _roleRepository;
         private readonly PasswordHasher<User> _passwordHasher;
         private readonly IUnitOfWork _uow;
-        public UserService (IUserRepository userRepository, IRoleRepository roleRepository, PasswordHasher<User> passwordHasher, IUnitOfWork uow)
+        private readonly IUserContext _userContext;
+        private readonly string currentUser;
+
+        public UserService (IUserRepository userRepository, 
+            IRoleRepository roleRepository, 
+            PasswordHasher<User> passwordHasher, 
+            IUnitOfWork uow,
+            IUserContext userContext
+            )
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _passwordHasher = passwordHasher;
             _uow = uow;
+            _userContext = userContext;
+            currentUser = _userContext.CurrentUser?.Email;
         }
 
         public async Task CreateUserAsync(CreateUserRequest request)
@@ -38,7 +48,7 @@ namespace ECoffee.Application.Services
 
             string passwordHash = _passwordHasher.HashPassword(null, request.Password);
 
-            var newUser = User.Create(request, passwordHash);
+            var newUser = User.Create(request, passwordHash, request.Password, currentUser);
 
             _userRepository.Save(newUser, roles);
             await _uow.SaveChangesAsync();
@@ -63,10 +73,10 @@ namespace ECoffee.Application.Services
 
             if (user == null) throw new NotFoundException("Người dùng không tồn tại trong hệ thống");
 
-            user.Rename(request.FullName);
-            user.ChangeDateOfBirth(request.DayOfBirth);
-            user.ChangeAddress(request.Address);
-            user.UpdateRoles(request.Roles);
+            user.Rename(request.FullName, currentUser);
+            user.ChangeDateOfBirth(request.DayOfBirth, currentUser);
+            user.ChangeAddress(request.Address, currentUser);
+            user.UpdateRoles(request.Roles, currentUser);
 
             _userRepository.Update(user);
             await _uow.SaveChangesAsync();
@@ -80,7 +90,7 @@ namespace ECoffee.Application.Services
             {
                 throw new NotFoundException("Người dùng không tồn tại trong hệ thống");
             }
-            user.Unlock();
+            user.Unlock(currentUser);
             _userRepository.Update(user);
 
             await _uow.SaveChangesAsync();
@@ -94,7 +104,7 @@ namespace ECoffee.Application.Services
             {
                 throw new NotFoundException("Người dùng không tồn tại trong hệ thống");
             }
-            user.Lock();
+            user.Lock(currentUser);
             _userRepository.Update(user);
 
             await _uow.SaveChangesAsync();
