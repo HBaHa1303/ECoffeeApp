@@ -1,20 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using ECoffee.Application.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ECoffee.Presentation.Forms
 {
     public partial class MainForm : Form
     {
-        public MainForm()
+        private readonly StaffManagementForm _staffManagementForm;
+
+        public MainForm(
+            StaffManagementForm staffManagementForm)
         {
             InitializeComponent();
+            _staffManagementForm = staffManagementForm;
+        }
+
+        private void tsmiStaffManagement_Click(object sender, EventArgs e)
+        {
+            _staffManagementForm.ShowDialog(this);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

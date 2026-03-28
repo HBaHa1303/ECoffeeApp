@@ -28,12 +28,167 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "MainForm";
+            tableLayoutPanel1 = new TableLayoutPanel();
+            menuStrip1 = new MenuStrip();
+            hệThốngToolStripMenuItem = new ToolStripMenuItem();
+            đăngXuấtToolStripMenuItem = new ToolStripMenuItem();
+            thoátToolStripMenuItem = new ToolStripMenuItem();
+            quảnLýToolStripMenuItem = new ToolStripMenuItem();
+            tsmiStaffManagement = new ToolStripMenuItem();
+            khuyếnMãiToolStripMenuItem = new ToolStripMenuItem();
+            đơnHàngToolStripMenuItem = new ToolStripMenuItem();
+            thanhToánToolStripMenuItem = new ToolStripMenuItem();
+            khoToolStripMenuItem = new ToolStripMenuItem();
+            menuToolStripMenuItem = new ToolStripMenuItem();
+            loạiMenuToolStripMenuItem = new ToolStripMenuItem();
+            báoCáoToolStripMenuItem = new ToolStripMenuItem();
+            nhânViênToolStripMenuItem1 = new ToolStripMenuItem();
+            tableLayoutPanel1.SuspendLayout();
+            menuStrip1.SuspendLayout();
+            SuspendLayout();
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(menuStrip1, 0, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(1029, 630);
+            tableLayoutPanel1.TabIndex = 0;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { hệThốngToolStripMenuItem, quảnLýToolStripMenuItem, báoCáoToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1029, 24);
+            menuStrip1.TabIndex = 0;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // hệThốngToolStripMenuItem
+            // 
+            hệThốngToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { đăngXuấtToolStripMenuItem, thoátToolStripMenuItem });
+            hệThốngToolStripMenuItem.Name = "hệThốngToolStripMenuItem";
+            hệThốngToolStripMenuItem.Size = new Size(72, 20);
+            hệThốngToolStripMenuItem.Text = "Hệ Thống";
+            // 
+            // đăngXuấtToolStripMenuItem
+            // 
+            đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
+            đăngXuấtToolStripMenuItem.Size = new Size(180, 22);
+            đăngXuấtToolStripMenuItem.Text = "Đăng Xuất";
+            // 
+            // thoátToolStripMenuItem
+            // 
+            thoátToolStripMenuItem.Name = "thoátToolStripMenuItem";
+            thoátToolStripMenuItem.Size = new Size(180, 22);
+            thoátToolStripMenuItem.Text = "Thoát";
+            // 
+            // quảnLýToolStripMenuItem
+            // 
+            quảnLýToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tsmiStaffManagement, khuyếnMãiToolStripMenuItem, đơnHàngToolStripMenuItem, thanhToánToolStripMenuItem, khoToolStripMenuItem, menuToolStripMenuItem, loạiMenuToolStripMenuItem });
+            quảnLýToolStripMenuItem.Name = "quảnLýToolStripMenuItem";
+            quảnLýToolStripMenuItem.Size = new Size(60, 20);
+            quảnLýToolStripMenuItem.Text = "Quản lý";
+            // 
+            // tsmiStaffManagement
+            // 
+            tsmiStaffManagement.Name = "tsmiStaffManagement";
+            tsmiStaffManagement.Size = new Size(180, 22);
+            tsmiStaffManagement.Text = "Nhân viên";
+            tsmiStaffManagement.Click += tsmiStaffManagement_Click;
+            // 
+            // khuyếnMãiToolStripMenuItem
+            // 
+            khuyếnMãiToolStripMenuItem.Name = "khuyếnMãiToolStripMenuItem";
+            khuyếnMãiToolStripMenuItem.Size = new Size(180, 22);
+            khuyếnMãiToolStripMenuItem.Text = "Khuyến mãi";
+            // 
+            // đơnHàngToolStripMenuItem
+            // 
+            đơnHàngToolStripMenuItem.Name = "đơnHàngToolStripMenuItem";
+            đơnHàngToolStripMenuItem.Size = new Size(180, 22);
+            đơnHàngToolStripMenuItem.Text = "Đơn hàng";
+            // 
+            // thanhToánToolStripMenuItem
+            // 
+            thanhToánToolStripMenuItem.Name = "thanhToánToolStripMenuItem";
+            thanhToánToolStripMenuItem.Size = new Size(180, 22);
+            thanhToánToolStripMenuItem.Text = "Thanh toán";
+            // 
+            // khoToolStripMenuItem
+            // 
+            khoToolStripMenuItem.Name = "khoToolStripMenuItem";
+            khoToolStripMenuItem.Size = new Size(180, 22);
+            khoToolStripMenuItem.Text = "Kho";
+            // 
+            // menuToolStripMenuItem
+            // 
+            menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            menuToolStripMenuItem.Size = new Size(180, 22);
+            menuToolStripMenuItem.Text = "Menu";
+            // 
+            // loạiMenuToolStripMenuItem
+            // 
+            loạiMenuToolStripMenuItem.Name = "loạiMenuToolStripMenuItem";
+            loạiMenuToolStripMenuItem.Size = new Size(180, 22);
+            loạiMenuToolStripMenuItem.Text = "Loại nước";
+            // 
+            // báoCáoToolStripMenuItem
+            // 
+            báoCáoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { nhânViênToolStripMenuItem1 });
+            báoCáoToolStripMenuItem.Name = "báoCáoToolStripMenuItem";
+            báoCáoToolStripMenuItem.Size = new Size(63, 20);
+            báoCáoToolStripMenuItem.Text = "Báo Cáo";
+            // 
+            // nhânViênToolStripMenuItem1
+            // 
+            nhânViênToolStripMenuItem1.Name = "nhânViênToolStripMenuItem1";
+            nhânViênToolStripMenuItem1.Size = new Size(180, 22);
+            nhânViênToolStripMenuItem1.Text = "Nhân viên";
+            // 
+            // MainForm
+            // 
+            AutoScaleDimensions = new SizeF(9F, 21F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1029, 630);
+            Controls.Add(tableLayoutPanel1);
+            Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            MainMenuStrip = menuStrip1;
+            Margin = new Padding(4);
+            Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "ECoffee";
+            WindowState = FormWindowState.Maximized;
+            Load += MainForm_Load;
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private TableLayoutPanel tableLayoutPanel1;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem hệThốngToolStripMenuItem;
+        private ToolStripMenuItem đăngXuấtToolStripMenuItem;
+        private ToolStripMenuItem thoátToolStripMenuItem;
+        private ToolStripMenuItem quảnLýToolStripMenuItem;
+        private ToolStripMenuItem tsmiStaffManagement;
+        private ToolStripMenuItem khuyếnMãiToolStripMenuItem;
+        private ToolStripMenuItem đơnHàngToolStripMenuItem;
+        private ToolStripMenuItem thanhToánToolStripMenuItem;
+        private ToolStripMenuItem khoToolStripMenuItem;
+        private ToolStripMenuItem menuToolStripMenuItem;
+        private ToolStripMenuItem loạiMenuToolStripMenuItem;
+        private ToolStripMenuItem báoCáoToolStripMenuItem;
+        private ToolStripMenuItem nhânViênToolStripMenuItem1;
     }
 }
