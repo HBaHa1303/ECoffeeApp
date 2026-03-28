@@ -14,7 +14,7 @@ namespace ECoffee.Application.Repositories
         long UserId { get; }
         string Email { get; }
         string ActiveRole { get; }
-
+        IReadOnlyList<string> Roles { get; }
         void Set(UserSession session);
         void Clear();
 

@@ -34,6 +34,10 @@ namespace ECoffee.Application.Services
             if (result == PasswordVerificationResult.Failed)
                 throw new UnauthorizedException("Email hoặc mật khẩu không chính xác! Vui lòng thử lại");
 
+            if (!user.Roles.Any()) {
+                throw new UnauthorizedException("Tài khoản chưa được gán vai trò! Vui lòng liên hệ quản lý để được cấp quyền");
+            }
+
             _userContext.Set(new UserSession(
                 user.Id,
                 request.Email,

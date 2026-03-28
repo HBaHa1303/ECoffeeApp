@@ -21,6 +21,7 @@ namespace ECoffee.Infrastructure.Configurations
         public long UserId => Session.UserId;
         public string Email => Session.Email;
         public string ActiveRole => Session.ActiveRole;
+        public IReadOnlyList<string> Roles => _session?.Roles != null ? _session.Roles.ToList().AsReadOnly() : Array.Empty<string>();
 
         public void Set(UserSession session)
             => _session = session ?? throw new ArgumentNullException(nameof(session));
@@ -29,5 +30,6 @@ namespace ECoffee.Infrastructure.Configurations
 
         public bool HasRole(string role)
             => _session?.Roles.Contains(role) ?? false;
+
     }
 }

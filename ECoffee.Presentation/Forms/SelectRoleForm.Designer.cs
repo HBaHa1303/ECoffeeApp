@@ -30,8 +30,12 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             label1 = new Label();
-            button1 = new Button();
+            bOk = new Button();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            label2 = new Label();
+            cbRoles = new ComboBox();
             tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -39,7 +43,8 @@
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            tableLayoutPanel1.Controls.Add(button1, 0, 2);
+            tableLayoutPanel1.Controls.Add(bOk, 0, 2);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -62,15 +67,52 @@
             label1.Text = "Bạn có nhiều hơn 1 vai trò.\r\nVui lòng chọn vai trò muốn sử dụng";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // button1
+            // bOk
             // 
-            button1.Anchor = AnchorStyles.None;
-            button1.Location = new Point(152, 126);
-            button1.Name = "button1";
-            button1.Size = new Size(80, 28);
-            button1.TabIndex = 1;
-            button1.Text = "Sử dụng";
-            button1.UseVisualStyleBackColor = true;
+            bOk.Anchor = AnchorStyles.None;
+            bOk.Location = new Point(152, 126);
+            bOk.Name = "bOk";
+            bOk.Size = new Size(80, 28);
+            bOk.TabIndex = 1;
+            bOk.Text = "Sử dụng";
+            bOk.UseVisualStyleBackColor = true;
+            bOk.Click += bOk_Click;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 2;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            tableLayoutPanel2.Controls.Add(label2, 0, 0);
+            tableLayoutPanel2.Controls.Add(cbRoles, 1, 0);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(3, 51);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Size = new Size(378, 66);
+            tableLayoutPanel2.TabIndex = 2;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Left;
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(3, 22);
+            label2.Name = "label2";
+            label2.Size = new Size(55, 21);
+            label2.TabIndex = 1;
+            label2.Text = "Vai trò";
+            // 
+            // cbRoles
+            // 
+            cbRoles.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            cbRoles.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbRoles.FormattingEnabled = true;
+            cbRoles.Location = new Point(154, 18);
+            cbRoles.Name = "cbRoles";
+            cbRoles.Size = new Size(221, 29);
+            cbRoles.TabIndex = 2;
             // 
             // SelectRoleForm
             // 
@@ -79,9 +121,13 @@
             ClientSize = new Size(384, 161);
             Controls.Add(tableLayoutPanel1);
             Name = "SelectRoleForm";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Chọn vai trò";
+            Load += SelectRoleForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -89,6 +135,9 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private Label label1;
-        private Button button1;
+        private Button bOk;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Label label2;
+        private ComboBox cbRoles;
     }
 }
