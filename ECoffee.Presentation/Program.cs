@@ -9,6 +9,7 @@ using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace ECoffee.Presentation
 {
@@ -27,12 +28,17 @@ namespace ECoffee.Presentation
 
             Services = services.BuildServiceProvider();
 
-            var mapster = Services.GetRequiredService<IMapster>();
-            mapster.Configure();
-
+            MapsterConfiguration.Configure();
+            var userContext = Services.GetRequiredService<IUserContext>();
             var loginForm = Services.GetRequiredService<LoginForm>();
 
-            System.Windows.Forms.Application.Run(loginForm);
+            var result = loginForm.ShowDialog();
+
+            if (result != DialogResult.OK || !userContext.IsAuthenticated)
+                return; 
+
+            var mainForm = Services.GetRequiredService<MainForm>();
+            System.Windows.Forms.Application.Run(mainForm);
         }
 
         private static void ConfigureServices(IServiceCollection services)
@@ -40,9 +46,10 @@ namespace ECoffee.Presentation
             // repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+
+            // contexts
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
-            services.AddScoped<IMapster, MapsterConfiguration>();
 
             // services
             services.AddScoped<AuthService>();
@@ -54,6 +61,7 @@ namespace ECoffee.Presentation
             // forms
             services.AddTransient<LoginForm>();
             services.AddTransient<StaffManagementForm>();
+            services.AddTransient<MainForm>();
 
             // Configuration 
             services.AddDbContext<AppDbContext>(

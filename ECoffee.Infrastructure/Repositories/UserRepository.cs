@@ -23,6 +23,14 @@ namespace ECoffee.Infrastructure.Repositories
                 .ToList();
         }
 
+        public List<UserResponse> FindAllByName(string name)
+        {
+            return _db.Users
+                .Where(u => u.FullName.Contains(name))
+                .Select(u => u.Adapt<UserResponse>())
+                .ToList();
+        }
+
         public User? FindByEmail(string email)
         {
             var entity = _db.Users

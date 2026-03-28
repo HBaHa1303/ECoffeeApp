@@ -33,7 +33,13 @@ namespace ECoffee.Application.Services
 
             if (result == PasswordVerificationResult.Failed)
                 throw new UnauthorizedException("Email hoặc mật khẩu không chính xác! Vui lòng thử lại");
-            _userContext.SetCurrentUser(user.Adapt<UserResponse>());
+
+            _userContext.Set(new UserSession(
+                user.Id,
+                request.Email,
+                "",
+                user.Roles
+            ));
         }
     }
 }

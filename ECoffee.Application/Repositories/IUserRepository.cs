@@ -11,6 +11,7 @@ namespace ECoffee.Application.Repositories
     public interface IUserRepository
     {
         List<UserResponse> FindAll();
+        List<UserResponse> FindAllByName(string name);
         User? FindByEmail(string email);
         User? FindById(long id);
         UserResponse? ProjectionFindById(long id);

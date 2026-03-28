@@ -8,28 +8,26 @@ using System.Threading.Tasks;
 
 namespace ECoffee.Infrastructure.Configurations
 {
-    public class UserContext : IUserContext
+    public sealed class UserContext : IUserContext
     {
-        private UserResponse? _currentUser;
+        private UserSession? _session;
 
-        public UserResponse? CurrentUser => _currentUser;
+        private UserSession Session =>
+            _session ?? throw new InvalidOperationException(
+                "User is not authenticated");
 
-        public bool IsAuthenticated => _currentUser != null;
+        public bool IsAuthenticated => _session != null;
 
-        public void SetCurrentUser(UserResponse user)
-        {
-            _currentUser = user ?? throw new ArgumentNullException(nameof(user));
-        }
+        public long UserId => Session.UserId;
+        public string Email => Session.Email;
+        public string ActiveRole => Session.ActiveRole;
 
-        public void Clear()
-        {
-            _currentUser = null;
-        }
+        public void Set(UserSession session)
+            => _session = session ?? throw new ArgumentNullException(nameof(session));
 
-        public bool HasRole(string roleName)
-        {
-            if (_currentUser == null) return false;
-            return _currentUser.Roles.Contains(roleName);
-        }
+        public void Clear() => _session = null;
+
+        public bool HasRole(string role)
+            => _session?.Roles.Contains(role) ?? false;
     }
 }

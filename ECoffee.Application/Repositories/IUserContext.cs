@@ -9,10 +9,15 @@ namespace ECoffee.Application.Repositories
 {
     public interface IUserContext
     {
-        UserResponse? CurrentUser { get; }
         bool IsAuthenticated { get; }
-        bool HasRole(string roleName);
-        void SetCurrentUser(UserResponse user);
+
+        long UserId { get; }
+        string Email { get; }
+        string ActiveRole { get; }
+
+        void Set(UserSession session);
         void Clear();
+
+        bool HasRole(string role);
     }
 }

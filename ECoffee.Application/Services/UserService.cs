@@ -29,7 +29,7 @@ namespace ECoffee.Application.Services
             _passwordHasher = passwordHasher;
             _uow = uow;
             _userContext = userContext;
-            currentUser = _userContext.CurrentUser?.Email;
+            currentUser = _userContext.Email;
         }
 
         public async Task CreateUserAsync(CreateUserRequest request)
@@ -66,6 +66,7 @@ namespace ECoffee.Application.Services
         }
 
         public Task<List<UserResponse>> FindAllAsync() => Task.FromResult(_userRepository.FindAll());
+        public Task<List<UserResponse>> FindAllByNameAsync(string name) => Task.FromResult(_userRepository.FindAllByName(name));
 
         public async Task UpdateUserAsync(long id, UpdateUserRequest request)
         {

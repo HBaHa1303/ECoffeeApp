@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tableLayoutPanel1 = new TableLayoutPanel();
             label1 = new Label();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -43,6 +44,7 @@
             Address = new DataGridViewTextBoxColumn();
             Edit = new DataGridViewButtonColumn();
             ToggleStatus = new DataGridViewButtonColumn();
+            searchTimer = new System.Windows.Forms.Timer(components);
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStaff).BeginInit();
@@ -83,6 +85,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel2.Controls.Add(tbSearch, 1, 0);
             tableLayoutPanel2.Controls.Add(bCreate, 2, 0);
             tableLayoutPanel2.Controls.Add(label2, 0, 0);
@@ -104,6 +107,7 @@
             tbSearch.PlaceholderText = "Tìm kiếm ...";
             tbSearch.Size = new Size(330, 29);
             tbSearch.TabIndex = 0;
+            tbSearch.TextChanged += tbSearch_TextChanged;
             // 
             // bCreate
             // 
@@ -124,9 +128,9 @@
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.Location = new Point(11, 10);
             label2.Name = "label2";
-            label2.Size = new Size(74, 21);
+            label2.Size = new Size(135, 21);
             label2.TabIndex = 2;
-            label2.Text = "Tìm kiếm";
+            label2.Text = "Tìm kiếm theo tên";
             // 
             // dgvStaff
             // 
@@ -189,6 +193,10 @@
             ToggleStatus.Resizable = DataGridViewTriState.True;
             ToggleStatus.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
+            // searchTimer
+            // 
+            searchTimer.Tick += searchTimer_Tick;
+            // 
             // StaffManagementForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -224,5 +232,6 @@
         private DataGridViewTextBoxColumn Address;
         private DataGridViewButtonColumn Edit;
         private DataGridViewButtonColumn ToggleStatus;
+        private System.Windows.Forms.Timer searchTimer;
     }
 }

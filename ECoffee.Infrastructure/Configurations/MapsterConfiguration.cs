@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace ECoffee.Infrastructure.Configurations
 {
-    public class MapsterConfiguration : IMapster
+    public static class MapsterConfiguration
     {
-        public void Configure()
+        public static void Configure()
         {
             TypeAdapterConfig<User, UserEntity>.NewConfig()
                 .Map(dest => dest.PasswordHash, src => src.PasswordHash.HashedValue);

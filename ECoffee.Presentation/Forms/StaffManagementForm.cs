@@ -21,11 +21,14 @@ namespace ECoffee.Presentation.Forms
     {
         private readonly UserService _userService;
         private readonly RoleService _roleService;
+        private readonly System.Windows.Forms.Timer _searchTimer = new();
         public StaffManagementForm(UserService userService, RoleService roleService)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
+            _searchTimer.Interval = 400; // ms
+            _searchTimer.Tick += searchTimer_Tick;
         }
 
         private async void bCreate_Click(object sender, EventArgs e)
@@ -94,6 +97,22 @@ namespace ECoffee.Presentation.Forms
                     await LoadStaffAsync();
                     break;
             }
+        }
+
+        private void tbSearch_TextChanged(object sender, EventArgs e)
+        {
+            _searchTimer.Stop();
+            _searchTimer.Start();
+        }
+
+        private async void searchTimer_Tick(object? sender, EventArgs e)
+        {
+            _searchTimer.Stop();
+            var keyword = tbSearch.Text;
+
+            List<UserResponse> userResponses = await _userService.FindAllByNameAsync(keyword);
+            dgvStaff.DataSource = null;
+            dgvStaff.DataSource = userResponses;
         }
     }
 }
