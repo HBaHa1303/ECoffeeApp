@@ -1,4 +1,4 @@
-using ECoffee.Application.Models;
+﻿using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
 using ECoffee.Infrastructure.Configurations;
@@ -27,15 +27,20 @@ namespace ECoffee.Presentation
 
             MapsterConfiguration.Configure();
             var userContext = Services.GetRequiredService<IUserContext>();
-            var loginForm = Services.GetRequiredService<LoginForm>();
+            while (true)
+            {
+                var loginForm = Services.GetRequiredService<LoginForm>();
+                var result = loginForm.ShowDialog();
 
-            var result = loginForm.ShowDialog();
+                if (result != DialogResult.OK || !userContext.IsAuthenticated)
+                    break;
 
-            if (result != DialogResult.OK || !userContext.IsAuthenticated)
-                return; 
+                var mainForm = Services.GetRequiredService<MainForm>();
+                System.Windows.Forms.Application.Run(mainForm);
 
-            var mainForm = Services.GetRequiredService<MainForm>();
-            System.Windows.Forms.Application.Run(mainForm);
+                if (userContext.IsAuthenticated)
+                    break;
+            }
         }
 
         private static void ConfigureServices(IServiceCollection services)
