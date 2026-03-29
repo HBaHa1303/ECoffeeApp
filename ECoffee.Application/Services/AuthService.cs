@@ -45,5 +45,10 @@ namespace ECoffee.Application.Services
                 user.Roles
             ));
         }
+
+        public void Logout()
+        {
+            _userContext.Clear();
+        }
     }
 }
