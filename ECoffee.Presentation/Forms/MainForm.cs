@@ -14,8 +14,7 @@ namespace ECoffee.Presentation.Forms
         public MainForm(
             StaffManagementForm staffManagementForm,
             AuthService authService,
-            ReportForm reportForm)
-            AuthService authService,
+            ReportForm reportForm,
             PromotionManagementForm promotionManagementForm)
         {
             InitializeComponent();
@@ -58,6 +57,11 @@ namespace ECoffee.Presentation.Forms
             {
                 MessageBox.Show("Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.", "Có lỗi xảy ra", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void tsmiPromotion_Click(object sender, EventArgs e)
+        {
+            _promotionManagementForm.ShowDialog(this);
         }
     }
 }
