@@ -43,6 +43,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Forms\CategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CategoryManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\PromotionManagementForm.cs">
       <SubType>Form</SubType>
     </Compile>

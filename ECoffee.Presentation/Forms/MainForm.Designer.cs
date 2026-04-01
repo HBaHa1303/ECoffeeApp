@@ -40,7 +40,7 @@
             thanhToánToolStripMenuItem = new ToolStripMenuItem();
             khoToolStripMenuItem = new ToolStripMenuItem();
             menuToolStripMenuItem = new ToolStripMenuItem();
-            loạiMenuToolStripMenuItem = new ToolStripMenuItem();
+            tsmiCategoryManagement = new ToolStripMenuItem();
             báoCáoToolStripMenuItem = new ToolStripMenuItem();
             nhânViênToolStripMenuItem1 = new ToolStripMenuItem();
             tsmiReportOrder = new ToolStripMenuItem();
@@ -94,7 +94,7 @@
             // 
             // quảnLýToolStripMenuItem
             // 
-            quảnLýToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tsmiStaffManagement, tsmiPromotion, đơnHàngToolStripMenuItem, thanhToánToolStripMenuItem, khoToolStripMenuItem, menuToolStripMenuItem, loạiMenuToolStripMenuItem });
+            quảnLýToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tsmiStaffManagement, tsmiPromotion, đơnHàngToolStripMenuItem, thanhToánToolStripMenuItem, khoToolStripMenuItem, menuToolStripMenuItem, tsmiCategoryManagement });
             quảnLýToolStripMenuItem.Name = "quảnLýToolStripMenuItem";
             quảnLýToolStripMenuItem.Size = new Size(60, 20);
             quảnLýToolStripMenuItem.Text = "Quản lý";
@@ -137,11 +137,12 @@
             menuToolStripMenuItem.Size = new Size(180, 22);
             menuToolStripMenuItem.Text = "Menu";
             // 
-            // loạiMenuToolStripMenuItem
+            // tsmiCategoryManagement
             // 
-            loạiMenuToolStripMenuItem.Name = "loạiMenuToolStripMenuItem";
-            loạiMenuToolStripMenuItem.Size = new Size(180, 22);
-            loạiMenuToolStripMenuItem.Text = "Loại nước";
+            tsmiCategoryManagement.Name = "tsmiCategoryManagement";
+            tsmiCategoryManagement.Size = new Size(180, 22);
+            tsmiCategoryManagement.Text = "Loại nước";
+            tsmiCategoryManagement.Click += tsmiCategoryManagement_Click;
             // 
             // báoCáoToolStripMenuItem
             // 
@@ -153,13 +154,13 @@
             // nhânViênToolStripMenuItem1
             // 
             nhânViênToolStripMenuItem1.Name = "nhânViênToolStripMenuItem1";
-            nhânViênToolStripMenuItem1.Size = new Size(180, 22);
+            nhânViênToolStripMenuItem1.Size = new Size(128, 22);
             nhânViênToolStripMenuItem1.Text = "Nhân viên";
             // 
             // tsmiReportOrder
             // 
             tsmiReportOrder.Name = "tsmiReportOrder";
-            tsmiReportOrder.Size = new Size(180, 22);
+            tsmiReportOrder.Size = new Size(128, 22);
             tsmiReportOrder.Text = "Đơn hàng";
             tsmiReportOrder.Click += tsmiReportOrder_Click;
             // 
@@ -198,7 +199,7 @@
         private ToolStripMenuItem thanhToánToolStripMenuItem;
         private ToolStripMenuItem khoToolStripMenuItem;
         private ToolStripMenuItem menuToolStripMenuItem;
-        private ToolStripMenuItem loạiMenuToolStripMenuItem;
+        private ToolStripMenuItem tsmiCategoryManagement;
         private ToolStripMenuItem báoCáoToolStripMenuItem;
         private ToolStripMenuItem nhânViênToolStripMenuItem1;
         private ToolStripMenuItem tsmiReportOrder;
