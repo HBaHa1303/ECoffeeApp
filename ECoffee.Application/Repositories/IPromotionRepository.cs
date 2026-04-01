@@ -11,6 +11,7 @@ namespace ECoffee.Application.Repositories
     public interface IPromotionRepository
     {
         List<PromotionResponse> FindAll();
+        List<PromotionResponse> FindAllActiveAsync();
         List<PromotionResponse> FindAllByName(string name);
         Promotion? FindById(long id);
         PromotionResponse? ProjectionFindById(long id);

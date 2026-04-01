@@ -1,4 +1,5 @@
 ﻿using ECoffee.Application.DTOs.Response;
+using ECoffee.Application.Enums;
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Infrastructure.Configurations;
@@ -19,6 +20,14 @@ namespace ECoffee.Infrastructure.Repositories
         public List<PromotionResponse> FindAll()
         {
             return _db.Promotions
+                .Select(u => u.Adapt<PromotionResponse>())
+                .ToList();
+        }
+
+        public List<PromotionResponse> FindAllActiveAsync()
+        {
+            return _db.Promotions
+                .Where(u => u.Status == PromotionStatus.Activate)
                 .Select(u => u.Adapt<PromotionResponse>())
                 .ToList();
         }

@@ -64,6 +64,11 @@ public class CategoryService
         return _repo.GetAll(); 
     }
 
+    public async Task<List<CategoryResponse>> FindAllActiveAsync()
+    {
+        return _repo.FindAllActiveAsync();
+    }
+
     public async Task InactiveAsync(long id)
     {
         var category = _repo.GetById(id) ?? throw new NotFoundException("Category không tồn tại");
