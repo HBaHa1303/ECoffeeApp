@@ -12,6 +12,7 @@ namespace ECoffee.Infrastructure.Entities
         Draft,
         Submitted,
         Paid,
+        Completed,
         Cancelled
     }
 

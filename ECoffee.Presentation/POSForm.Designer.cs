@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tblIcon = new TableLayoutPanel();
             button8 = new Button();
             button7 = new Button();
@@ -60,6 +61,7 @@
             pnlCenter = new Panel();
             flbItems = new FlowLayoutPanel();
             pnlCategories = new Panel();
+            lblSystemDateTime = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             btCaPhe = new Button();
             btTraTraiCay = new Button();
@@ -68,8 +70,8 @@
             btKem = new Button();
             btBanhNgot = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
-            label1 = new Label();
             txtTimKiem = new TextBox();
+            label1 = new Label();
             panel3 = new Panel();
             label13 = new Label();
             label12 = new Label();
@@ -89,6 +91,7 @@
             pnlNote = new Panel();
             txtNote = new TextBox();
             pnlOrder = new Panel();
+            tmrClock = new System.Windows.Forms.Timer(components);
             tblIcon.SuspendLayout();
             pnlMiddleOrder.SuspendLayout();
             txtGhiChu.SuspendLayout();
@@ -447,6 +450,7 @@
             // 
             // pnlCategories
             // 
+            pnlCategories.Controls.Add(lblSystemDateTime);
             pnlCategories.Controls.Add(flowLayoutPanel1);
             pnlCategories.Controls.Add(tableLayoutPanel1);
             pnlCategories.Dock = DockStyle.Top;
@@ -454,6 +458,15 @@
             pnlCategories.Name = "pnlCategories";
             pnlCategories.Size = new Size(772, 150);
             pnlCategories.TabIndex = 3;
+            // 
+            // lblSystemDateTime
+            // 
+            lblSystemDateTime.AutoSize = true;
+            lblSystemDateTime.Location = new Point(13, 71);
+            lblSystemDateTime.Name = "lblSystemDateTime";
+            lblSystemDateTime.Size = new Size(42, 20);
+            lblSystemDateTime.TabIndex = 2;
+            lblSystemDateTime.Text = "Time";
             // 
             // flowLayoutPanel1
             // 
@@ -564,8 +577,8 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Controls.Add(txtTimKiem, 1, 0);
+            tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Top;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -573,6 +586,15 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Size = new Size(772, 68);
             tableLayoutPanel1.TabIndex = 0;
+            // 
+            // txtTimKiem
+            // 
+            txtTimKiem.Anchor = AnchorStyles.Right;
+            txtTimKiem.Location = new Point(541, 20);
+            txtTimKiem.Name = "txtTimKiem";
+            txtTimKiem.PlaceholderText = "Nhập tên món";
+            txtTimKiem.Size = new Size(228, 27);
+            txtTimKiem.TabIndex = 1;
             // 
             // label1
             // 
@@ -584,15 +606,6 @@
             label1.Size = new Size(126, 38);
             label1.TabIndex = 0;
             label1.Text = "E.Coffee";
-            // 
-            // txtTimKiem
-            // 
-            txtTimKiem.Anchor = AnchorStyles.Right;
-            txtTimKiem.Location = new Point(541, 20);
-            txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.PlaceholderText = "Nhập tên món";
-            txtTimKiem.Size = new Size(228, 27);
-            txtTimKiem.TabIndex = 1;
             // 
             // panel3
             // 
@@ -780,6 +793,12 @@
             pnlOrder.Size = new Size(250, 606);
             pnlOrder.TabIndex = 5;
             // 
+            // tmrClock
+            // 
+            tmrClock.Enabled = true;
+            tmrClock.Interval = 1000;
+            tmrClock.Tick += tmrClock_Tick;
+            // 
             // POSForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -804,6 +823,7 @@
             flowLayoutPanel3.PerformLayout();
             pnlCenter.ResumeLayout(false);
             pnlCategories.ResumeLayout(false);
+            pnlCategories.PerformLayout();
             flowLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
@@ -883,5 +903,7 @@
         public Label lbThanhTien;
         public Label lbThue;
         public Label lbOrderId;
+        private Label lblSystemDateTime;
+        private System.Windows.Forms.Timer tmrClock;
     }
 }

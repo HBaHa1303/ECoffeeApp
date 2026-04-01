@@ -21,7 +21,8 @@ namespace ECoffee.Presentation
         private readonly IServiceProvider _serviceProvider;
         private readonly IMenuRepository _menuRepository;
         private readonly OrderService _orderService;
-        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService)
+        private readonly KdsService _kdsService;
+        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
@@ -33,6 +34,7 @@ namespace ECoffee.Presentation
             btSinhTo.Click += CategoryButton_Click;
             btKem.Click += CategoryButton_Click;
             btBanhNgot.Click += CategoryButton_Click;
+            _kdsService = kdsService;
         }
         private void CategoryButton_Click(object sender, EventArgs e)
         {
@@ -188,6 +190,28 @@ namespace ECoffee.Presentation
             // Gọi service để lấy số Id tiếp theo
             long nextId = _orderService.GetNextOrderId();
             lbOrderId.Text = nextId.ToString();
+        }
+
+        private void tmrClock_Tick(object sender, EventArgs e)
+        {
+            string shiftName = _kdsService.GetCurrentShiftName();
+
+            lblSystemDateTime.Text = $"{shiftName} - {DateTime.Now:dd/MM/yyyy HH:mm:ss}";
+        }
+
+        private string GetVietnameseDayOfWeek(DayOfWeek dotw)
+        {
+            return dotw switch
+            {
+                DayOfWeek.Monday => "Thứ 2",
+                DayOfWeek.Tuesday => "Thứ 3",
+                DayOfWeek.Wednesday => "Thứ 4",
+                DayOfWeek.Thursday => "Thứ 5",
+                DayOfWeek.Friday => "Thứ 6",
+                DayOfWeek.Saturday => "Thứ 7",
+                DayOfWeek.Sunday => "Chủ Nhật",
+                _ => ""
+            };
         }
     }
 }

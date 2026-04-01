@@ -12,7 +12,7 @@ namespace ECoffee.Presentation.Forms
 {
     public partial class ucOrderItem : UserControl
     {
-        public event EventHandler OnSelect;
+        public event EventHandler? OnSelect;
         public ucOrderItem()
         {
             InitializeComponent();

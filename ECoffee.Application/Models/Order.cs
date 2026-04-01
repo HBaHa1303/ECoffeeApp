@@ -25,5 +25,7 @@ namespace ECoffee.Application.Models
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public MenuSize Size { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public string Note { get; set; } = string.Empty;
     }
 }

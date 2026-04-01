@@ -78,6 +78,7 @@
             nmrSoLuong.Name = "nmrSoLuong";
             nmrSoLuong.Size = new Size(45, 27);
             nmrSoLuong.TabIndex = 4;
+            this.nmrSoLuong.ValueChanged += new System.EventHandler(this.nmrSoLuong_ValueChanged);
             // 
             // ucOrderItem
             // 

@@ -10,6 +10,7 @@ namespace ECoffee.Application.Models
         public enum OrderStatus
         {
             Draft,
+        Processing,
             Submitted,
             Paid,
             Cancelled
