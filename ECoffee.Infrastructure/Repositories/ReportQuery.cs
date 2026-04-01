@@ -258,6 +258,8 @@ namespace ECoffee.Infrastructure.Repositories
             await using var _db = _dbFactory.CreateDbContext();
             var today = DateTime.Now.Date;
             var startOfThisMonth = new DateTime(today.Year, today.Month, 1);
+            var startOfPreviousMonth = startOfThisMonth.AddMonths(-1);
+
             var endOfThisMonth = startOfThisMonth.AddMonths(1).AddTicks(-1);
 
             int months = 8;
@@ -288,15 +290,21 @@ namespace ECoffee.Infrastructure.Repositories
                 .GroupBy(o => new DateTime(o.CreatedAt.Year, o.CreatedAt.Month, 1))
                 .ToDictionary(g => g.Key, g => g.Count());
 
-            // --- Summary KPI tháng này vs tháng trước
-            var revenueList = ordersByMonthAmount.OrderBy(kv => kv.Key).Select(kv => kv.Value).ToList();
-            var countList = ordersByMonthCount.OrderBy(kv => kv.Key).Select(kv => kv.Value).ToList();
+            var currentRevenue = ordersByMonthAmount.ContainsKey(startOfThisMonth)
+    ? ordersByMonthAmount[startOfThisMonth]
+    : 0;
 
-            var currentRevenue = revenueList.Last();
-            var previousRevenue = revenueList.Count > 1 ? revenueList[revenueList.Count - 2] : 0;
+            var previousRevenue = ordersByMonthAmount.ContainsKey(startOfPreviousMonth)
+                ? ordersByMonthAmount[startOfPreviousMonth]
+                : 0;
 
-            var currentCount = countList.Last();
-            var previousCount = countList.Count > 1 ? countList[countList.Count - 2] : 0;
+            var currentCount = ordersByMonthCount.ContainsKey(startOfThisMonth)
+                ? ordersByMonthCount[startOfThisMonth]
+                : 0;
+
+            var previousCount = ordersByMonthCount.ContainsKey(startOfPreviousMonth)
+                ? ordersByMonthCount[startOfPreviousMonth]
+                : 0;
 
             var currentAvg = currentCount == 0 ? 0 : currentRevenue / currentCount;
             var previousAvg = previousCount == 0 ? 0 : previousRevenue / previousCount;
