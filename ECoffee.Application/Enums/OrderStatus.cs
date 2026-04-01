@@ -9,6 +9,7 @@ namespace ECoffee.Application.Enums
     public enum OrderStatus
     {
         Draft,
+        Processing,
         Submitted,
         Paid,
         Cancelled

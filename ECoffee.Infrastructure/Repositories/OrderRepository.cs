@@ -1,4 +1,5 @@
 ﻿using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.Enums;
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Infrastructure.Configurations;
@@ -6,13 +7,6 @@ using ECoffee.Infrastructure.Entities;
 using ECoffeeBE.Infrastructure.Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OrderStatus = ECoffee.Infrastructure.Entities.OrderStatus;
 
 namespace ECoffee.Infrastructure.Repositories
 {
@@ -94,7 +88,7 @@ namespace ECoffee.Infrastructure.Repositories
             return entities.Select(e => new Order
             {
                 Id = e.Id,
-                Status = (ECoffee.Application.Models.OrderStatus)e.Status, // Ép kiểu Enum nếu cần
+                Status = (OrderStatus)e.Status, // Ép kiểu Enum nếu cần
                 CreatedAt = e.CreatedAt,
                 Items = e.Items.Select(oi => new OrderItem
                 {
@@ -159,7 +153,7 @@ namespace ECoffee.Infrastructure.Repositories
 
             if (order != null)
             {
-                if (Enum.TryParse<ECoffee.Infrastructure.Entities.OrderStatus>(status, out var newStatus))
+                if (Enum.TryParse<OrderStatus>(status, out var newStatus))
                 {
                     order.Status = newStatus;
                     _db.SaveChanges();
