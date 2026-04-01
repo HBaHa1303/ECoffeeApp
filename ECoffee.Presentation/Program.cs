@@ -48,6 +48,7 @@ namespace ECoffee.Presentation
             // repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IPromotionRepository, PromotionRepository>();
 
             // contexts
             services.AddScoped<IUserContext, UserContext>();
@@ -58,12 +59,13 @@ namespace ECoffee.Presentation
             services.AddScoped<UserService>();
             services.AddScoped<RoleService>();
             services.AddScoped<PasswordHasher<User>>();
-
+            services.AddScoped<PromotionService>();
 
             // forms
             services.AddTransient<LoginForm>();
             services.AddTransient<StaffManagementForm>();
             services.AddTransient<MainForm>();
+            services.AddTransient<PromotionManagementForm>();
 
             // Configuration 
             services.AddDbContext<AppDbContext>(

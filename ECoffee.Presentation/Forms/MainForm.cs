@@ -8,14 +8,17 @@ namespace ECoffee.Presentation.Forms
     {
         private readonly StaffManagementForm _staffManagementForm;
         private readonly AuthService _authService;
+        private readonly PromotionManagementForm _promotionManagementForm;
 
         public MainForm(
             StaffManagementForm staffManagementForm,
-            AuthService authService)
+            AuthService authService,
+            PromotionManagementForm promotionManagementForm)
         {
             InitializeComponent();
             _staffManagementForm = staffManagementForm;
             _authService = authService;
+            _promotionManagementForm = promotionManagementForm;
         }
 
         private void tsmiStaffManagement_Click(object sender, EventArgs e)
@@ -39,6 +42,11 @@ namespace ECoffee.Presentation.Forms
         private void tsmiExit_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.Application.Exit();
+        }
+
+        private void tsmiPromotion_Click(object sender, EventArgs e)
+        {
+            _promotionManagementForm.ShowDialog(this);
         }
     }
 }
