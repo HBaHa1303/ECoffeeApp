@@ -62,13 +62,7 @@
             flbItems = new FlowLayoutPanel();
             pnlCategories = new Panel();
             lblSystemDateTime = new Label();
-            flowLayoutPanel1 = new FlowLayoutPanel();
-            btCaPhe = new Button();
-            btTraTraiCay = new Button();
-            btTraSua = new Button();
-            btSinhTo = new Button();
-            btKem = new Button();
-            btBanhNgot = new Button();
+            flpCategories = new FlowLayoutPanel();
             tableLayoutPanel1 = new TableLayoutPanel();
             txtTimKiem = new TextBox();
             label1 = new Label();
@@ -101,7 +95,6 @@
             flowLayoutPanel3.SuspendLayout();
             pnlCenter.SuspendLayout();
             pnlCategories.SuspendLayout();
-            flowLayoutPanel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel3.SuspendLayout();
             panel4.SuspendLayout();
@@ -451,7 +444,7 @@
             // pnlCategories
             // 
             pnlCategories.Controls.Add(lblSystemDateTime);
-            pnlCategories.Controls.Add(flowLayoutPanel1);
+            pnlCategories.Controls.Add(flpCategories);
             pnlCategories.Controls.Add(tableLayoutPanel1);
             pnlCategories.Dock = DockStyle.Top;
             pnlCategories.Location = new Point(0, 0);
@@ -468,109 +461,14 @@
             lblSystemDateTime.TabIndex = 2;
             lblSystemDateTime.Text = "Time";
             // 
-            // flowLayoutPanel1
+            // flpCategories
             // 
-            flowLayoutPanel1.Controls.Add(btCaPhe);
-            flowLayoutPanel1.Controls.Add(btTraTraiCay);
-            flowLayoutPanel1.Controls.Add(btTraSua);
-            flowLayoutPanel1.Controls.Add(btSinhTo);
-            flowLayoutPanel1.Controls.Add(btKem);
-            flowLayoutPanel1.Controls.Add(btBanhNgot);
-            flowLayoutPanel1.Dock = DockStyle.Bottom;
-            flowLayoutPanel1.Location = new Point(0, 115);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(772, 35);
-            flowLayoutPanel1.TabIndex = 1;
-            // 
-            // btCaPhe
-            // 
-            btCaPhe.Anchor = AnchorStyles.Bottom;
-            btCaPhe.BackColor = SystemColors.AppWorkspace;
-            btCaPhe.FlatAppearance.BorderSize = 0;
-            btCaPhe.FlatStyle = FlatStyle.Flat;
-            btCaPhe.Location = new Point(5, 5);
-            btCaPhe.Margin = new Padding(5);
-            btCaPhe.Name = "btCaPhe";
-            btCaPhe.Size = new Size(90, 29);
-            btCaPhe.TabIndex = 0;
-            btCaPhe.Tag = "1";
-            btCaPhe.Text = "Cà phê";
-            btCaPhe.UseVisualStyleBackColor = false;
-            // 
-            // btTraTraiCay
-            // 
-            btTraTraiCay.Anchor = AnchorStyles.Bottom;
-            btTraTraiCay.BackColor = SystemColors.AppWorkspace;
-            btTraTraiCay.FlatAppearance.BorderSize = 0;
-            btTraTraiCay.FlatStyle = FlatStyle.Flat;
-            btTraTraiCay.Location = new Point(105, 5);
-            btTraTraiCay.Margin = new Padding(5);
-            btTraTraiCay.Name = "btTraTraiCay";
-            btTraTraiCay.Size = new Size(90, 29);
-            btTraTraiCay.TabIndex = 2;
-            btTraTraiCay.Tag = "2";
-            btTraTraiCay.Text = "Trà trái cây";
-            btTraTraiCay.UseVisualStyleBackColor = false;
-            // 
-            // btTraSua
-            // 
-            btTraSua.Anchor = AnchorStyles.Bottom;
-            btTraSua.BackColor = SystemColors.AppWorkspace;
-            btTraSua.FlatAppearance.BorderSize = 0;
-            btTraSua.FlatStyle = FlatStyle.Flat;
-            btTraSua.Location = new Point(205, 5);
-            btTraSua.Margin = new Padding(5);
-            btTraSua.Name = "btTraSua";
-            btTraSua.Size = new Size(90, 29);
-            btTraSua.TabIndex = 3;
-            btTraSua.Tag = "3";
-            btTraSua.Text = "Trà sữa";
-            btTraSua.UseVisualStyleBackColor = false;
-            // 
-            // btSinhTo
-            // 
-            btSinhTo.Anchor = AnchorStyles.Bottom;
-            btSinhTo.BackColor = SystemColors.AppWorkspace;
-            btSinhTo.FlatAppearance.BorderSize = 0;
-            btSinhTo.FlatStyle = FlatStyle.Flat;
-            btSinhTo.Location = new Point(305, 5);
-            btSinhTo.Margin = new Padding(5);
-            btSinhTo.Name = "btSinhTo";
-            btSinhTo.Size = new Size(90, 29);
-            btSinhTo.TabIndex = 4;
-            btSinhTo.Tag = "4";
-            btSinhTo.Text = "Sinh tố";
-            btSinhTo.UseVisualStyleBackColor = false;
-            // 
-            // btKem
-            // 
-            btKem.Anchor = AnchorStyles.Bottom;
-            btKem.BackColor = SystemColors.AppWorkspace;
-            btKem.FlatAppearance.BorderSize = 0;
-            btKem.FlatStyle = FlatStyle.Flat;
-            btKem.Location = new Point(405, 5);
-            btKem.Margin = new Padding(5);
-            btKem.Name = "btKem";
-            btKem.Size = new Size(90, 29);
-            btKem.TabIndex = 5;
-            btKem.Tag = "5";
-            btKem.Text = "Kem";
-            btKem.UseVisualStyleBackColor = false;
-            // 
-            // btBanhNgot
-            // 
-            btBanhNgot.Anchor = AnchorStyles.Bottom;
-            btBanhNgot.BackColor = SystemColors.AppWorkspace;
-            btBanhNgot.FlatAppearance.BorderSize = 0;
-            btBanhNgot.FlatStyle = FlatStyle.Flat;
-            btBanhNgot.Location = new Point(505, 5);
-            btBanhNgot.Margin = new Padding(5);
-            btBanhNgot.Name = "btBanhNgot";
-            btBanhNgot.Size = new Size(90, 29);
-            btBanhNgot.TabIndex = 6;
-            btBanhNgot.Tag = "6";
-            btBanhNgot.Text = "Bánh ngọt";
-            btBanhNgot.UseVisualStyleBackColor = false;
+            flpCategories.AutoScroll = true;
+            flpCategories.Dock = DockStyle.Bottom;
+            flpCategories.Location = new Point(0, 115);
+            flpCategories.Name = "flpCategories";
+            flpCategories.Size = new Size(772, 35);
+            flpCategories.TabIndex = 1;
             // 
             // tableLayoutPanel1
             // 
@@ -808,6 +706,7 @@
             Controls.Add(pnlOrder);
             Controls.Add(tblIcon);
             Name = "POSForm";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "POSForm";
             Load += POSForm_Load;
             tblIcon.ResumeLayout(false);
@@ -824,7 +723,6 @@
             pnlCenter.ResumeLayout(false);
             pnlCategories.ResumeLayout(false);
             pnlCategories.PerformLayout();
-            flowLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             panel3.ResumeLayout(false);
@@ -874,13 +772,7 @@
         private Panel pnlCenter;
         private FlowLayoutPanel flbItems;
         private Panel pnlCategories;
-        private FlowLayoutPanel flowLayoutPanel1;
-        private Button btCaPhe;
-        private Button btTraTraiCay;
-        private Button btTraSua;
-        private Button btSinhTo;
-        private Button btKem;
-        private Button btBanhNgot;
+        private FlowLayoutPanel flpCategories;
         private TableLayoutPanel tableLayoutPanel1;
         private Label label1;
         private TextBox txtTimKiem;

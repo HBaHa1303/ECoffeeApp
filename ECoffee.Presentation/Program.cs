@@ -52,8 +52,7 @@ namespace ECoffee.Presentation
             services.AddScoped<IPromotionRepository, PromotionRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
-            services.AddScoped<IMenuRepository, MenuRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             // contexts
             services.AddScoped<IUserContext, UserContext>();
@@ -71,6 +70,7 @@ namespace ECoffee.Presentation
 
             services.AddScoped<OrderService>();
             services.AddScoped<KdsService>();
+            services.AddScoped<CategoryService>();
 
             // forms
             services.AddTransient<LoginForm>();
@@ -80,11 +80,17 @@ namespace ECoffee.Presentation
             services.AddTransient<PromotionManagementForm>();
             services.AddTransient<ReportForm>();
 
+            services.AddTransient<CategoryManagementForm>();
+            services.AddTransient<CategoryForm>();
+
             // Configuration 
             //"Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True"
             services.AddTransient<POSForm>(); // Dùng Transient để mỗi lần gọi là một Form mới hoặc SingleTon nếu muốn giữ nguyên
             services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer("Server=.\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True"));
+            //
+            services.AddDbContextFactory<AppDbContext>(options =>
+                options.UseSqlServer("Server=.\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True"));
         }
     }
 }
