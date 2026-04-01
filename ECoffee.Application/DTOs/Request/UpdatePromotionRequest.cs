@@ -1,13 +1,8 @@
 ﻿using ECoffee.Application.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ECoffee.Infrastructure.Entities
+namespace ECoffee.Application.DTOs.Request
 {
-    public class PromotionEntity : BaseEntity
+    public class UpdatePromotionRequest
     {
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
@@ -15,6 +10,5 @@ namespace ECoffee.Infrastructure.Entities
         public PromotionType Type { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public PromotionStatus Status { get; set; }
     }
 }

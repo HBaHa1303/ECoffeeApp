@@ -8,14 +8,21 @@ namespace ECoffee.Presentation.Forms
     {
         private readonly StaffManagementForm _staffManagementForm;
         private readonly AuthService _authService;
+        private readonly ReportForm _reportForm;
+        private readonly PromotionManagementForm _promotionManagementForm;
 
         public MainForm(
             StaffManagementForm staffManagementForm,
-            AuthService authService)
+            AuthService authService,
+            ReportForm reportForm)
+            AuthService authService,
+            PromotionManagementForm promotionManagementForm)
         {
             InitializeComponent();
             _staffManagementForm = staffManagementForm;
             _authService = authService;
+            _reportForm = reportForm;
+            _promotionManagementForm = promotionManagementForm;
         }
 
         private void tsmiStaffManagement_Click(object sender, EventArgs e)
@@ -39,6 +46,18 @@ namespace ECoffee.Presentation.Forms
         private void tsmiExit_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.Application.Exit();
+        }
+
+        private void tsmiReportOrder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _reportForm.ShowDialog(this);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.", "Có lỗi xảy ra", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

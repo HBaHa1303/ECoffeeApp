@@ -1,27 +1,38 @@
-﻿using ECoffee.Application.DTOs.Response;
+﻿using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.DTOs.Response;
 using ECoffee.Application.Enums;
+using ECoffee.Application.Exceptions;
+using ECoffee.Application.Models;
 using ECoffee.Application.Services;
+using ECoffee.Application.ValueObjects;
 using ECoffee.Presentation.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ECoffee.Presentation.Forms
 {
-    public partial class StaffManagementForm : Form
+    public partial class PromotionManagementForm : Form
     {
-        private readonly UserService _userService;
-        private readonly RoleService _roleService;
+        private readonly PromotionService _promotionService;
         private readonly System.Windows.Forms.Timer _searchTimer = new();
-        public StaffManagementForm(UserService userService, RoleService roleService)
+        public PromotionManagementForm(PromotionService promotionService)
         {
             InitializeComponent();
-            _userService = userService;
-            _roleService = roleService;
-            _searchTimer.Interval = 400;
+            _promotionService = promotionService;
+            _searchTimer.Interval = 400; // ms
             _searchTimer.Tick += searchTimer_Tick;
         }
 
         private async void bCreate_Click(object sender, EventArgs e)
         {
-            var form = new StaffForm(_userService, _roleService, FormMode.Create, null);
+            var form = new PromotionForm(_promotionService, FormMode.Create, null);
 
             if (form.ShowDialog(this) == DialogResult.OK)
             {
@@ -33,12 +44,13 @@ namespace ECoffee.Presentation.Forms
         {
             dgvStaff.AutoGenerateColumns = false;
             dgvStaff.Columns["Id"].DataPropertyName = "Id";
-            dgvStaff.Columns["Email"].DataPropertyName = "Email";
-            dgvStaff.Columns["FullName"].DataPropertyName = "FullName";
+            dgvStaff.Columns["Name"].DataPropertyName = "Name";
+            dgvStaff.Columns["Type"].DataPropertyName = "TypeText";
             dgvStaff.Columns["Status"].DataPropertyName = "StatusText";
-            dgvStaff.Columns["Address"].DataPropertyName = "Address";
-            dgvStaff.Columns["DateOfBirth"].DataPropertyName = "DateOfBirth";
-            dgvStaff.Columns["DateOfBirth"].DefaultCellStyle.Format = "yyyy-MM-dd";
+            dgvStaff.Columns["StartDate"].DataPropertyName = "StartDate";
+            dgvStaff.Columns["StartDate"].DefaultCellStyle.Format = "yyyy-MM-dd";
+            dgvStaff.Columns["EndDate"].DataPropertyName = "EndDate";
+            dgvStaff.Columns["EndDate"].DefaultCellStyle.Format = "yyyy-MM-dd";
             ((DataGridViewButtonColumn)dgvStaff.Columns["Edit"]).UseColumnTextForButtonValue = true;
             ((DataGridViewButtonColumn)dgvStaff.Columns["ToggleStatus"]).UseColumnTextForButtonValue = false;
             await LoadStaffAsync();
@@ -46,18 +58,18 @@ namespace ECoffee.Presentation.Forms
 
         private async Task LoadStaffAsync()
         {
-            List<UserResponse> userResponses = await _userService.FindAllAsync();
+            List<PromotionResponse> promotionResponses = await _promotionService.FindAllAsync();
             dgvStaff.DataSource = null;
-            dgvStaff.DataSource = userResponses;
+            dgvStaff.DataSource = promotionResponses;
         }
 
         private void dgvStaff_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dgvStaff.Columns[e.ColumnIndex].Name == "ToggleStatus")
             {
-                var user = dgvStaff.Rows[e.RowIndex].DataBoundItem as UserResponse;
+                var promotion = dgvStaff.Rows[e.RowIndex].DataBoundItem as PromotionResponse;
 
-                e.Value = user.Status == UserStatus.Activate ? "Khóa" : "Mở Khóa";
+                e.Value = promotion.Status == PromotionStatus.Activate ? "Khóa" : "Mở Khóa";
             }
         }
 
@@ -65,22 +77,22 @@ namespace ECoffee.Presentation.Forms
         {
             if (e.RowIndex < 0) return;
 
-            var user = (UserResponse)dgvStaff.Rows[e.RowIndex].DataBoundItem;
+            var promotion = (PromotionResponse)dgvStaff.Rows[e.RowIndex].DataBoundItem;
             var column = dgvStaff.Columns[e.ColumnIndex].Name;
 
             switch (column)
             {
                 case "Edit":
-                    StaffForm form = new StaffForm(_userService, _roleService, FormMode.Edit, user.Id);
+                    PromotionForm form = new PromotionForm(_promotionService, FormMode.Edit, promotion.Id);
                     if (form.ShowDialog(this) == DialogResult.OK)
                         await LoadStaffAsync();
                     break;
 
                 case "ToggleStatus":
-                    if (user.Status == UserStatus.Activate)
-                        await _userService.LockAsync(user.Id);
+                    if (promotion.Status == PromotionStatus.Activate)
+                        await _promotionService.InactiveAsync(promotion.Id);
                     else
-                        await _userService.UnlockAsync(user.Id);
+                        await _promotionService.ActiveAsync(promotion.Id);
 
                     await LoadStaffAsync();
                     break;
@@ -98,7 +110,7 @@ namespace ECoffee.Presentation.Forms
             _searchTimer.Stop();
             var keyword = tbSearch.Text;
 
-            List<UserResponse> userResponses = await _userService.FindAllByNameAsync(keyword);
+            List<PromotionResponse> userResponses = await _promotionService.FindAllByNameAsync(keyword);
             dgvStaff.DataSource = null;
             dgvStaff.DataSource = userResponses;
         }

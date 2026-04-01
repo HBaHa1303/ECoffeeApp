@@ -124,7 +124,7 @@ namespace ECoffee.Infrastructure.Repositories
             // Dựa vào StartTime để phân biệt Sáng/Tối
             // Nếu mở ca trước 14h (2 giờ chiều) thì coi là ca sáng, ngược lại là ca tối
             return currentShift.StartTime.Hour < 14 ? "Ca sáng" : "Ca tối";
-        }
+    }
 
 
 
