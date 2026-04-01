@@ -1,13 +1,8 @@
 ﻿using ECoffee.Application.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ECoffee.Infrastructure.Entities
+namespace ECoffee.Application.DTOs.Request
 {
-    public class PromotionEntity : BaseEntity
+    public class CreatePromotionRequest
     {
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
