@@ -79,6 +79,9 @@ namespace ECoffee.Infrastructure.Configurations
                 .WithMany(m => m.Prices)
                 .HasForeignKey(mp => mp.MenuId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<OrderEntity>()
+               .HasIndex(o => o.CreatedAt)
+               .HasDatabaseName("IX_Orders_CreatedAt");
         }
 
         private static void ConfigureHiLo(ModelBuilder builder)
