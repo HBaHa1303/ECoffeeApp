@@ -4,6 +4,7 @@ using ECoffee.Application.Services;
 using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Repositories;
 using ECoffee.Presentation.Forms;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,36 +25,56 @@ namespace ECoffee.Presentation
 
             Services = services.BuildServiceProvider();
 
-            //var loginForm = Services.GetRequiredService<LoginForm>();
+            MapsterConfiguration.Configure();
+            var userContext = Services.GetRequiredService<IUserContext>();
+            while (true)
+            {
+                var loginForm = Services.GetRequiredService<LoginForm>();
+                var result = loginForm.ShowDialog();
 
-            //System.Windows.Forms.Application.Run(loginForm);
-            var posForm = Services.GetRequiredService<POSForm>();
-            var mainForm = Services.GetRequiredService<frmKdsDashboard>();
-            System.Windows.Forms.Application.Run(mainForm);
-            
-            
+                if (result != DialogResult.OK || !userContext.IsAuthenticated)
+                    break;
+
+                var mainForm = Services.GetRequiredService<MainForm>();
+                System.Windows.Forms.Application.Run(mainForm);
+
+                if (userContext.IsAuthenticated)
+                    break;
+            }
         }
 
         private static void ConfigureServices(IServiceCollection services)
         {
             // repositories
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IOrderRepository,OrderRepository>();
-            services.AddScoped<IMenuRepository,MenuRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
+
+            // contexts
+            services.AddScoped<IUserContext, UserContext>();
+            services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 
             // services
             services.AddScoped<AuthService>();
+            services.AddScoped<UserService>();
+            services.AddScoped<RoleService>();
+            services.AddScoped<PasswordHasher<User>>();
+
             services.AddScoped<OrderService>();
             services.AddScoped<KdsService>();
 
             // forms
             services.AddTransient<LoginForm>();
-            services.AddTransient<frmKdsDashboard>();
+            services.AddTransient<StaffManagementForm>();
+            services.AddTransient<MainForm>();
+
             // Configuration 
             //"Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True"
             services.AddTransient<POSForm>(); // Dùng Transient để mỗi lần gọi là một Form mới hoặc SingleTon nếu muốn giữ nguyên
             services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer("Server=.\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True"));
+                options => options.UseSqlServer("Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True"));
+
         }
     }
 }

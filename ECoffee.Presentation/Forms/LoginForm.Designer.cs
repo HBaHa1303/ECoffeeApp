@@ -52,13 +52,13 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
-            tableLayoutPanel1.Size = new Size(494, 225);
+            tableLayoutPanel1.Size = new Size(484, 161);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // bLogin
             // 
             bLogin.Anchor = AnchorStyles.Right;
-            bLogin.Location = new Point(358, 175);
+            bLogin.Location = new Point(348, 120);
             bLogin.Margin = new Padding(4, 4, 40, 4);
             bLogin.Name = "bLogin";
             bLogin.Size = new Size(96, 32);
@@ -84,16 +84,16 @@
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(486, 149);
+            tableLayoutPanel2.Size = new Size(476, 104);
             tableLayoutPanel2.TabIndex = 1;
             // 
             // tbPassword
             // 
             tbPassword.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            tbPassword.Location = new Point(201, 97);
+            tbPassword.Location = new Point(197, 63);
             tbPassword.Name = "tbPassword";
             tbPassword.PlaceholderText = "Nhập mật khẩu";
-            tbPassword.Size = new Size(262, 29);
+            tbPassword.Size = new Size(256, 29);
             tbPassword.TabIndex = 4;
             tbPassword.UseSystemPasswordChar = true;
             // 
@@ -101,7 +101,7 @@
             // 
             label3.Anchor = AnchorStyles.Left;
             label3.AutoSize = true;
-            label3.Location = new Point(23, 101);
+            label3.Location = new Point(23, 67);
             label3.Name = "label3";
             label3.Size = new Size(75, 21);
             label3.TabIndex = 2;
@@ -111,7 +111,7 @@
             // 
             label1.Anchor = AnchorStyles.Left;
             label1.AutoSize = true;
-            label1.Location = new Point(23, 26);
+            label1.Location = new Point(23, 15);
             label1.Name = "label1";
             label1.Size = new Size(48, 21);
             label1.TabIndex = 0;
@@ -120,23 +120,24 @@
             // tbEmail
             // 
             tbEmail.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            tbEmail.Location = new Point(201, 22);
+            tbEmail.Location = new Point(197, 11);
             tbEmail.Name = "tbEmail";
             tbEmail.PlaceholderText = "Nhập email";
-            tbEmail.Size = new Size(262, 29);
+            tbEmail.Size = new Size(256, 29);
             tbEmail.TabIndex = 3;
             // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(494, 225);
+            ClientSize = new Size(484, 161);
             Controls.Add(tableLayoutPanel1);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(4);
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Đăng nhập";
+            Load += LoginForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();

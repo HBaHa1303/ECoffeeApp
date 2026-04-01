@@ -1,7 +1,9 @@
 ﻿using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.DTOs.Response;
 using ECoffee.Application.Exceptions;
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
+using Mapster;
 using Microsoft.AspNetCore.Identity;
 
 namespace ECoffee.Application.Services
@@ -10,11 +12,13 @@ namespace ECoffee.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly PasswordHasher<User> _passwordHasher;
+        private readonly IUserContext _userContext;
 
-        public AuthService(IUserRepository userRepository)
+        public AuthService(IUserRepository userRepository, PasswordHasher<User> passwordHasher, IUserContext userContext)
         {
             _userRepository = userRepository;
-            _passwordHasher = new PasswordHasher<User>();
+            _passwordHasher = passwordHasher;
+            _userContext = userContext;
         }
 
         public void Login (LoginRequest request)
@@ -25,12 +29,26 @@ namespace ECoffee.Application.Services
                 throw new NotFoundException("Email không tồn tại trong hệ thống");
             }
 
-            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash.HashedValue, request.Password);
 
             if (result == PasswordVerificationResult.Failed)
                 throw new UnauthorizedException("Email hoặc mật khẩu không chính xác! Vui lòng thử lại");
 
+            if (!user.Roles.Any()) {
+                throw new UnauthorizedException("Tài khoản chưa được gán vai trò! Vui lòng liên hệ quản lý để được cấp quyền");
+            }
 
+            _userContext.Set(new UserSession(
+                user.Id,
+                request.Email,
+                "",
+                user.Roles
+            ));
+        }
+
+        public void Logout()
+        {
+            _userContext.Clear();
         }
     }
 }

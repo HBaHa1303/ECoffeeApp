@@ -48,7 +48,6 @@ namespace ECoffee.Infrastructure.Configurations
             ConfigureRelationships(modelBuilder);
             ConfigureKeys(modelBuilder);
             ConfigureHiLo(modelBuilder);
-            SeedData(modelBuilder);
         }
 
         private static void ConfigureRelationships(ModelBuilder builder)
@@ -89,7 +88,7 @@ namespace ECoffee.Infrastructure.Configurations
         {
             builder.HasSequence<long>("global_seq")
                    .StartsAt(1)
-                   .IncrementsBy(1);
+                   .IncrementsBy(10);
 
             foreach (var entity in builder.Model.GetEntityTypes())
             {
@@ -100,63 +99,6 @@ namespace ECoffee.Infrastructure.Configurations
                            .UseHiLo("global_seq");
                 }
             }
-        }
-
-        private static void SeedData(ModelBuilder builder)
-        {
-            var seedTime = new DateTime(2026, 3, 25);
-
-            builder.Entity<RoleEntity>().HasData(
-                new RoleEntity
-                {
-                    Id = 1,
-                    Name = "Manager",
-                    CreatedAt = seedTime,
-                    UpdatedAt = seedTime,
-                    CreatedBy = "system",
-                    UpdatedBy = "system"
-                },
-                new RoleEntity
-                {
-                    Id = 2,
-                    Name = "Cashier",
-                    CreatedAt = seedTime,
-                    UpdatedAt = seedTime,
-                    CreatedBy = "system",
-                    UpdatedBy = "system"
-                },
-                new RoleEntity
-                {
-                    Id = 3,
-                    Name = "Barista",
-                    CreatedAt = seedTime,
-                    UpdatedAt = seedTime,
-                    CreatedBy = "system",
-                    UpdatedBy = "system"
-                }
-            );
-
-            builder.Entity<UserEntity>().HasData(
-                new UserEntity
-                {
-                    Id = 1,
-                    Email = "admin@gmail.com",
-                    PasswordHash = "HASHED_VALUE_HERE",
-                    FullName = "Hoàng Bá Hà",
-                    CreatedAt = seedTime,
-                    UpdatedAt = seedTime,
-                    CreatedBy = "system",
-                    UpdatedBy = "system"
-                }
-            );
-
-            builder.Entity<UserRoleEntity>().HasData(
-                new UserRoleEntity
-                {
-                    UserId = 1,
-                    RoleId = 1
-                }
-            );
         }
     }
 }

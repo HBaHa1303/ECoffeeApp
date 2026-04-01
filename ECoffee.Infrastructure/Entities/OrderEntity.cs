@@ -1,4 +1,5 @@
-﻿using ECoffeeBE.Infrastructure.Entities;
+﻿using ECoffee.Application.Enums;
+using ECoffeeBE.Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,6 @@ using System.Threading.Tasks;
 
 namespace ECoffee.Infrastructure.Entities
 {
-    public enum OrderStatus
-    {
-        Draft,
-        Submitted,
-        Paid,
-        Completed,
-        Cancelled
-    }
-
     public class OrderEntity : BaseEntity
     {
         public long UserId { get; set; }
