@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cafe Dashboard</title>
+
+    <link rel="stylesheet" href="css/tailwind.css">
+    <script src="js/chart.umd.min.js"></script>
+</head>
+
+<body class="bg-gray-100 font-sans p-6 space-y-6">
+
+    <!-- ================= SUMMARY ================= -->
+
+    <div class="grid grid-cols-3 gap-6 mb-4">
+
+        <!-- Card -->
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-gray-500 text-sm">Tổng doanh thu</div>
+
+            <div class="flex items-end justify-between mt-2">
+                <div class="text-3xl font-bold text-green-600">$1,250</div>
+                <div class="text-sm text-green-500 font-semibold">
+                    ▲ +12.4%
+                </div>
+            </div>
+
+            <div class="text-xs text-gray-400 mt-1">
+                so với cùng kỳ
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-gray-500 text-sm">Tổng đơn hàng</div>
+
+            <div class="flex items-end justify-between mt-2">
+                <div class="text-3xl font-bold text-blue-600">320</div>
+                <div class="text-sm text-red-500 font-semibold">
+                    ▼ -3.1%
+                </div>
+            </div>
+
+            <div class="text-xs text-gray-400 mt-1">
+                so với cùng kỳ
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-gray-500 text-sm">Giá trị đơn hàng trung bình</div>
+
+            <div class="flex items-end justify-between mt-2">
+                <div class="text-3xl font-bold text-purple-600">$3.91</div>
+                <div class="text-sm text-green-500 font-semibold">
+                    ▲ +8.2%
+                </div>
+            </div>
+
+            <div class="text-xs text-gray-400 mt-1">
+                với cùng kỳ
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= CHARTS ================= -->
+
+    <div class="grid grid-cols-2 gap-6 mb-4">
+
+        <div class="bg-white rounded-xl shadow p-4">
+            <div class="font-semibold mb-3">So sánh doanh thu</div>
+            <canvas id="revenueChart"></canvas>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-4">
+            <div class="font-semibold mb-3">So sánh đơn hàng</div>
+            <canvas id="orderChart"></canvas>
+        </div>
+
+    </div>
+
+    <!-- ================= PRODUCTS ================= -->
+
+    <div class="grid grid-cols-2 gap-6">
+
+        <!-- TOP PRODUCTS -->
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="flex justify-between items-center mb-4">
+                <div class="font-semibold text-lg">Top sản phẩm</div>
+                <span class="text-xs text-gray-400">Theo số lượng</span>
+            </div>
+
+            <div class="space-y-4">
+
+                <!-- ITEM -->
+                <div class="flex items-center gap-4">
+
+                    <div class="text-2xl font-bold text-green-600 w-8">
+                        1
+                    </div>
+
+                    <div class="flex-1">
+                        <div class="flex justify-between text-sm font-medium">
+                            <span>Latte</span>
+                            <span class="text-gray-500">50 sold</span>
+                        </div>
+
+                        <div class="mt-1 h-2 bg-gray-100 rounded">
+                            <div class="h-2 bg-green-500 rounded" style="width:100%"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="text-2xl font-bold text-green-500 w-8">2</div>
+
+                    <div class="flex-1">
+                        <div class="flex justify-between text-sm font-medium">
+                            <span>Espresso</span>
+                            <span class="text-gray-500">40 sold</span>
+                        </div>
+
+                        <div class="mt-1 h-2 bg-gray-100 rounded">
+                            <div class="h-2 bg-green-400 rounded" style="width:80%"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- LOW PRODUCTS -->
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="flex justify-between items-center mb-4">
+                <div class="font-semibold text-lg">Cần được chú ý</div>
+                <span class="text-xs text-gray-400">doanh số thấp</span>
+            </div>
+
+            <div class="space-y-4">
+
+                <div class="flex items-center gap-4">
+
+                    <div class="text-2xl font-bold text-red-500 w-8">
+                        !
+                    </div>
+
+                    <div class="flex-1">
+                        <div class="flex justify-between text-sm font-medium">
+                            <span>Tea</span>
+                            <span class="text-gray-500">2 sold</span>
+                        </div>
+
+                        <div class="mt-1 h-2 bg-gray-100 rounded">
+                            <div class="h-2 bg-red-400 rounded" style="width:10%"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= CHART SCRIPT ================= -->
+
+    <script>
+
+        const revenueCtx = document.getElementById('revenueChart');
+
+        new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [
+                    {
+                        label: 'Current',
+                        data: [200, 250, 300, 280, 350, 400, 300],
+                        borderWidth: 2,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Previous',
+                        data: [180, 230, 260, 250, 310, 350, 270],
+                        borderDash: [6, 6],
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+
+        const orderCtx = document.getElementById('orderChart');
+
+        new Chart(orderCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [
+                    {
+                        label: 'Orders',
+                        data: [30, 40, 50, 45, 60, 70, 55]
+                    }
+                ]
+            }
+        });
+
+    </script>
+
+</body>
+</html>
