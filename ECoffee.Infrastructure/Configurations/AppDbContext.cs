@@ -1,4 +1,5 @@
 ﻿using ECoffee.Infrastructure.Entities;
+using ECoffeeBE.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECoffee.Infrastructure.Configurations
@@ -16,9 +17,7 @@ namespace ECoffee.Infrastructure.Configurations
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(
-                    "Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True"
-                );
+                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True");
             }
         }
 
@@ -38,10 +37,14 @@ namespace ECoffee.Infrastructure.Configurations
 
         public DbSet<PromotionEntity> Promotions => Set<PromotionEntity>();
 
+        //
+        public DbSet<ShiftEntity> Shifts => Set<ShiftEntity>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<ShiftEntity>().ToTable("ShiftEntity");
             ConfigureRelationships(modelBuilder);
             ConfigureKeys(modelBuilder);
             ConfigureHiLo(modelBuilder);

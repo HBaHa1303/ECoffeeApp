@@ -13,6 +13,8 @@ namespace ECoffee.Infrastructure.Entities
         Large
     }
 
+
+
     public class MenuPriceEntity : BaseEntity
     {
         public long MenuId { get; set; }
