@@ -1,4 +1,5 @@
-﻿using ECoffee.Application.Models;
+﻿using ECoffee.Application.DTOs.Response;
+using ECoffee.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,12 @@ namespace ECoffee.Application.Repositories
 {
     public interface IUserRepository
     {
-        User? FindByEmail(string Email);
+        List<UserResponse> FindAll();
+        List<UserResponse> FindAllByName(string name);
+        User? FindByEmail(string email);
+        User? FindById(long id);
+        UserResponse? ProjectionFindById(long id);
+        void Save(User newUser, List<Role> roles);
+        void Update(User user);
     }
 }
