@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ECoffee.Application.Enums
 {
-    public enum PromotionStatus
+    public enum CategoryStatus
     {
-        Activate,
+        Active,
         Inactive
     }
 }

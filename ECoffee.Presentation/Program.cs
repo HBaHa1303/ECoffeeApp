@@ -52,6 +52,7 @@ namespace ECoffee.Presentation
             services.AddScoped<IPromotionRepository, PromotionRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             // contexts
             services.AddScoped<IUserContext, UserContext>();
@@ -64,9 +65,9 @@ namespace ECoffee.Presentation
             services.AddScoped<PasswordHasher<User>>();
             services.AddScoped<ReportService>();
             services.AddScoped<PromotionService>();
-
             services.AddScoped<OrderService>();
             services.AddScoped<KdsService>();
+            services.AddScoped<CategoryService>();
 
             // forms
             services.AddTransient<LoginForm>();
@@ -74,6 +75,9 @@ namespace ECoffee.Presentation
             services.AddTransient<MainForm>();
             services.AddTransient<PromotionManagementForm>();
             services.AddTransient<ReportForm>();
+
+            services.AddTransient<CategoryManagementForm>();
+            services.AddTransient<CategoryForm>();
 
             // Configuration 
             services.AddDbContextFactory<AppDbContext>(options => options.UseSqlServer("Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True"));
