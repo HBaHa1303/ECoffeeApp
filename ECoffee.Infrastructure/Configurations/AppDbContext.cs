@@ -17,7 +17,7 @@ namespace ECoffee.Infrastructure.Configurations
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(
-                    "Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True"
+                    "Server=.\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True"
                 );
             }
         }
@@ -37,6 +37,8 @@ namespace ECoffee.Infrastructure.Configurations
         public DbSet<OrderItemEntity> OrderItems => Set<OrderItemEntity>();
 
         public DbSet<PromotionEntity> Promotions => Set<PromotionEntity>();
+        public DbSet<PaymentEntity> Payments => Set<PaymentEntity>();
+        public DbSet<ShiftEntity> Shifts => Set<ShiftEntity>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

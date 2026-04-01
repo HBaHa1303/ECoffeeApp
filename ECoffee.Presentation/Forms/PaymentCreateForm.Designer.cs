@@ -1,0 +1,18 @@
+namespace ECoffee.Presentation.Forms
+{
+    partial class PaymentCreateForm
+    {
+        private System.ComponentModel.IContainer components = null;
+        protected override void Dispose(bool disposing) { if (disposing && (components != null)) components.Dispose(); base.Dispose(disposing); }
+        #region Windows Form Designer generated code
+        private void InitializeComponent()
+        {
+            tableLayoutPanel1 = new TableLayoutPanel(); lTitle = new Label(); label1 = new Label(); label2 = new Label(); label3 = new Label(); label4 = new Label(); nudOrderId = new NumericUpDown(); cbMethod = new ComboBox(); nudAmount = new NumericUpDown(); tbTransactionRef = new TextBox(); panelButtons = new FlowLayoutPanel(); bSave = new Button(); bCancel = new Button(); tableLayoutPanel1.SuspendLayout(); ((System.ComponentModel.ISupportInitialize)nudOrderId).BeginInit(); ((System.ComponentModel.ISupportInitialize)nudAmount).BeginInit(); panelButtons.SuspendLayout(); SuspendLayout();
+            tableLayoutPanel1.ColumnCount=2; tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,150F)); tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100F)); tableLayoutPanel1.Controls.Add(lTitle,0,0); tableLayoutPanel1.SetColumnSpan(lTitle,2); tableLayoutPanel1.Controls.Add(label1,0,1); tableLayoutPanel1.Controls.Add(nudOrderId,1,1); tableLayoutPanel1.Controls.Add(label2,0,2); tableLayoutPanel1.Controls.Add(cbMethod,1,2); tableLayoutPanel1.Controls.Add(label3,0,3); tableLayoutPanel1.Controls.Add(nudAmount,1,3); tableLayoutPanel1.Controls.Add(label4,0,4); tableLayoutPanel1.Controls.Add(tbTransactionRef,1,4); tableLayoutPanel1.Controls.Add(panelButtons,0,5); tableLayoutPanel1.SetColumnSpan(panelButtons,2); tableLayoutPanel1.Dock=DockStyle.Fill; tableLayoutPanel1.Padding=new Padding(16);
+            lTitle.AutoSize=true; lTitle.Font=new Font("Segoe UI",16F,FontStyle.Bold); lTitle.Text="Tạo payment"; label1.Text="Order Id"; label2.Text="Phương thức"; label3.Text="Số tiền"; label4.Text="Mã giao dịch"; foreach(var c in new Control[]{label1,label2,label3,label4}){c.Anchor=AnchorStyles.Left; c.AutoSize=true;} nudOrderId.Maximum=1000000000; nudAmount.Maximum=1000000000; cbMethod.DropDownStyle=ComboBoxStyle.DropDownList; cbMethod.Dock=DockStyle.Fill; tbTransactionRef.Dock=DockStyle.Fill; panelButtons.Dock=DockStyle.Fill; panelButtons.FlowDirection=FlowDirection.RightToLeft; panelButtons.Controls.AddRange(new Control[]{bSave,bCancel}); bSave.Text="Lưu"; bSave.Click += bSave_Click; bCancel.Text="Hủy"; bCancel.Click += bCancel_Click;
+            AutoScaleDimensions = new SizeF(9F,21F); AutoScaleMode=AutoScaleMode.Font; ClientSize=new Size(520,300); Controls.Add(tableLayoutPanel1); Font=new Font("Segoe UI",12F); FormBorderStyle=FormBorderStyle.FixedDialog; MaximizeBox=false; MinimizeBox=false; StartPosition=FormStartPosition.CenterParent; Text="Tạo payment"; Load += PaymentCreateForm_Load; tableLayoutPanel1.ResumeLayout(false); tableLayoutPanel1.PerformLayout(); ((System.ComponentModel.ISupportInitialize)nudOrderId).EndInit(); ((System.ComponentModel.ISupportInitialize)nudAmount).EndInit(); panelButtons.ResumeLayout(false); ResumeLayout(false);
+        }
+        #endregion
+        private TableLayoutPanel tableLayoutPanel1; private Label lTitle; private Label label1; private Label label2; private Label label3; private Label label4; private NumericUpDown nudOrderId; private ComboBox cbMethod; private NumericUpDown nudAmount; private TextBox tbTransactionRef; private FlowLayoutPanel panelButtons; private Button bSave; private Button bCancel;
+    }
+}

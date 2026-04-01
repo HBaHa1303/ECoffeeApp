@@ -48,6 +48,8 @@ namespace ECoffee.Presentation
             // repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
 
             // contexts
             services.AddScoped<IUserContext, UserContext>();
@@ -57,17 +59,21 @@ namespace ECoffee.Presentation
             services.AddScoped<AuthService>();
             services.AddScoped<UserService>();
             services.AddScoped<RoleService>();
+            services.AddScoped<MenuService>();
+            services.AddScoped<PaymentService>();
             services.AddScoped<PasswordHasher<User>>();
 
 
             // forms
             services.AddTransient<LoginForm>();
             services.AddTransient<StaffManagementForm>();
+            services.AddTransient<MenuManagementForm>();
+            services.AddTransient<PaymentManagementForm>();
             services.AddTransient<MainForm>();
 
             // Configuration 
             services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer("Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True"));
+                options => options.UseSqlServer("Server=.\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True"));
 
         }
     }

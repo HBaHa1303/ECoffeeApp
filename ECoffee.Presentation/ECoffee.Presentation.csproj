@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -21,4 +21,70 @@
     <ProjectReference Include="..\ECoffee.Infrastructure\ECoffee.Infrastructure.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Compile Update="Forms\MenuManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\MenuManagementForm.Designer.cs">
+      <DependentUpon>MenuManagementForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\MenuManagementForm.resx">
+      <DependentUpon>MenuManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\MenuEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\MenuEditorForm.Designer.cs">
+      <DependentUpon>MenuEditorForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\MenuEditorForm.resx">
+      <DependentUpon>MenuEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\PaymentManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\PaymentManagementForm.Designer.cs">
+      <DependentUpon>PaymentManagementForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\PaymentManagementForm.resx">
+      <DependentUpon>PaymentManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\PaymentCreateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\PaymentCreateForm.Designer.cs">
+      <DependentUpon>PaymentCreateForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\PaymentCreateForm.resx">
+      <DependentUpon>PaymentCreateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\PaymentDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\PaymentDetailForm.Designer.cs">
+      <DependentUpon>PaymentDetailForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\PaymentDetailForm.resx">
+      <DependentUpon>PaymentDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\QrPreviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\QrPreviewForm.Designer.cs">
+      <DependentUpon>QrPreviewForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\QrPreviewForm.resx">
+      <DependentUpon>QrPreviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\SimplePromptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\SimplePromptForm.Designer.cs">
+      <DependentUpon>SimplePromptForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\SimplePromptForm.resx">
+      <DependentUpon>SimplePromptForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

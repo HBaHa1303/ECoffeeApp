@@ -122,6 +122,7 @@
             thanhToánToolStripMenuItem.Name = "thanhToánToolStripMenuItem";
             thanhToánToolStripMenuItem.Size = new Size(137, 22);
             thanhToánToolStripMenuItem.Text = "Thanh toán";
+            thanhToánToolStripMenuItem.Click += thanhToánToolStripMenuItem_Click;
             // 
             // khoToolStripMenuItem
             // 
@@ -134,6 +135,7 @@
             menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             menuToolStripMenuItem.Size = new Size(137, 22);
             menuToolStripMenuItem.Text = "Menu";
+            menuToolStripMenuItem.Click += menuToolStripMenuItem_Click;
             // 
             // loạiMenuToolStripMenuItem
             // 
