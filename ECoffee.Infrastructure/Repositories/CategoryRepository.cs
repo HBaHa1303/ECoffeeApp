@@ -1,4 +1,5 @@
 ﻿using ECoffee.Application.DTOs.Response;
+using ECoffee.Application.Enums;
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Infrastructure.Configurations;
@@ -15,6 +16,20 @@ public class CategoryRepository : ICategoryRepository
     public CategoryRepository(AppDbContext db)
     {
         _db = db;
+    }
+
+    public List<CategoryResponse> FindAllActiveAsync()
+    {
+        return _db.Categories
+            .AsNoTracking()
+            .Where(c => c.Status == CategoryStatus.Active)
+            .Select(e => new CategoryResponse
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Status = e.Status,
+            })
+            .ToList();
     }
 
     public List<CategoryResponse> FindAllByNameAsync(string keyword)
