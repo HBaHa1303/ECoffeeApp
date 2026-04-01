@@ -4,17 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECoffee.Application.Models
+namespace ECoffee.Application.Enums
 {
-   
-        public enum OrderStatus
-        {
-            Draft,
-        Processing,
-            Submitted,
-            Paid,
-            Cancelled
-        }
     public enum PaymentStatus
     {
         Pending,
@@ -22,5 +13,4 @@ namespace ECoffee.Application.Models
         Failed,
         Refunded
     }
-    
 }
