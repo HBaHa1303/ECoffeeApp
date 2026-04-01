@@ -48,6 +48,8 @@ namespace ECoffee.Presentation
             // repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             // contexts
             services.AddScoped<IUserContext, UserContext>();
@@ -58,12 +60,15 @@ namespace ECoffee.Presentation
             services.AddScoped<UserService>();
             services.AddScoped<RoleService>();
             services.AddScoped<PasswordHasher<User>>();
+            services.AddScoped<OrderService>();
+            services.AddScoped<KdsService>();
 
 
             // forms
             services.AddTransient<LoginForm>();
             services.AddTransient<StaffManagementForm>();
             services.AddTransient<MainForm>();
+            services.AddTransient<frmKdsDashboard>();
 
             // Configuration 
             //"Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True"
