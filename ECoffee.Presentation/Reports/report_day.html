@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cafe Dashboard</title>
+    <link rel="stylesheet" href="css/tailwind.css">
+    <script src="js/chart.umd.min.js"></script>
+</head>
+<body class="bg-gray-100 font-sans p-6 space-y-6">
+
+    <!-- ================= SUMMARY ================= -->
+    <div class="grid grid-cols-3 gap-6 mb-4">
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-gray-500 text-sm">Tổng doanh thu</div>
+            <div class="flex items-end justify-between mt-2">
+                <div class="text-3xl font-bold text-green-600" id="totalRevenue">$0</div>
+                <div class="text-sm font-semibold" id="totalRevenueChange">▲ 0%</div>
+            </div>
+            <div class="text-xs text-gray-400 mt-1">so với cùng kỳ</div>
+        </div>
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-gray-500 text-sm">Tổng đơn hàng</div>
+            <div class="flex items-end justify-between mt-2">
+                <div class="text-3xl font-bold text-blue-600" id="totalOrders">0</div>
+                <div class="text-sm font-semibold" id="totalOrdersChange">▲ 0%</div>
+            </div>
+            <div class="text-xs text-gray-400 mt-1">so với cùng kỳ</div>
+        </div>
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="text-gray-500 text-sm">Giá trị đơn hàng trung bình</div>
+            <div class="flex items-end justify-between mt-2">
+                <div class="text-3xl font-bold text-purple-600" id="avgOrderValue">$0</div>
+                <div class="text-sm font-semibold" id="avgOrderValueChange">▲ 0%</div>
+            </div>
+            <div class="text-xs text-gray-400 mt-1">với cùng kỳ</div>
+        </div>
+    </div>
+
+    <!-- ================= CHARTS ================= -->
+    <div class="grid grid-cols-2 gap-6 mb-4">
+        <div class="bg-white rounded-xl shadow p-4">
+            <div class="font-semibold mb-3">So sánh doanh thu</div>
+            <canvas id="revenueChart"></canvas>
+        </div>
+        <div class="bg-white rounded-xl shadow p-4">
+            <div class="font-semibold mb-3">So sánh đơn hàng</div>
+            <canvas id="orderChart"></canvas>
+        </div>
+    </div>
+
+    <!-- ================= PRODUCTS ================= -->
+    <div class="grid grid-cols-2 gap-6">
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="flex justify-between items-center mb-4">
+                <div class="font-semibold text-lg">Top sản phẩm</div>
+                <span class="text-xs text-gray-400">Theo số lượng</span>
+            </div>
+            <div class="space-y-4" id="topProducts"></div>
+        </div>
+        <div class="bg-white rounded-xl shadow p-5">
+            <div class="flex justify-between items-center mb-4">
+                <div class="font-semibold text-lg">Cần được chú ý</div>
+                <span class="text-xs text-gray-400">doanh số thấp</span>
+            </div>
+            <div class="space-y-4" id="bottomProducts"></div>
+        </div>
+    </div>
+
+    <script>
+        function renderSummary(summary) {
+            document.getElementById('totalRevenue').textContent = '$' + summary.Revenue.Current.toFixed(2);
+            document.getElementById('totalRevenueChange').textContent = (summary.Revenue.IsIncrease ? '▲ ' : '▼ ') + summary.Revenue.PercentChange.toFixed(1) + '%';
+            document.getElementById('totalRevenueChange').className = summary.Revenue.IsIncrease ? 'text-sm font-semibold text-green-500' : 'text-sm font-semibold text-red-500';
+
+            document.getElementById('totalOrders').textContent = summary.Orders.Current;
+            document.getElementById('totalOrdersChange').textContent = (summary.Orders.IsIncrease ? '▲ ' : '▼ ') + summary.Orders.PercentChange.toFixed(1) + '%';
+            document.getElementById('totalOrdersChange').className = summary.Orders.IsIncrease ? 'text-sm font-semibold text-green-500' : 'text-sm font-semibold text-red-500';
+
+            document.getElementById('avgOrderValue').textContent = '$' + summary.AvgOrderValue.Current.toFixed(2);
+            document.getElementById('avgOrderValueChange').textContent = (summary.AvgOrderValue.IsIncrease ? '▲ ' : '▼ ') + summary.AvgOrderValue.PercentChange.toFixed(1) + '%';
+            document.getElementById('avgOrderValueChange').className = summary.AvgOrderValue.IsIncrease ? 'text-sm font-semibold text-green-500' : 'text-sm font-semibold text-red-500';
+        }
+
+        function renderLineChart(id, chartData) {
+            const ctx = document.getElementById(id);
+
+            // destroy old chart nếu có
+            if (id === 'revenueChart' && window.revenueChartInstance) {
+                window.revenueChartInstance.destroy();
+            }
+
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.Labels,
+                    datasets: [
+                        {
+                            label: 'Current',
+                            data: chartData.Current,
+                            borderWidth: 2,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Previous',
+                            data: chartData.Previous,
+                            borderDash: [6, 6],
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: { responsive: true }
+            });
+
+            if (id === 'revenueChart') window.revenueChartInstance = chart;
+        }
+
+        function renderBarChart(id, chartData) {
+            const ctx = document.getElementById(id);
+
+            // destroy old chart nếu có
+            if (id === 'orderChart' && window.orderChartInstance) {
+                window.orderChartInstance.destroy();
+            }
+
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.Labels,
+                    datasets: [{ label: 'Orders', data: chartData.Values }]
+                },
+                options: { responsive: true }
+            });
+
+            if (id === 'orderChart') window.orderChartInstance = chart;
+        }
+
+        function renderProducts(containerId, products) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            products.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-4';
+                div.innerHTML = `
+                        <div class="text-2xl font-bold ${containerId === 'topProducts' ? 'text-green-600' : 'text-red-500'} w-8">${p.Rank}</div>
+                        <div class="flex-1">
+                            <div class="flex justify-between text-sm font-medium">
+                                <span>${p.Name}</span>
+                                <span class="text-gray-500">${p.Quantity} sold</span>
+                            </div>
+                            <div class="mt-1 h-2 bg-gray-100 rounded">
+                                <div class="h-2 ${containerId === 'topProducts' ? 'bg-green-500' : 'bg-red-400'} rounded" style="width:${p.Percent}%"></div>
+                            </div>
+                        </div>
+                    `;
+                container.appendChild(div);
+            });
+        }
+
+        window.reportData = {};
+    </script>
+</body>
+</html>

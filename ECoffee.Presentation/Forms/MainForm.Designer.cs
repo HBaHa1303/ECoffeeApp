@@ -43,6 +43,7 @@
             loạiMenuToolStripMenuItem = new ToolStripMenuItem();
             báoCáoToolStripMenuItem = new ToolStripMenuItem();
             nhânViênToolStripMenuItem1 = new ToolStripMenuItem();
+            tsmiReportOrder = new ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -80,14 +81,14 @@
             // tsmiLogout
             // 
             tsmiLogout.Name = "tsmiLogout";
-            tsmiLogout.Size = new Size(180, 22);
+            tsmiLogout.Size = new Size(129, 22);
             tsmiLogout.Text = "Đăng Xuất";
             tsmiLogout.Click += tsmiLogout_Click;
             // 
             // tsmiExit
             // 
             tsmiExit.Name = "tsmiExit";
-            tsmiExit.Size = new Size(180, 22);
+            tsmiExit.Size = new Size(129, 22);
             tsmiExit.Text = "Thoát";
             tsmiExit.Click += tsmiExit_Click;
             // 
@@ -143,7 +144,7 @@
             // 
             // báoCáoToolStripMenuItem
             // 
-            báoCáoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { nhânViênToolStripMenuItem1 });
+            báoCáoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { nhânViênToolStripMenuItem1, tsmiReportOrder });
             báoCáoToolStripMenuItem.Name = "báoCáoToolStripMenuItem";
             báoCáoToolStripMenuItem.Size = new Size(63, 20);
             báoCáoToolStripMenuItem.Text = "Báo Cáo";
@@ -151,8 +152,15 @@
             // nhânViênToolStripMenuItem1
             // 
             nhânViênToolStripMenuItem1.Name = "nhânViênToolStripMenuItem1";
-            nhânViênToolStripMenuItem1.Size = new Size(128, 22);
+            nhânViênToolStripMenuItem1.Size = new Size(180, 22);
             nhânViênToolStripMenuItem1.Text = "Nhân viên";
+            // 
+            // tsmiReportOrder
+            // 
+            tsmiReportOrder.Name = "tsmiReportOrder";
+            tsmiReportOrder.Size = new Size(180, 22);
+            tsmiReportOrder.Text = "Đơn hàng";
+            tsmiReportOrder.Click += tsmiReportOrder_Click;
             // 
             // MainForm
             // 
@@ -192,5 +200,6 @@
         private ToolStripMenuItem loạiMenuToolStripMenuItem;
         private ToolStripMenuItem báoCáoToolStripMenuItem;
         private ToolStripMenuItem nhânViênToolStripMenuItem1;
+        private ToolStripMenuItem tsmiReportOrder;
     }
 }
