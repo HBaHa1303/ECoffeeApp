@@ -43,7 +43,7 @@ namespace ECoffee.Presentation
                         OpenFormByRole(_userContext.ActiveRole);
                     }
                 }
-                // Trường hợp 2: Chỉ có 1 Role -> Tự động chuyển Form luôn
+
                 else if (_userContext.Roles.Count == 1)
                 {
                     string role = _userContext.Roles.First();
@@ -79,10 +79,6 @@ namespace ECoffee.Presentation
         }
         private void OpenFormByRole(string roleName)
         {
-            Form targetForm;
-
-            
-
             try {
                 switch (roleName.ToLower())
                 {
@@ -90,12 +86,9 @@ namespace ECoffee.Presentation
                         _serviceProvider.GetRequiredService<MainForm>().ShowDialog();
                         break;
                     case "cashier":
-                        //targetForm = _serviceProvider.GetRequiredService<POSForm>();
-
                         _serviceProvider.GetRequiredService<POSForm>().ShowDialog() ;
                         break;
                     case "barista":
-                        //targetForm = _serviceProvider.GetRequiredService<frmKdsDashboard>();
                         _serviceProvider.GetRequiredService<frmKdsDashboard>().ShowDialog();
                         break;
                     
@@ -103,9 +96,6 @@ namespace ECoffee.Presentation
                         MessageBox.Show("Vai trò không hợp lệ!");
                         return;
                 }
-
-                //targetForm.Show();
-                //targetForm.FormClosed += (s, args) => System.Windows.Forms.Application.Exit();
             }
             catch (Exception ex)
             {
