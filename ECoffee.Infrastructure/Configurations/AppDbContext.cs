@@ -1,43 +1,38 @@
-﻿using ECoffee.Infrastructure.Entities;
-using ECoffeeBE.Infrastructure.Entities;
+using ECoffee.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECoffee.Infrastructure.Configurations
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext() { }
+        public AppDbContext()
+        {
+        }
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
-
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True");
             }
         }
-
 
         public DbSet<UserEntity> Users => Set<UserEntity>();
         public DbSet<RoleEntity> Roles => Set<RoleEntity>();
         public DbSet<UserRoleEntity> UserRoles => Set<UserRoleEntity>();
-
         public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
         public DbSet<MenuEntity> Menus => Set<MenuEntity>();
         public DbSet<MenuPriceEntity> MenuPrices => Set<MenuPriceEntity>();
-
         public DbSet<InventoryEntity> Inventories => Set<InventoryEntity>();
-
         public DbSet<OrderEntity> Orders => Set<OrderEntity>();
         public DbSet<OrderItemEntity> OrderItems => Set<OrderItemEntity>();
-
+        public DbSet<PaymentEntity> Payments => Set<PaymentEntity>();
         public DbSet<PromotionEntity> Promotions => Set<PromotionEntity>();
-
-        //
         public DbSet<ShiftEntity> Shifts => Set<ShiftEntity>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,6 +40,9 @@ namespace ECoffee.Infrastructure.Configurations
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ShiftEntity>().ToTable("ShiftEntity");
+            modelBuilder.Entity<PaymentEntity>().ToTable("PaymentEntity");
+            modelBuilder.Entity<PaymentEntity>().ToTable("Payments");
+
             ConfigureRelationships(modelBuilder);
             ConfigureKeys(modelBuilder);
             ConfigureHiLo(modelBuilder);
@@ -82,9 +80,10 @@ namespace ECoffee.Infrastructure.Configurations
                 .WithMany(m => m.Prices)
                 .HasForeignKey(mp => mp.MenuId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<OrderEntity>()
-               .HasIndex(o => o.CreatedAt)
-               .HasDatabaseName("IX_Orders_CreatedAt");
+                .HasIndex(o => o.CreatedAt)
+                .HasDatabaseName("IX_Orders_CreatedAt");
         }
 
         private static void ConfigureHiLo(ModelBuilder builder)
