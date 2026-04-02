@@ -1,9 +1,10 @@
-﻿using ECoffee.Application.Models;
+using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
 using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Repositories;
 using ECoffee.Presentation.Forms;
+using ECoffee.Presentation.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ namespace ECoffee.Presentation
 {
     internal static class Program
     {
-        public static IServiceProvider Services { get; private set; }
+        public static IServiceProvider Services { get; private set; } = null!;
 
         [STAThread]
         static void Main()
@@ -20,13 +21,12 @@ namespace ECoffee.Presentation
             ApplicationConfiguration.Initialize();
 
             var services = new ServiceCollection();
-
             ConfigureServices(services);
-
             Services = services.BuildServiceProvider();
 
             MapsterConfiguration.Configure();
             var userContext = Services.GetRequiredService<IUserContext>();
+
             while (true)
             {
                 var loginForm = Services.GetRequiredService<LoginForm>();
@@ -71,26 +71,26 @@ namespace ECoffee.Presentation
             services.AddScoped<OrderService>();
             services.AddScoped<KdsService>();
             services.AddScoped<CategoryService>();
+            services.AddScoped<MenuModuleService>();
+            services.AddScoped<PaymentModuleService>();
 
             // forms
             services.AddTransient<LoginForm>();
             services.AddTransient<StaffManagementForm>();
-            services.AddTransient<MainForm>();
             services.AddTransient<frmKdsDashboard>();
             services.AddTransient<PromotionManagementForm>();
             services.AddTransient<ReportForm>();
-
             services.AddTransient<CategoryManagementForm>();
             services.AddTransient<CategoryForm>();
+            services.AddTransient<MenuManagementForm>();
+            services.AddTransient<MenuEditForm>();
+            services.AddTransient<PaymentManagementForm>();
+            services.AddTransient<MainForm>();
 
-            // Configuration 
-            //"Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True"
-            services.AddTransient<POSForm>(); // Dùng Transient để mỗi lần gọi là một Form mới hoặc SingleTon nếu muốn giữ nguyên
-            services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer("Server=.\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True"));
-            //
-            services.AddDbContextFactory<AppDbContext>(options =>
-                options.UseSqlServer("Server=.\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True"));
+            const string connectionString = "Server=MinhAnh\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True";
+
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContextFactory<AppDbContext>(options => options.UseSqlServer(connectionString));
         }
     }
 }

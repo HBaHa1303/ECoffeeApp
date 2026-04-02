@@ -1,10 +1,9 @@
-﻿using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.DTOs.Request;
 using ECoffee.Application.Enums;
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Entities;
-using ECoffeeBE.Infrastructure.Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 

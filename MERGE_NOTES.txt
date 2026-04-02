@@ -1,0 +1,7 @@
+Ghi chú merge:
+- Repo nhóm được dùng làm nền và vẫn giữ thư mục .git.
+- Đã gộp MainForm.cs + MainForm.Designer.cs để mở Menu/Payment và giữ các chức năng Report/Promotion/Category.
+- Đã thêm Services/ViewModels/Helper cho Menu + Payment.
+- Đã sửa AppDbContext, MenuEntity, PaymentEntity, ShiftEntity, OrderEntity để đồng bộ namespace và mapping.
+- Trước khi chạy, nên mở SSMS và chạy file database_menu_payment_update.sql nếu cột Menus.IsActive chưa có.
+- Nếu máy khác tên SQL Server khác MinhAnh\SQLEXPRESS, hãy sửa connection string trong Program.cs và AppDbContext.cs.

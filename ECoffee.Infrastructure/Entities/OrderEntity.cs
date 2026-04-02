@@ -1,10 +1,4 @@
-﻿using ECoffee.Application.Enums;
-using ECoffeeBE.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ECoffee.Application.Enums;
 
 namespace ECoffee.Infrastructure.Entities
 {
@@ -20,7 +14,6 @@ namespace ECoffee.Infrastructure.Entities
         public PromotionEntity? Promotion { get; set; }
 
         public OrderStatus Status { get; set; }
-
         public decimal TotalAmount { get; set; }
 
         public ICollection<OrderItemEntity> Items { get; set; } = new List<OrderItemEntity>();
