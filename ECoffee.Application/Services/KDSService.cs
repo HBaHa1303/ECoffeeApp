@@ -32,7 +32,8 @@ namespace ECoffee.Application.Services
                     // Bỏ phần i.Menu?.Name đi vì Model không có thuộc tính này
                     ProductName = string.IsNullOrEmpty(i.ProductName) ? "Món chưa đặt tên" : i.ProductName,
                     Quantity = i.Quantity,
-                    Note = ""
+                    Note = "",// bổ sung sau
+                    SizeName = i.Size.ToString()
                 }).ToList()
             }).ToList();
         }

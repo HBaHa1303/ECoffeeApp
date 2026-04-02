@@ -12,5 +12,5 @@ public interface ICategoryRepository
     void Update(Category category);
     CategoryResponse? ProjectionFindById(long id);
     List<CategoryResponse> FindAllByNameAsync(string keyword);
-    List<CategoryResponse> FindAllActiveAsync();
+    Task<List<CategoryResponse>> FindAllActiveAsync();
 }

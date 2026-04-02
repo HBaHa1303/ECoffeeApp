@@ -100,4 +100,20 @@ public class CategoryRepository : ICategoryRepository
         entity.UpdatedAt = category.UpdatedAt;
         entity.UpdatedBy = category.UpdatedBy;
     }
+
+
+    
+    public async Task<List<CategoryResponse>> FindAllActiveAsync()
+    {
+        return await _db.Categories
+            .AsNoTracking()
+            .Where(e => e.Status == CategoryStatus.Active) // Giả sử 1 là đang hoạt động (Active)
+            .Select(e => new CategoryResponse
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Status = e.Status,
+            })
+            .ToListAsync();
+    }
 }

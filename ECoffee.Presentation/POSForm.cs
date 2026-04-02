@@ -19,22 +19,19 @@ namespace ECoffee.Presentation
     public partial class POSForm : Form
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly CategoryService _categoryService;
         private readonly IMenuRepository _menuRepository;
         private readonly OrderService _orderService;
         private readonly KdsService _kdsService;
-        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService)
+        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService, CategoryService categoryService)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
             _menuRepository = menuRepository;
             _orderService = orderService;
-            btCaPhe.Click += CategoryButton_Click;
-            btTraTraiCay.Click += CategoryButton_Click;
-            btTraSua.Click += CategoryButton_Click;
-            btSinhTo.Click += CategoryButton_Click;
-            btKem.Click += CategoryButton_Click;
-            btBanhNgot.Click += CategoryButton_Click;
+            
             _kdsService = kdsService;
+            _categoryService = categoryService;
         }
         private void CategoryButton_Click(object sender, EventArgs e)
         {
@@ -86,10 +83,12 @@ namespace ECoffee.Presentation
             LoadAllProducts();
         }
 
-        private void POSForm_Load(object sender, EventArgs e)
+        private async void POSForm_Load(object sender, EventArgs e)
         {
             //UpdateNextOrderIdDisplay();
             LoadAllProducts();
+            // load categories btn
+            await LoadCategories();
         }
 
         private void LoadAllProducts()
@@ -212,6 +211,31 @@ namespace ECoffee.Presentation
                 DayOfWeek.Sunday => "Chủ Nhật",
                 _ => ""
             };
+        }
+
+        // tạo nút categories
+        private async Task LoadCategories()
+        {
+            // Lấy danh sách từ Service mà đồng nghiệp bạn đã viết
+            var categories = await _categoryService.FindAllActiveAsync();
+
+            // flpCategories là cái FlowLayoutPanel chứa các nút Cafe, Trà sữa...
+            flpCategories.Controls.Clear();
+
+            foreach (var cat in categories)
+            {
+                Button btn = new Button();
+                btn.Text = cat.Name;
+                btn.Tag = cat.Id; // Cất ID vào đây để hàm Click của bạn lấy ra được
+                btn.Size = new Size(110, 30); // Chỉnh kích thước cho đều
+                btn.BackColor = Color.LightGray;
+                btn.FlatStyle = FlatStyle.Flat;
+
+                // Gắn sự kiện mà bạn đã viết ở trên
+                btn.Click += CategoryButton_Click;
+
+                flpCategories.Controls.Add(btn);
+            }
         }
     }
 }

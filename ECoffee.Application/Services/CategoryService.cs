@@ -89,8 +89,15 @@ public class CategoryService
         await _uow.SaveChangesAsync();
     }
 
+
     public async Task<List<CategoryResponse>> FindAllByNameAsync(string keyword)
     {
         return _repo.FindAllByNameAsync(keyword);
+    }
+
+    public async Task<List<CategoryResponse>> FindAllActiveAsync()
+    {
+        // Gọi xuống repo để lấy danh sách Active
+        return await _repo.FindAllActiveAsync();
     }
 }
