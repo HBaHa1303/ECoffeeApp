@@ -37,7 +37,7 @@ namespace ECoffee.Infrastructure.Repositories
             var endDate = now.AddDays(1).AddTicks(-1);
 
             var orders = await _db.Orders
-                .Where(o => o.CreatedAt >= startDate && o.CreatedAt <= endDate)
+                .Where(o => o.CreatedAt >= startDate && o.CreatedAt <= endDate && o.Status == OrderStatus.Completed)
                 .ToListAsync();
 
             var ordersByDayAmount = orders
@@ -148,7 +148,7 @@ namespace ECoffee.Infrastructure.Repositories
             var endDate = endOfThisWeek;
 
             var orders = await _db.Orders
-                .Where(o => o.CreatedAt >= startDate && o.CreatedAt <= endDate)
+                .Where(o => o.CreatedAt >= startDate && o.CreatedAt <= endDate && o.Status == OrderStatus.Completed)
                 .ToListAsync();
 
             // --- Tổng doanh thu và số đơn theo tuần
@@ -278,7 +278,7 @@ namespace ECoffee.Infrastructure.Repositories
             var endDate = endOfThisMonth;
 
             var orders = await _db.Orders
-                .Where(o => o.CreatedAt >= startDate && o.CreatedAt <= endDate)
+                .Where(o => o.CreatedAt >= startDate && o.CreatedAt <= endDate && o.Status == OrderStatus.Completed)
                 .ToListAsync();
 
             // --- Tổng doanh thu và số đơn theo tháng

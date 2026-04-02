@@ -64,6 +64,11 @@ public class CategoryService
         return _repo.GetAll(); 
     }
 
+    public async Task<List<CategoryResponse>> FindAllActiveAsync()
+    {
+        return _repo.FindAllActiveAsync();
+    }
+
     public async Task InactiveAsync(long id)
     {
         var category = _repo.GetById(id) ?? throw new NotFoundException("Category không tồn tại");
@@ -84,8 +89,15 @@ public class CategoryService
         await _uow.SaveChangesAsync();
     }
 
+
     public async Task<List<CategoryResponse>> FindAllByNameAsync(string keyword)
     {
         return _repo.FindAllByNameAsync(keyword);
+    }
+
+    public async Task<List<CategoryResponse>> FindAllActiveAsync()
+    {
+        // Gọi xuống repo để lấy danh sách Active
+        return await _repo.FindAllActiveAsync();
     }
 }

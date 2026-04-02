@@ -141,7 +141,8 @@ namespace ECoffee.Infrastructure.Repositories
                 {
                     ProductName = oi.Menu?.Name ?? "Không xác định",
                     Quantity = oi.Quantity,
-                    Note = $"Size: {oi.Size}"
+                    Note = "",// bổ sung sau
+                    SizeName = oi.Size.ToString()
                 }).ToList()
             }).ToList();
         }

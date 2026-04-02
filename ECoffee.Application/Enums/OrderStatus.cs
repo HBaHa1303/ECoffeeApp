@@ -8,10 +8,11 @@ namespace ECoffee.Application.Enums
 {
     public enum OrderStatus
     {
-        Draft,
-        Processing,
-        Submitted,
-        Paid,
-        Cancelled
+        Draft,// 0
+        Processing,// 1
+        Submitted,// 2
+        Paid,// 3
+        Cancelled,// 4
+        Completed// 5  không xóa cái này
     }
 }

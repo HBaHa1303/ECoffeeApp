@@ -147,6 +147,7 @@
             Controls.Add(panel1);
             Controls.Add(panle1);
             Name = "frmKdsDashboard";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "KDS";
             Load += frmKdsDashboard_Load;
             panle1.ResumeLayout(false);

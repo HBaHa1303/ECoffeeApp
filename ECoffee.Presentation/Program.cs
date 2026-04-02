@@ -67,6 +67,9 @@ namespace ECoffee.Presentation
             services.AddScoped<PromotionService>();
             services.AddScoped<OrderService>();
             services.AddScoped<KdsService>();
+
+            services.AddScoped<OrderService>();
+            services.AddScoped<KdsService>();
             services.AddScoped<CategoryService>();
             services.AddScoped<MenuModuleService>();
             services.AddScoped<PaymentModuleService>();
@@ -74,6 +77,7 @@ namespace ECoffee.Presentation
             // forms
             services.AddTransient<LoginForm>();
             services.AddTransient<StaffManagementForm>();
+            services.AddTransient<frmKdsDashboard>();
             services.AddTransient<PromotionManagementForm>();
             services.AddTransient<ReportForm>();
             services.AddTransient<CategoryManagementForm>();

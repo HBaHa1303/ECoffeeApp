@@ -67,18 +67,54 @@
     </div>
 
     <script>
+        const vndFormatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+            maximumFractionDigits: 0
+        });
+        function formatChange(metric) {
+            return `${metric.IsIncrease ? '▲' : '▼'} ${metric.PercentChange.toFixed(1)}%`;
+        }
+
+        function changeClass(metric) {
+            return metric.IsIncrease
+                ? 'text-sm font-semibold text-green-500'
+                : 'text-sm font-semibold text-red-500';
+        }
+
         function renderSummary(summary) {
-            document.getElementById('totalRevenue').textContent = '$' + summary.Revenue.Current.toFixed(2);
-            document.getElementById('totalRevenueChange').textContent = (summary.Revenue.IsIncrease ? '▲ ' : '▼ ') + summary.Revenue.PercentChange.toFixed(1) + '%';
-            document.getElementById('totalRevenueChange').className = summary.Revenue.IsIncrease ? 'text-sm font-semibold text-green-500' : 'text-sm font-semibold text-red-500';
 
-            document.getElementById('totalOrders').textContent = summary.Orders.Current;
-            document.getElementById('totalOrdersChange').textContent = (summary.Orders.IsIncrease ? '▲ ' : '▼ ') + summary.Orders.PercentChange.toFixed(1) + '%';
-            document.getElementById('totalOrdersChange').className = summary.Orders.IsIncrease ? 'text-sm font-semibold text-green-500' : 'text-sm font-semibold text-red-500';
+            // Revenue
+            document.getElementById('totalRevenue').textContent =
+                vndFormatter.format(summary.Revenue.Current);
 
-            document.getElementById('avgOrderValue').textContent = '$' + summary.AvgOrderValue.Current.toFixed(2);
-            document.getElementById('avgOrderValueChange').textContent = (summary.AvgOrderValue.IsIncrease ? '▲ ' : '▼ ') + summary.AvgOrderValue.PercentChange.toFixed(1) + '%';
-            document.getElementById('avgOrderValueChange').className = summary.AvgOrderValue.IsIncrease ? 'text-sm font-semibold text-green-500' : 'text-sm font-semibold text-red-500';
+            document.getElementById('totalRevenueChange').textContent =
+                formatChange(summary.Revenue);
+
+            document.getElementById('totalRevenueChange').className =
+                changeClass(summary.Revenue);
+
+
+            // Orders
+            document.getElementById('totalOrders').textContent =
+                summary.Orders.Current;
+
+            document.getElementById('totalOrdersChange').textContent =
+                formatChange(summary.Orders);
+
+            document.getElementById('totalOrdersChange').className =
+                changeClass(summary.Orders);
+
+
+            // Avg Order Value
+            document.getElementById('avgOrderValue').textContent =
+                vndFormatter.format(summary.AvgOrderValue.Current);
+
+            document.getElementById('avgOrderValueChange').textContent =
+                formatChange(summary.AvgOrderValue);
+
+            document.getElementById('avgOrderValueChange').className =
+                changeClass(summary.AvgOrderValue);
         }
 
         function renderLineChart(id, chartData) {

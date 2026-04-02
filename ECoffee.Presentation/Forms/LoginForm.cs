@@ -11,11 +11,13 @@ namespace ECoffee.Presentation
     {
         private readonly AuthService _authService;
         private readonly IUserContext _userContext;
-        public LoginForm(AuthService authService, IUserContext userContext)
+        private readonly IServiceProvider _serviceProvider;
+        public LoginForm(AuthService authService, IUserContext userContext, IServiceProvider serviceProvider)
         {
             InitializeComponent();
             _authService = authService;
             _userContext = userContext;
+            _serviceProvider = serviceProvider;
         }
 
         private void bLogin_Click(object sender, EventArgs e)
@@ -35,18 +37,22 @@ namespace ECoffee.Presentation
                 if (_userContext.Roles.Count > 1)
                 {
                     var selectRole = new SelectRoleForm(_userContext);
-                    var result = selectRole.ShowDialog(this);
-
-                    if (result == DialogResult.OK)
+                    if (selectRole.ShowDialog(this) == DialogResult.OK)
                     {
-                        DialogResult = DialogResult.OK;
-                        Close();
+                        this.Hide(); // Ẩn Login trước
+                        OpenFormByRole(_userContext.ActiveRole);
                     }
-                } else
+                }
+
+                else if (_userContext.Roles.Count == 1)
                 {
-                    MessageBox.Show("Đăng nhập thành công", "Thành công");
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    string role = _userContext.Roles.First();
+                    OpenFormByRole(role);
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Tài khoản này chưa được cấp quyền!", "Thông báo");
                 }
             }
             catch (BadRequestException ex)
@@ -70,6 +76,33 @@ namespace ECoffee.Presentation
         private void LoginForm_Load(object sender, EventArgs e)
         {
             tbEmail.Focus();
+        }
+        private void OpenFormByRole(string roleName)
+        {
+            try {
+                switch (roleName.ToLower())
+                {
+                    case "manager":
+                        _serviceProvider.GetRequiredService<MainForm>().ShowDialog();
+                        break;
+                    case "cashier":
+                        _serviceProvider.GetRequiredService<POSForm>().ShowDialog() ;
+                        break;
+                    case "barista":
+                        _serviceProvider.GetRequiredService<frmKdsDashboard>().ShowDialog();
+                        break;
+                    
+                    default:
+                        MessageBox.Show("Vai trò không hợp lệ!");
+                        return;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Nếu mở Form mới bị lỗi, phải hiện Login lại để user biết
+                this.Show();
+                MessageBox.Show("Không thể mở màn hình chức năng: " + ex.Message);
+            }
         }
     }
 }
