@@ -30,7 +30,7 @@ namespace ECoffee.Application.Services
 
         public Task<List<PromotionResponse>> FindAllAsync() => Task.FromResult(_promotionRepository.FindAll());
         public Task<List<PromotionResponse>> FindAllByNameAsync(string name) => Task.FromResult(_promotionRepository.FindAllByName(name));
-
+        public Task<List<PromotionResponse>> FindAllActiveAsync(string name) => Task.FromResult(_promotionRepository.FindAllActiveAsync());
 
         public async Task InactiveAsync(long id)
         {

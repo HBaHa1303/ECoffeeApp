@@ -18,6 +18,20 @@ public class CategoryRepository : ICategoryRepository
         _db = db;
     }
 
+    public List<CategoryResponse> FindAllActiveAsync()
+    {
+        return _db.Categories
+            .AsNoTracking()
+            .Where(c => c.Status == CategoryStatus.Active)
+            .Select(e => new CategoryResponse
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Status = e.Status,
+            })
+            .ToList();
+    }
+
     public List<CategoryResponse> FindAllByNameAsync(string keyword)
     {
         return _db.Categories
