@@ -94,10 +94,4 @@ public class CategoryService
     {
         return _repo.FindAllByNameAsync(keyword);
     }
-
-    public async Task<List<CategoryResponse>> FindAllActiveAsync()
-    {
-        // Gọi xuống repo để lấy danh sách Active
-        return await _repo.FindAllActiveAsync();
-    }
 }
