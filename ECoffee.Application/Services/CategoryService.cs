@@ -66,7 +66,7 @@ public class CategoryService
 
     public async Task<List<CategoryResponse>> FindAllActiveAsync()
     {
-        return _repo.FindAllActiveAsync();
+        return await _repo.FindAllActiveAsync();
     }
 
     public async Task InactiveAsync(long id)
