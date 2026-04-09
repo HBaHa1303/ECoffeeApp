@@ -2,6 +2,7 @@ using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Entities;
 using ECoffee.Presentation.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using ECoffee.Application.Enums; 
 
 namespace ECoffee.Presentation.Services
 {
@@ -85,7 +86,7 @@ namespace ECoffee.Presentation.Services
         public async Task MarkAsPaidAsync(long paymentId, string updatedBy)
         {
             var entity = await _db.Payments.FirstAsync(x => x.Id == paymentId);
-            entity.Status = PaymentStatus.Paid;
+            entity.Status = (ECoffee.Infrastructure.Entities.PaymentStatus)ECoffee.Application.Enums.PaymentStatus.Paid;
             entity.UpdatedAt = DateTime.Now;
             entity.UpdatedBy = updatedBy;
             await _db.SaveChangesAsync();
@@ -124,6 +125,33 @@ namespace ECoffee.Presentation.Services
                 PaymentMethod.BankTransfer => "Chuyển khoản",
                 _ => method.ToString()
             };
+        }
+
+        public async Task UpdateStatusToPaidAsync(long paymentId, string updatedBy)
+        {
+            // 1. Tìm bản ghi Payment theo Id
+            var payment = await _db.Payments.FirstOrDefaultAsync(x => x.Id == paymentId);
+
+            if (payment != null)
+            {
+                // 2. Cập nhật trạng thái Payment sang Paid
+                payment.Status = (ECoffee.Infrastructure.Entities.PaymentStatus)ECoffee.Application.Enums.PaymentStatus.Paid;
+                payment.UpdatedAt = DateTime.Now;
+                payment.UpdatedBy = updatedBy;
+
+                // 3. Tìm đơn hàng (Order) liên quan để bếp (KDS) có thể thấy đơn
+                var order = await _db.Orders.FirstOrDefaultAsync(o => o.Id == payment.OrderId);
+                if (order != null)
+                {
+                    // Chuyển trạng thái Order sang Paid (giá trị là 3 theo Enum của bạn)
+                    order.Status = OrderStatus.Paid;
+                    order.UpdatedAt = DateTime.Now;
+                    order.UpdatedBy = updatedBy;
+                }
+
+                // 4. Lưu tất cả thay đổi vào Database
+                await _db.SaveChangesAsync();
+            }
         }
     }
 }

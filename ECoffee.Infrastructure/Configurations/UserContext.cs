@@ -24,12 +24,18 @@ namespace ECoffee.Infrastructure.Configurations
         public IReadOnlyList<string> Roles => _session?.Roles != null ? _session.Roles.ToList().AsReadOnly() : Array.Empty<string>();
 
         public void Set(UserSession session)
-            => _session = session ?? throw new ArgumentNullException(nameof(session));
+        {
+            _session = session ?? throw new ArgumentNullException(nameof(session));
+
+            
+            this.Id = session.UserId;
+        }
+        //=> _session = session ?? throw new ArgumentNullException(nameof(session));
 
         public void Clear() => _session = null;
 
         public bool HasRole(string role)
             => _session?.Roles.Contains(role) ?? false;
-
+        public long Id { get; set; }
     }
 }

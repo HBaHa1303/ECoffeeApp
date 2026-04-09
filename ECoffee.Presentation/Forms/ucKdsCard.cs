@@ -20,29 +20,59 @@ namespace ECoffee.Presentation.Forms
         }
         public void SetData(KdsOrderDto data)
         {
-            lblOrderNumber.Text = data.OrderNumber;
+            // 1. Gán thông tin Header
+            lblOrderNumber.Text = $"#{data.OrderId}";
+            lblTimeAgo.Text = $"{(int)(DateTime.Now - data.CreatedAt).TotalMinutes} phút";
 
-            var minutes = (int)(DateTime.Now - data.CreatedAt).TotalMinutes;
-            lblTimeAgo.Text = $"{minutes} phút";
-
+            // 2. Nạp danh sách món ăn (Chỉ hiện Tên, Số lượng và Size)
             flpItems.Controls.Clear();
             foreach (var item in data.Items)
             {
-                Label lblItem = new Label();
+                string itemText = $"{item.ProductName} x{item.Quantity}";
 
-                // --- ĐOẠN CẦN SỬA ---
-                // Kiểm tra xem món có Size hay không (giả sử thuộc tính là item.SizeName)
-                string sizeInfo = !string.IsNullOrEmpty(item.SizeName) ? $"Size: {item.SizeName}" : "";
+                // Thêm Size nếu có
+                if (!string.IsNullOrEmpty(item.SizeName))
+                {
+                    itemText += $"\n- Size: {item.SizeName}";
+                }
 
-                // Hiển thị: Tên món xSố lượng
-                //           Size: Medium
-                //           Note: ...
-                lblItem.Text = $"{item.ProductName} x{item.Quantity}\n{sizeInfo}\n{item.Note}";
-                // ---------------------
+                // --- ĐÃ BỎ ĐOẠN HIỆN NOTE RIÊNG Ở ĐÂY ---
 
-                lblItem.AutoSize = true;
-                lblItem.Margin = new Padding(0, 0, 0, 5); // Thêm chút khoảng cách dưới mỗi món
+                Label lblItem = new Label
+                {
+                    Text = itemText,
+                    AutoSize = true,
+                    Width = 230,
+                    Margin = new Padding(5, 5, 5, 5),
+                    Font = new Font("Segoe UI", 9F)
+                };
                 flpItems.Controls.Add(lblItem);
+            }
+
+            // 3. Xử lý Ghi chú tổng của đơn hàng (Cái bảng màu vàng bạn muốn giữ)
+            var orderNote = data.Items.FirstOrDefault(x => !string.IsNullOrEmpty(x.Note))?.Note;
+
+            if (!string.IsNullOrEmpty(orderNote))
+            {
+                lblNote.Text = $"* Ghi chú: {orderNote}";
+                lblNote.Visible = true;
+                panel1.Visible = true;
+                panel1.Height = lblNote.Height + 10;
+            }
+            else
+            {
+                panel1.Visible = false;
+                panel1.Height = 0;
+            }
+
+            // 4. Cập nhật lại giao diện
+            this.AutoSize = false;
+            this.AutoSize = true;
+            this.PerformLayout();
+
+            if (this.Height < this.PreferredSize.Height)
+            {
+                this.Height = this.PreferredSize.Height;
             }
         }
         private void btnAction_Click(object sender, EventArgs e)

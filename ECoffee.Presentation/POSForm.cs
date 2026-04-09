@@ -1,4 +1,5 @@
-﻿using ECoffee.Application.Models; 
+﻿using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.Models; 
 using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
 using ECoffee.Infrastructure.Repositories;
@@ -23,15 +24,21 @@ namespace ECoffee.Presentation
         private readonly IMenuRepository _menuRepository;
         private readonly OrderService _orderService;
         private readonly KdsService _kdsService;
-        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService, CategoryService categoryService)
+        private long currentUserId ;
+        private long currentShiftId ;
+        private readonly UserService _userService;
+        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository,
+            OrderService orderService, KdsService kdsService, CategoryService categoryService, UserService userService)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
             _menuRepository = menuRepository;
             _orderService = orderService;
-            
+
             _kdsService = kdsService;
             _categoryService = categoryService;
+            _userService = userService;
+
         }
         private void CategoryButton_Click(object sender, EventArgs e)
         {
@@ -85,10 +92,32 @@ namespace ECoffee.Presentation
 
         private async void POSForm_Load(object sender, EventArgs e)
         {
-            //UpdateNextOrderIdDisplay();
-            LoadAllProducts();
-            // load categories btn
-            await LoadCategories();
+            try
+            {
+                // 1. Tự động lấy User đầu tiên có trong bảng Users của máy đó
+                var loggedInUserId = _serviceProvider.GetRequiredService<IUserContext>().Id;
+                if (loggedInUserId != 0)
+                {
+                    currentUserId = loggedInUserId;
+                }
+                else
+                {
+                    // Nếu Context chưa có ID, ta mới dùng phương án dự phòng (hoặc báo lỗi)
+                    var allUsers = await _userService.FindAllAsync();
+                    currentUserId = allUsers.First().Id;
+                }
+                // 2. Tự động lấy hoặc tạo Ca làm việc (Shift)
+                // Gọi hàm kiểm tra ca dựa trên giờ hệ thống
+                currentShiftId = _kdsService.GetCurrentShiftId();
+
+                // Load dữ liệu lên giao diện
+                LoadAllProducts();
+                await LoadCategories();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi đồng bộ dữ liệu ban đầu: " + ex.Message);
+            }
         }
 
         private void LoadAllProducts()
@@ -148,7 +177,8 @@ namespace ECoffee.Presentation
                 // Nếu chưa có: Tạo dòng mới
                 ucOrderItem newItem = new ucOrderItem();
                 newItem.labelTenMon.Text = item.Name;
-                newItem.UpdateItemTotal(1, item.Price); // Số lượng mặc định là 1
+                newItem.Tag = item.Id; // LƯU ID MÓN ĂN VÀO ĐÂY
+                newItem.UpdateItemTotal(1, item.Price);
                 newItem.OnSelect += (s, ev) => UpdateTotalPrice();
                 flpOrderList.Controls.Add(newItem);
             }
@@ -235,6 +265,76 @@ namespace ECoffee.Presentation
                 btn.Click += CategoryButton_Click;
 
                 flpCategories.Controls.Add(btn);
+            }
+        }
+
+        private async void btThanhToan_Click(object sender, EventArgs e)
+        {
+           if (flpOrderList.Controls.Count == 0) return;
+
+            var userContext = _serviceProvider.GetRequiredService<IUserContext>();
+            long userId = userContext.Id;
+
+            // Kiểm tra nếu chưa đăng nhập (Id = 0) thì không cho thanh toán
+            if (userId == 0)
+            {
+                MessageBox.Show("Lỗi: Không tìm thấy thông tin người đăng nhập!");
+                return;
+            }
+            long shiftId = _kdsService.GetCurrentShiftId(); // Tự động lấy theo giờ
+
+            // 2. Thu thập món ăn
+            try
+            {
+                // 3. Thu thập danh sách món ăn từ giao diện
+                var request = new CreateOrderRequest { Items = new List<OrderItemRequest>() };
+                decimal totalAmount = 0; // Biến dùng để truyền sang Form Payment
+                string ghiChuCuaKhach = txtNote.Text.Trim();
+
+                foreach (Control ctrl in flpOrderList.Controls)
+                {
+                    if (ctrl is ucOrderItem row)
+                    {
+                        // Lấy thông tin món
+                        long menuId = (long)row.Tag;
+                        int qty = (int)row.nmrSoLuong.Value;
+
+                        request.Items.Add(new OrderItemRequest
+                        {
+                            MenuId = menuId,
+                            Quantity = qty,
+                            Size = MenuSize.Small,
+                            Note = ghiChuCuaKhach
+                        });
+
+                        // Cộng dồn tiền để truyền sang form thanh toán
+                        string priceText = row.labelTongTienItem.Text.Replace("VND", "").Replace(".", "").Replace(",", "").Trim();
+                        if (decimal.TryParse(priceText, out decimal rowSum)) totalAmount += rowSum;
+                    }
+                }
+
+                // 4. Lấy OrderId dự kiến trên UI
+                if (!long.TryParse(lbOrderId.Text, out long currentIdOnUI)) currentIdOnUI = 0;
+
+                // 5. Gửi xuống Database để tạo Order
+                long newId = _orderService.Create(request, userId, shiftId, currentIdOnUI);
+
+                // 6. MỞ FORM THANH TOÁN TỰ ĐỘNG
+                var paymentForm = _serviceProvider.GetRequiredService<PaymentManagementForm>();
+                paymentForm.SetOrderInfo(newId, totalAmount); // Hàm này bạn viết thêm ở PaymentManagementForm
+                paymentForm.ShowDialog();
+
+                txtNote.Clear();
+                // 7. Reset giao diện sau khi tất cả đã xong
+                flpOrderList.Controls.Clear();
+                lbThanhTien.Text = "0 VND";
+                UpdateNextOrderIdDisplay();
+
+                MessageBox.Show($"Đã xử lý xong đơn hàng #{newId}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi hệ thống: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

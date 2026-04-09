@@ -607,6 +607,7 @@
             btThanhToan.TabIndex = 4;
             btThanhToan.Text = "Thanh Toán";
             btThanhToan.UseVisualStyleBackColor = true;
+            btThanhToan.Click += btThanhToan_Click;
             // 
             // lbThanhTien
             // 
@@ -656,6 +657,7 @@
             // 
             // flpOrderList
             // 
+            flpOrderList.AutoScroll = true;
             flpOrderList.Dock = DockStyle.Fill;
             flpOrderList.Location = new Point(0, 0);
             flpOrderList.Name = "flpOrderList";

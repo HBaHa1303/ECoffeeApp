@@ -95,9 +95,25 @@ namespace ECoffee.Presentation.Forms
                 return;
             }
 
-            await _paymentModuleService.MarkAsPaidAsync(item.Id, "system");
-            MessageBox.Show("Payment đã được cập nhật sang Paid.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            await LoadPaymentsAsync();
+            //await _paymentModuleService.MarkAsPaidAsync(item.Id, "system");
+            //MessageBox.Show("Payment đã được cập nhật sang Paid.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //await LoadPaymentsAsync();
+
+            try
+            {
+                // 2. Gọi hàm vừa dán vào Service
+                // Truyền Id của dòng đang chọn và tên người cập nhật
+                await _paymentModuleService.UpdateStatusToPaidAsync(item.Id, "Admin");
+
+                MessageBox.Show("Xác nhận thanh toán thành công! Đơn hàng đã được gửi xuống KDS.");
+
+                // 3. Load lại danh sách để bảng cập nhật chữ "Paid"
+                await LoadPaymentsAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message);
+            }
         }
 
         private async void dgvPayments_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -129,6 +145,18 @@ namespace ECoffee.Presentation.Forms
                 "Chi tiết payment",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+        }
+
+        public void SetOrderInfo(long orderId, decimal amount)
+        {
+            // Đổ dữ liệu vào NumericUpDown OrderID và Amount
+            nudOrderId.Value = orderId;
+            nudAmount.Value = amount;
+
+            // Tự động sinh mã giao dịch (Transaction Reference) luôn cho tiện
+            txtTransactionRef.Text = _paymentModuleService.BuildTransactionRef(orderId);
+
+          
         }
     }
 }

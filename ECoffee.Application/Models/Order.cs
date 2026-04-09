@@ -12,6 +12,8 @@ namespace ECoffee.Application.Models
         public long UserId {  get; set; }
         public long ShiftId { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Submitted;
+        public long? PromotionId { get; set; } // Dùng long? để có thể nhận giá trị null
+        public decimal TotalAmount { get; set; }
         public List<OrderItem> Items { get; set; } = new();
 
         public decimal CalculateTotal()
@@ -27,6 +29,6 @@ namespace ECoffee.Application.Models
         public decimal UnitPrice { get; set; }
         public MenuSize Size { get; set; }
         public string ProductName { get; set; } = string.Empty;
-        public string Note { get; set; } = string.Empty;
+        public string? Note { get; set; }
     }
 }

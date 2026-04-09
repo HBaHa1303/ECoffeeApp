@@ -24,5 +24,6 @@ namespace ECoffee.Application.Repositories
         // 
         void UpdateOrderStatus(long orderId, string status);
         List<KdsOrderDto> GetOrdersByStatus(string status);
+        long GetNextSequenceValue();
     }
 }

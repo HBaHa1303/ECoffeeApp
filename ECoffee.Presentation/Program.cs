@@ -1,4 +1,4 @@
-using ECoffee.Application.Models;
+﻿using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
 using ECoffee.Infrastructure.Configurations;
@@ -53,6 +53,7 @@ namespace ECoffee.Presentation
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IShiftRepository, ShiftRepository>();
 
             // contexts
             services.AddScoped<IUserContext, UserContext>();
@@ -67,6 +68,8 @@ namespace ECoffee.Presentation
             services.AddScoped<PromotionService>();
             services.AddScoped<OrderService>();
             services.AddScoped<KdsService>();
+            // Xóa tất cả các dòng AddScoped<IUserContext, ...> khác
+            services.AddSingleton<IUserContext, ECoffee.Infrastructure.Configurations.UserContext>();
 
             services.AddScoped<OrderService>();
             services.AddScoped<KdsService>();
@@ -86,8 +89,9 @@ namespace ECoffee.Presentation
             services.AddTransient<MenuEditForm>();
             services.AddTransient<PaymentManagementForm>();
             services.AddTransient<MainForm>();
+            services.AddTransient<POSForm>();
 
-            const string connectionString = "Server=MinhAnh\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True";
+            const string connectionString = "Server=.\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True";
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
             services.AddDbContextFactory<AppDbContext>(options => options.UseSqlServer(connectionString));
