@@ -136,6 +136,8 @@
             Margin = new Padding(4);
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
+            ActiveControl = tbEmail;
+            AcceptButton = bLogin;
             Text = "Đăng nhập";
             Load += LoginForm_Load;
             tableLayoutPanel1.ResumeLayout(false);

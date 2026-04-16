@@ -39,27 +39,41 @@
             panel2 = new Panel();
             flpPendingOrders = new FlowLayoutPanel();
             flpCompletedOrders = new FlowLayoutPanel();
+            btnLogout = new Button();
             panle1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
-            // 
+            //
+            // btnLogout
+            //
+            btnLogout.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnLogout.Location = new Point(610, 10);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(80, 28);
+            btnLogout.TabIndex = 2;
+            btnLogout.Text = "Đăng xuất";
+            btnLogout.UseVisualStyleBackColor = true;
+            btnLogout.Click += btnLogout_Click;
+            //
             // panle1
-            // 
+            //
+            panle1.Controls.Add(btnLogout);
             panle1.Controls.Add(lblSystemDateTime);
             panle1.Controls.Add(lblTitle);
             panle1.Dock = DockStyle.Top;
             panle1.Location = new Point(0, 0);
+            panle1.Margin = new Padding(3, 2, 3, 2);
             panle1.Name = "panle1";
-            panle1.Size = new Size(800, 64);
+            panle1.Size = new Size(700, 48);
             panle1.TabIndex = 0;
             // 
             // lblSystemDateTime
             // 
             lblSystemDateTime.AutoSize = true;
-            lblSystemDateTime.Location = new Point(12, 38);
+            lblSystemDateTime.Location = new Point(10, 28);
             lblSystemDateTime.Name = "lblSystemDateTime";
-            lblSystemDateTime.Size = new Size(42, 20);
+            lblSystemDateTime.Size = new Size(34, 15);
             lblSystemDateTime.TabIndex = 1;
             lblSystemDateTime.Text = "Time";
             // 
@@ -70,7 +84,7 @@
             lblTitle.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.Location = new Point(0, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(220, 38);
+            lblTitle.Size = new Size(173, 30);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Kitchen Display";
             // 
@@ -85,16 +99,18 @@
             panel1.Controls.Add(btnShowCompleted);
             panel1.Controls.Add(btnShowPending);
             panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 64);
+            panel1.Location = new Point(0, 48);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(800, 49);
+            panel1.Size = new Size(700, 37);
             panel1.TabIndex = 1;
             // 
             // btnShowCompleted
             // 
-            btnShowCompleted.Location = new Point(126, 3);
+            btnShowCompleted.Location = new Point(110, 2);
+            btnShowCompleted.Margin = new Padding(3, 2, 3, 2);
             btnShowCompleted.Name = "btnShowCompleted";
-            btnShowCompleted.Size = new Size(94, 43);
+            btnShowCompleted.Size = new Size(82, 32);
             btnShowCompleted.TabIndex = 1;
             btnShowCompleted.Text = "Hoàn thành";
             btnShowCompleted.UseVisualStyleBackColor = true;
@@ -102,9 +118,10 @@
             // 
             // btnShowPending
             // 
-            btnShowPending.Location = new Point(12, 3);
+            btnShowPending.Location = new Point(10, 2);
+            btnShowPending.Margin = new Padding(3, 2, 3, 2);
             btnShowPending.Name = "btnShowPending";
-            btnShowPending.Size = new Size(94, 43);
+            btnShowPending.Size = new Size(82, 32);
             btnShowPending.TabIndex = 0;
             btnShowPending.Text = "Món đợi";
             btnShowPending.UseVisualStyleBackColor = true;
@@ -115,9 +132,10 @@
             panel2.Controls.Add(flpPendingOrders);
             panel2.Controls.Add(flpCompletedOrders);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 113);
+            panel2.Location = new Point(0, 85);
+            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(800, 337);
+            panel2.Size = new Size(700, 253);
             panel2.TabIndex = 2;
             // 
             // flpPendingOrders
@@ -125,8 +143,9 @@
             flpPendingOrders.AutoScroll = true;
             flpPendingOrders.Dock = DockStyle.Fill;
             flpPendingOrders.Location = new Point(0, 0);
+            flpPendingOrders.Margin = new Padding(3, 2, 3, 2);
             flpPendingOrders.Name = "flpPendingOrders";
-            flpPendingOrders.Size = new Size(800, 337);
+            flpPendingOrders.Size = new Size(700, 253);
             flpPendingOrders.TabIndex = 0;
             // 
             // flpCompletedOrders
@@ -134,21 +153,24 @@
             flpCompletedOrders.AutoScroll = true;
             flpCompletedOrders.Dock = DockStyle.Fill;
             flpCompletedOrders.Location = new Point(0, 0);
+            flpCompletedOrders.Margin = new Padding(3, 2, 3, 2);
             flpCompletedOrders.Name = "flpCompletedOrders";
-            flpCompletedOrders.Size = new Size(800, 337);
+            flpCompletedOrders.Size = new Size(700, 253);
             flpCompletedOrders.TabIndex = 1;
             // 
             // frmKdsDashboard
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(panle1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "frmKdsDashboard";
             StartPosition = FormStartPosition.CenterParent;
             Text = "KDS";
+            WindowState = FormWindowState.Maximized;
             Load += frmKdsDashboard_Load;
             panle1.ResumeLayout(false);
             panle1.PerformLayout();
@@ -169,5 +191,6 @@
         private Panel panel2;
         private FlowLayoutPanel flpCompletedOrders;
         private FlowLayoutPanel flpPendingOrders;
+        private Button btnLogout;
     }
 }

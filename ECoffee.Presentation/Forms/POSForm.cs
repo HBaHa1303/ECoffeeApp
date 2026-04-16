@@ -1,8 +1,8 @@
-﻿using ECoffee.Application.Models; 
+﻿using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
 using ECoffee.Infrastructure.Repositories;
-using ECoffee.Presentation.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ECoffee.Presentation
+namespace ECoffee.Presentation.Forms
 {
     public partial class POSForm : Form
     {
@@ -23,15 +23,19 @@ namespace ECoffee.Presentation
         private readonly IMenuRepository _menuRepository;
         private readonly OrderService _orderService;
         private readonly KdsService _kdsService;
-        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService, CategoryService categoryService)
+        private readonly ShiftService _shiftService;
+        private readonly AuthService _authService;
+        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService, CategoryService categoryService, ShiftService shiftService, AuthService authService)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
             _menuRepository = menuRepository;
             _orderService = orderService;
-            
+
             _kdsService = kdsService;
             _categoryService = categoryService;
+            _shiftService = shiftService;
+            _authService = authService;
         }
         private void CategoryButton_Click(object sender, EventArgs e)
         {
@@ -81,6 +85,12 @@ namespace ECoffee.Presentation
             //posForm.Show();
 
             LoadAllProducts();
+        }
+
+        private void btSettingIcon_Click(object sender, EventArgs e)
+        {
+            var shiftForm = _serviceProvider.GetRequiredService<ShiftForm>();
+            shiftForm.ShowDialog(this);
         }
 
         private async void POSForm_Load(object sender, EventArgs e)
@@ -236,6 +246,69 @@ namespace ECoffee.Presentation
 
                 flpCategories.Controls.Add(btn);
             }
+        }
+
+        private void btThanhToan_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (flpOrderList.Controls.Count == 0)
+                {
+                    MessageBox.Show("Vui lòng thêm món vào đơn hàng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var openShift = _shiftService.GetOpenShift();
+                if (openShift == null)
+                {
+                    MessageBox.Show("Chưa có ca làm việc nào được mở. Vui lòng mở ca trước khi thanh toán.", "Chưa mở ca", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var orderItems = new List<OrderItemRequest>();
+                foreach (Control ctrl in flpOrderList.Controls)
+                {
+                    if (ctrl is ucOrderItem row)
+                    {
+                        string menuName = row.labelTenMon.Text;
+                        int quantity = (int)row.nmrSoLuong.Value;
+
+                        var product = _menuRepository.GetAllProducts().FirstOrDefault(p => p.Name == menuName);
+                        if (product == null) continue;
+
+                        var priceInfo = product.Prices?.FirstOrDefault();
+                        if (priceInfo == null) continue;
+
+                        orderItems.Add(new OrderItemRequest
+                        {
+                            MenuId = product.Id,
+                            Quantity = quantity,
+                            Size = ECoffee.Application.Models.MenuSize.Medium 
+                        });
+                    }
+                }
+
+                var request = new CreateOrderRequest { Items = orderItems };
+                long orderId = _orderService.Create(request, _shiftService.GetOpenShift()!.UserId, openShift.Id);
+
+                MessageBox.Show($"Đặt hàng thành công! Mã đơn: {orderId}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                flpOrderList.Controls.Clear();
+                UpdateTotalPrice();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Có lỗi xảy ra", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes) return;
+
+            _authService.Logout();
+            Close();
         }
     }
 }

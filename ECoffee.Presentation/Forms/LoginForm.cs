@@ -39,7 +39,7 @@ namespace ECoffee.Presentation
                     var selectRole = new SelectRoleForm(_userContext);
                     if (selectRole.ShowDialog(this) == DialogResult.OK)
                     {
-                        this.Hide(); // Ẩn Login trước
+                        this.Hide();
                         OpenFormByRole(_userContext.ActiveRole);
                     }
                 }
@@ -47,13 +47,17 @@ namespace ECoffee.Presentation
                 else if (_userContext.Roles.Count == 1)
                 {
                     string role = _userContext.Roles.First();
-                    OpenFormByRole(role);
                     this.Hide();
+                    OpenFormByRole(role);
                 }
                 else
                 {
                     MessageBox.Show("Tài khoản này chưa được cấp quyền!", "Thông báo");
+                    return;
                 }
+
+                ClearInputs();
+                this.Show();
             }
             catch (BadRequestException ex)
             {
@@ -77,6 +81,13 @@ namespace ECoffee.Presentation
         {
             tbEmail.Focus();
         }
+
+        private void ClearInputs()
+        {
+            tbEmail.Clear();
+            tbPassword.Clear();
+        }
+
         private void OpenFormByRole(string roleName)
         {
             try {

@@ -36,7 +36,7 @@ namespace ECoffee.Presentation.Forms
             quảnLýToolStripMenuItem = new ToolStripMenuItem();
             tsmiStaffManagement = new ToolStripMenuItem();
             tsmiPromotion = new ToolStripMenuItem();
-            đơnHàngToolStripMenuItem = new ToolStripMenuItem();
+            tsmiOrderManagement = new ToolStripMenuItem();
             thanhToánToolStripMenuItem = new ToolStripMenuItem();
             khoToolStripMenuItem = new ToolStripMenuItem();
             menuToolStripMenuItem = new ToolStripMenuItem();
@@ -44,11 +44,6 @@ namespace ECoffee.Presentation.Forms
             báoCáoToolStripMenuItem = new ToolStripMenuItem();
             nhânViênToolStripMenuItem1 = new ToolStripMenuItem();
             tsmiReportOrder = new ToolStripMenuItem();
-            thựcĐơnToolStripMenuItem = new ToolStripMenuItem();
-            quảnLýThựcĐơnToolStripMenuItem = new ToolStripMenuItem();
-            chỉnhSửaThựcĐơnToolStripMenuItem = new ToolStripMenuItem();
-            thanhToánToolStripMenuItem1 = new ToolStripMenuItem();
-            quảnLýThanhToánToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -69,7 +64,7 @@ namespace ECoffee.Presentation.Forms
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { hệThốngToolStripMenuItem, quảnLýToolStripMenuItem, báoCáoToolStripMenuItem, thựcĐơnToolStripMenuItem, thanhToánToolStripMenuItem1 });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { hệThốngToolStripMenuItem, quảnLýToolStripMenuItem, báoCáoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1029, 24);
@@ -99,7 +94,7 @@ namespace ECoffee.Presentation.Forms
             // 
             // quảnLýToolStripMenuItem
             // 
-            quảnLýToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tsmiStaffManagement, tsmiPromotion, đơnHàngToolStripMenuItem, thanhToánToolStripMenuItem, khoToolStripMenuItem, menuToolStripMenuItem, tsmiCategoryManagement });
+            quảnLýToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tsmiStaffManagement, tsmiPromotion, tsmiOrderManagement, thanhToánToolStripMenuItem, khoToolStripMenuItem, menuToolStripMenuItem, tsmiCategoryManagement });
             quảnLýToolStripMenuItem.Name = "quảnLýToolStripMenuItem";
             quảnLýToolStripMenuItem.Size = new Size(60, 20);
             quảnLýToolStripMenuItem.Text = "Quản lý";
@@ -118,11 +113,12 @@ namespace ECoffee.Presentation.Forms
             tsmiPromotion.Text = "Khuyến mãi";
             tsmiPromotion.Click += tsmiPromotion_Click;
             // 
-            // đơnHàngToolStripMenuItem
+            // tsmiOrderManagement
             // 
-            đơnHàngToolStripMenuItem.Name = "đơnHàngToolStripMenuItem";
-            đơnHàngToolStripMenuItem.Size = new Size(180, 22);
-            đơnHàngToolStripMenuItem.Text = "Đơn hàng";
+            tsmiOrderManagement.Name = "tsmiOrderManagement";
+            tsmiOrderManagement.Size = new Size(180, 22);
+            tsmiOrderManagement.Text = "Đơn hàng";
+            tsmiOrderManagement.Click += tsmiOrderManagement_Click;
             // 
             // thanhToánToolStripMenuItem
             // 
@@ -171,41 +167,6 @@ namespace ECoffee.Presentation.Forms
             tsmiReportOrder.Text = "Đơn hàng";
             tsmiReportOrder.Click += tsmiReportOrder_Click;
             // 
-            // thựcĐơnToolStripMenuItem
-            // 
-            thựcĐơnToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { quảnLýThựcĐơnToolStripMenuItem, chỉnhSửaThựcĐơnToolStripMenuItem });
-            thựcĐơnToolStripMenuItem.Name = "thựcĐơnToolStripMenuItem";
-            thựcĐơnToolStripMenuItem.Size = new Size(74, 20);
-            thựcĐơnToolStripMenuItem.Text = "Thực Đơn";
-            // 
-            // quảnLýThựcĐơnToolStripMenuItem
-            // 
-            quảnLýThựcĐơnToolStripMenuItem.Name = "quảnLýThựcĐơnToolStripMenuItem";
-            quảnLýThựcĐơnToolStripMenuItem.Size = new Size(180, 22);
-            quảnLýThựcĐơnToolStripMenuItem.Text = "Quản lý thực đơn";
-            quảnLýThựcĐơnToolStripMenuItem.Click += menuToolStripMenuItem_Click;
-            // 
-            // chỉnhSửaThựcĐơnToolStripMenuItem
-            // 
-            chỉnhSửaThựcĐơnToolStripMenuItem.Name = "chỉnhSửaThựcĐơnToolStripMenuItem";
-            chỉnhSửaThựcĐơnToolStripMenuItem.Size = new Size(180, 22);
-            chỉnhSửaThựcĐơnToolStripMenuItem.Text = "Chỉnh sửa thực đơn";
-            chỉnhSửaThựcĐơnToolStripMenuItem.Click += chỉnhSửaThựcĐơnToolStripMenuItem_Click;
-            // 
-            // thanhToánToolStripMenuItem1
-            // 
-            thanhToánToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { quảnLýThanhToánToolStripMenuItem });
-            thanhToánToolStripMenuItem1.Name = "thanhToánToolStripMenuItem1";
-            thanhToánToolStripMenuItem1.Size = new Size(82, 20);
-            thanhToánToolStripMenuItem1.Text = "Thanh Toán";
-            // 
-            // quảnLýThanhToánToolStripMenuItem
-            // 
-            quảnLýThanhToánToolStripMenuItem.Name = "quảnLýThanhToánToolStripMenuItem";
-            quảnLýThanhToánToolStripMenuItem.Size = new Size(184, 22);
-            quảnLýThanhToánToolStripMenuItem.Text = "Quản lý thanh toán";
-            quảnLýThanhToánToolStripMenuItem.Click += thanhToánToolStripMenuItem_Click;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
@@ -237,7 +198,7 @@ namespace ECoffee.Presentation.Forms
         private ToolStripMenuItem quảnLýToolStripMenuItem;
         private ToolStripMenuItem tsmiStaffManagement;
         private ToolStripMenuItem tsmiPromotion;
-        private ToolStripMenuItem đơnHàngToolStripMenuItem;
+        private ToolStripMenuItem tsmiOrderManagement;
         private ToolStripMenuItem thanhToánToolStripMenuItem;
         private ToolStripMenuItem khoToolStripMenuItem;
         private ToolStripMenuItem menuToolStripMenuItem;
@@ -245,10 +206,5 @@ namespace ECoffee.Presentation.Forms
         private ToolStripMenuItem báoCáoToolStripMenuItem;
         private ToolStripMenuItem nhânViênToolStripMenuItem1;
         private ToolStripMenuItem tsmiReportOrder;
-        private ToolStripMenuItem thựcĐơnToolStripMenuItem;
-        private ToolStripMenuItem quảnLýThựcĐơnToolStripMenuItem;
-        private ToolStripMenuItem chỉnhSửaThựcĐơnToolStripMenuItem;
-        private ToolStripMenuItem thanhToánToolStripMenuItem1;
-        private ToolStripMenuItem quảnLýThanhToánToolStripMenuItem;
     }
 }

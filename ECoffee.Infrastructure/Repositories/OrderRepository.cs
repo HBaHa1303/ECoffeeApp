@@ -1,4 +1,5 @@
 using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.DTOs.Response;
 using ECoffee.Application.Enums;
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
@@ -22,9 +23,29 @@ namespace ECoffee.Infrastructure.Repositories
 
         public void Add(Order order)
         {
-            var entity = order.Adapt<OrderEntity>();
-
-            entity.TotalAmount = order.CalculateTotal();
+            var now = DateTime.Now;
+            var entity = new OrderEntity
+            {
+                UserId = order.UserId,
+                ShiftId = order.ShiftId,
+                Status = order.Status,
+                TotalAmount = order.CalculateTotal(),
+                CreatedAt = now,
+                UpdatedAt = now,
+                CreatedBy = "system",
+                UpdatedBy = "system",
+                Items = order.Items.Select(item => new OrderItemEntity
+                {
+                    MenuId = item.MenuId,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice,
+                    Size = item.Size,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    CreatedBy = "system",
+                    UpdatedBy = "system"
+                }).ToList()
+            };
 
             _db.Orders.Add(entity);
         }
@@ -169,6 +190,43 @@ namespace ECoffee.Infrastructure.Repositories
                 // Trường hợp không tìm thấy OrderId trong Database
                 throw new Exception($"Lỗi: Không tìm thấy đơn hàng có ID là {orderId} để cập nhật.");
             }
+        }
+
+        public List<OrderResponse> FindAllByCreatedAtAsync(DateTime from, DateTime to)
+        {
+            return _db.Orders
+                .Where(o => o.CreatedAt >= from && o.CreatedAt < to)
+                .Select(o => new OrderResponse
+                {
+                    Id = o.Id,
+                    CreatedAt = o.CreatedAt,
+                    UserName = o.User.FullName,
+                    PromotionName = o.Promotion != null ? o.Promotion.Name : null,
+                    Status = o.Status,
+                    TotalAmount = o.TotalAmount,
+                    //Items = o.Items.Select(i => new OrderItemResponse
+                    //{
+                    //    MenuName = i.Menu.Name,
+                    //    Quantity = i.Quantity,
+                    //    Size = i.Size,
+                    //    UnitPrice = i.UnitPrice
+                    //}).ToList()
+                })
+                .ToList();
+        }
+
+        public List<OrderItemResponse> FindAllOrderItemById(long orderId)
+        {
+            return _db.OrderItems
+                .Where(o => o.OrderId == orderId)
+                .Select(oi => new OrderItemResponse
+                {
+                    MenuName = oi.Menu.Name,
+                    Quantity = oi.Quantity,
+                    Size = oi.Size,
+                    UnitPrice = oi.UnitPrice
+                })
+                .ToList();
         }
     }
 

@@ -11,6 +11,7 @@ namespace ECoffee.Presentation.Forms
         private readonly CategoryManagementForm _categoryManagementForm;
         private readonly MenuManagementForm _menuManagementForm;
         private readonly PaymentManagementForm _paymentManagementForm;
+        private readonly OrderManagementForm _orderManagementForm;
 
         public MainForm(
             StaffManagementForm staffManagementForm,
@@ -19,7 +20,8 @@ namespace ECoffee.Presentation.Forms
             PromotionManagementForm promotionManagementForm,
             CategoryManagementForm categoryManagementForm,
             MenuManagementForm menuManagementForm,
-            PaymentManagementForm paymentManagementForm)
+            PaymentManagementForm paymentManagementForm,
+            OrderManagementForm orderManagementForm)
         {
             InitializeComponent();
             _staffManagementForm = staffManagementForm;
@@ -29,6 +31,7 @@ namespace ECoffee.Presentation.Forms
             _categoryManagementForm = categoryManagementForm;
             _menuManagementForm = menuManagementForm;
             _paymentManagementForm = paymentManagementForm;
+            _orderManagementForm = orderManagementForm;
         }
 
         private void tsmiStaffManagement_Click(object sender, EventArgs e)
@@ -95,6 +98,18 @@ namespace ECoffee.Presentation.Forms
         {
             using var form = new MenuEditForm();
             form.ShowDialog(this);
+        }
+
+        private void tsmiOrderManagement_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _orderManagementForm.ShowDialog(this);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.", "Có lỗi xảy ra", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

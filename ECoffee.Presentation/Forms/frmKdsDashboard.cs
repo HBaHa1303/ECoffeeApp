@@ -17,11 +17,13 @@ namespace ECoffee.Presentation.Forms
     public partial class frmKdsDashboard : Form
     {
         private readonly KdsService _kdsService;
+        private readonly AuthService _authService;
         private int _refreshCounter = 0;
-        public frmKdsDashboard(KdsService kdsService)
+        public frmKdsDashboard(KdsService kdsService, AuthService authService)
         {
             InitializeComponent();
             _kdsService = kdsService;
+            _authService = authService;
             tmrClock.Start();
 
             
@@ -125,6 +127,15 @@ namespace ECoffee.Presentation.Forms
                 card.HideFinishButton();
                 flpCompletedOrders.Controls.Add(card);
             }
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes) return;
+
+            _authService.Logout();
+            Close();
         }
     }
 

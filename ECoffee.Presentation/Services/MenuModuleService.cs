@@ -1,3 +1,4 @@
+using ECoffee.Application.Models;
 using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Entities;
 using ECoffee.Presentation.ViewModels;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using MenuSize=ECoffee.Application.Models.MenuSize;
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
@@ -42,6 +41,7 @@ namespace ECoffee.Infrastructure.Repositories
             
             var entities = _db.Menus
                 .Include(m => m.Prices) 
+                .Where(m => m.IsActive)
                 .ToList();
 
            
