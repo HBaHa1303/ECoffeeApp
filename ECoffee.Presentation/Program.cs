@@ -53,6 +53,7 @@ namespace ECoffee.Presentation
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IShiftRepository, ShiftRepository>();
 
             // contexts
             services.AddScoped<IUserContext, UserContext>();
@@ -73,6 +74,7 @@ namespace ECoffee.Presentation
             services.AddScoped<CategoryService>();
             services.AddScoped<MenuModuleService>();
             services.AddScoped<PaymentModuleService>();
+            services.AddScoped<ShiftService>();
 
             // forms
             services.AddTransient<LoginForm>();
@@ -88,6 +90,7 @@ namespace ECoffee.Presentation
             services.AddTransient<PaymentManagementForm>();
             services.AddTransient<MainForm>();
             services.AddTransient<OrderManagementForm>();
+            services.AddTransient<ShiftForm>();
 
             const string connectionString = "Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True";
 

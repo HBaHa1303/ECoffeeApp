@@ -1,17 +1,24 @@
 using ECoffee.Application.Enums;
 
-namespace ECoffee.Infrastructure.Entities
+namespace ECoffee.Application.DTOs.Response
 {
-    public class ShiftEntity : BaseEntity
+    public class ShiftResponse
     {
+        public long Id { get; set; }
         public long UserId { get; set; }
-        public UserEntity User { get; set; } = null!;
+        public string UserName { get; set; } = string.Empty;
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public decimal OpeningCash { get; set; }
         public decimal? ClosingCash { get; set; }
         public decimal TotalRevenue { get; set; }
         public ShiftStatus Status { get; set; }
-        public ICollection<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
+
+        public string StatusText => Status switch
+        {
+            ShiftStatus.Open => "Đang mở",
+            ShiftStatus.Closed => "Đã đóng",
+            _ => ""
+        };
     }
 }

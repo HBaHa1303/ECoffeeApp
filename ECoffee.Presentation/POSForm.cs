@@ -1,4 +1,5 @@
-﻿using ECoffee.Application.Models; 
+﻿using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
 using ECoffee.Infrastructure.Repositories;
@@ -23,15 +24,17 @@ namespace ECoffee.Presentation
         private readonly IMenuRepository _menuRepository;
         private readonly OrderService _orderService;
         private readonly KdsService _kdsService;
-        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService, CategoryService categoryService)
+        private readonly ShiftService _shiftService;
+        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService, CategoryService categoryService, ShiftService shiftService)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
             _menuRepository = menuRepository;
             _orderService = orderService;
-            
+
             _kdsService = kdsService;
             _categoryService = categoryService;
+            _shiftService = shiftService;
         }
         private void CategoryButton_Click(object sender, EventArgs e)
         {
@@ -81,6 +84,12 @@ namespace ECoffee.Presentation
             //posForm.Show();
 
             LoadAllProducts();
+        }
+
+        private void btSettingIcon_Click(object sender, EventArgs e)
+        {
+            var shiftForm = _serviceProvider.GetRequiredService<ShiftForm>();
+            shiftForm.ShowDialog(this);
         }
 
         private async void POSForm_Load(object sender, EventArgs e)
@@ -235,6 +244,60 @@ namespace ECoffee.Presentation
                 btn.Click += CategoryButton_Click;
 
                 flpCategories.Controls.Add(btn);
+            }
+        }
+
+        private void btThanhToan_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (flpOrderList.Controls.Count == 0)
+                {
+                    MessageBox.Show("Vui lòng thêm món vào đơn hàng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var openShift = _shiftService.GetOpenShift();
+                if (openShift == null)
+                {
+                    MessageBox.Show("Chưa có ca làm việc nào được mở. Vui lòng mở ca trước khi thanh toán.", "Chưa mở ca", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var orderItems = new List<OrderItemRequest>();
+                foreach (Control ctrl in flpOrderList.Controls)
+                {
+                    if (ctrl is ucOrderItem row)
+                    {
+                        string menuName = row.labelTenMon.Text;
+                        int quantity = (int)row.nmrSoLuong.Value;
+
+                        var product = _menuRepository.GetAllProducts().FirstOrDefault(p => p.Name == menuName);
+                        if (product == null) continue;
+
+                        var priceInfo = product.Prices?.FirstOrDefault();
+                        if (priceInfo == null) continue;
+
+                        orderItems.Add(new OrderItemRequest
+                        {
+                            MenuId = product.Id,
+                            Quantity = quantity,
+                            Size = ECoffee.Application.Models.MenuSize.Medium // TODO: lấy size thực tế từ UI
+                        });
+                    }
+                }
+
+                var request = new CreateOrderRequest { Items = orderItems };
+                long orderId = _orderService.Create(request, _shiftService.GetOpenShift()!.UserId, openShift.Id);
+
+                MessageBox.Show($"Đặt hàng thành công! Mã đơn: {orderId}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                flpOrderList.Controls.Clear();
+                UpdateTotalPrice();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Có lỗi xảy ra", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -172,8 +172,9 @@
             btSettingIcon.Name = "btSettingIcon";
             btSettingIcon.Size = new Size(88, 76);
             btSettingIcon.TabIndex = 4;
-            btSettingIcon.Text = "Setting";
+            btSettingIcon.Text = "Ca làm việc";
             btSettingIcon.UseVisualStyleBackColor = true;
+            btSettingIcon.Click += btSettingIcon_Click;
             // 
             // btMenuIcon
             // 
@@ -607,6 +608,7 @@
             btThanhToan.TabIndex = 4;
             btThanhToan.Text = "Thanh Toán";
             btThanhToan.UseVisualStyleBackColor = true;
+            btThanhToan.Click += btThanhToan_Click;
             // 
             // lbThanhTien
             // 

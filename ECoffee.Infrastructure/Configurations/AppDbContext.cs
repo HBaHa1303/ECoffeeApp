@@ -39,10 +39,6 @@ namespace ECoffee.Infrastructure.Configurations
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ShiftEntity>().ToTable("ShiftEntity");
-            modelBuilder.Entity<PaymentEntity>().ToTable("PaymentEntity");
-            modelBuilder.Entity<PaymentEntity>().ToTable("Payments");
-
             ConfigureRelationships(modelBuilder);
             ConfigureKeys(modelBuilder);
             ConfigureHiLo(modelBuilder);
