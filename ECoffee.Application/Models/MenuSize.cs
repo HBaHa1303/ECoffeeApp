@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace ECoffee.Application.Models
 {
-   
         public enum MenuSize
         {
             Small,

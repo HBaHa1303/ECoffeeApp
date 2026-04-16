@@ -1,4 +1,5 @@
 ﻿using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.DTOs.Response;
 using ECoffee.Application.Models;
 using System;
 using System.Collections.Generic;
@@ -24,5 +25,7 @@ namespace ECoffee.Application.Repositories
         // 
         void UpdateOrderStatus(long orderId, string status);
         List<KdsOrderDto> GetOrdersByStatus(string status);
+        List<OrderResponse> FindAllByCreatedAtAsync(DateTime from, DateTime to);
+        List<OrderItemResponse> FindAllOrderItemById(long orderId);
     }
 }

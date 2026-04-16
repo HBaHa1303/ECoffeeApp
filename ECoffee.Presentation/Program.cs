@@ -77,6 +77,7 @@ namespace ECoffee.Presentation
             // forms
             services.AddTransient<LoginForm>();
             services.AddTransient<StaffManagementForm>();
+            services.AddTransient<POSForm>();
             services.AddTransient<frmKdsDashboard>();
             services.AddTransient<PromotionManagementForm>();
             services.AddTransient<ReportForm>();
@@ -86,8 +87,9 @@ namespace ECoffee.Presentation
             services.AddTransient<MenuEditForm>();
             services.AddTransient<PaymentManagementForm>();
             services.AddTransient<MainForm>();
+            services.AddTransient<OrderManagementForm>();
 
-            const string connectionString = "Server=MinhAnh\\SQLEXPRESS;Database=ECoffeeDb;Trusted_Connection=True;TrustServerCertificate=True";
+            const string connectionString = "Server=localhost,9999;Database=ECoffeeDb;User Id=sa;Password=SqlServer@2024;TrustServerCertificate=True";
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
             services.AddDbContextFactory<AppDbContext>(options => options.UseSqlServer(connectionString));

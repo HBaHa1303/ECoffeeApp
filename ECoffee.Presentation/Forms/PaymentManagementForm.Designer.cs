@@ -93,7 +93,7 @@ namespace ECoffee.Presentation.Forms
             lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
             lblTitle.Location = new Point(15, 25);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(311, 37);
+            lblTitle.Size = new Size(320, 37);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "QUẢN LÝ THANH TOÁN";
             // 
@@ -162,7 +162,6 @@ namespace ECoffee.Presentation.Forms
             tlpCreate.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlpCreate.Size = new Size(424, 638);
             tlpCreate.TabIndex = 0;
-            tlpCreate.SetColumnSpan(picQr, 2);
             // 
             // label1
             // 
@@ -170,7 +169,7 @@ namespace ECoffee.Presentation.Forms
             label1.AutoSize = true;
             label1.Location = new Point(13, 23);
             label1.Name = "label1";
-            label1.Size = new Size(67, 21);
+            label1.Size = new Size(70, 21);
             label1.TabIndex = 0;
             label1.Text = "Order ID";
             // 
@@ -189,7 +188,7 @@ namespace ECoffee.Presentation.Forms
             label2.AutoSize = true;
             label2.Location = new Point(13, 71);
             label2.Name = "label2";
-            label2.Size = new Size(79, 21);
+            label2.Size = new Size(99, 21);
             label2.TabIndex = 2;
             label2.Text = "Phương thức";
             // 
@@ -198,7 +197,7 @@ namespace ECoffee.Presentation.Forms
             cboMethod.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             cboMethod.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMethod.FormattingEnabled = true;
-            cboMethod.Location = new Point(148, 67);
+            cboMethod.Location = new Point(148, 70);
             cboMethod.Name = "cboMethod";
             cboMethod.Size = new Size(263, 29);
             cboMethod.TabIndex = 3;
@@ -209,7 +208,7 @@ namespace ECoffee.Presentation.Forms
             label3.AutoSize = true;
             label3.Location = new Point(13, 119);
             label3.Name = "label3";
-            label3.Size = new Size(65, 21);
+            label3.Size = new Size(58, 21);
             label3.TabIndex = 4;
             label3.Text = "Số tiền";
             // 
@@ -229,7 +228,7 @@ namespace ECoffee.Presentation.Forms
             label4.AutoSize = true;
             label4.Location = new Point(13, 167);
             label4.Name = "label4";
-            label4.Size = new Size(103, 21);
+            label4.Size = new Size(112, 21);
             label4.TabIndex = 6;
             label4.Text = "TransactionRef";
             // 
@@ -247,7 +246,7 @@ namespace ECoffee.Presentation.Forms
             label5.AutoSize = true;
             label5.Location = new Point(13, 215);
             label5.Name = "label5";
-            label5.Size = new Size(76, 21);
+            label5.Size = new Size(111, 21);
             label5.TabIndex = 8;
             label5.Text = "Tên ngân hàng";
             // 
@@ -285,7 +284,7 @@ namespace ECoffee.Presentation.Forms
             label7.AutoSize = true;
             label7.Location = new Point(13, 311);
             label7.Name = "label7";
-            label7.Size = new Size(102, 21);
+            label7.Size = new Size(110, 21);
             label7.TabIndex = 12;
             label7.Text = "Tên thụ hưởng";
             // 
@@ -332,6 +331,7 @@ namespace ECoffee.Presentation.Forms
             // picQr
             // 
             picQr.BorderStyle = BorderStyle.FixedSingle;
+            tlpCreate.SetColumnSpan(picQr, 2);
             picQr.Dock = DockStyle.Fill;
             picQr.Location = new Point(13, 405);
             picQr.Name = "picQr";
@@ -368,7 +368,6 @@ namespace ECoffee.Presentation.Forms
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.SetColumnSpan(dgvPayments, 3);
             tableLayoutPanel2.Size = new Size(930, 638);
             tableLayoutPanel2.TabIndex = 0;
             // 
@@ -378,7 +377,7 @@ namespace ECoffee.Presentation.Forms
             label8.AutoSize = true;
             label8.Location = new Point(13, 24);
             label8.Name = "label8";
-            label8.Size = new Size(78, 21);
+            label8.Size = new Size(74, 21);
             label8.TabIndex = 0;
             label8.Text = "Tìm kiếm";
             // 
@@ -409,6 +408,7 @@ namespace ECoffee.Presentation.Forms
             dgvPayments.AllowUserToDeleteRows = false;
             dgvPayments.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPayments.Columns.AddRange(new DataGridViewColumn[] { PaymentId, OrderId, Method, Amount, Status, TransactionRef, CreatedAt, ViewPayment });
+            tableLayoutPanel2.SetColumnSpan(dgvPayments, 3);
             dgvPayments.Dock = DockStyle.Fill;
             dgvPayments.Location = new Point(13, 63);
             dgvPayments.Name = "dgvPayments";

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECoffee.Application.Enums;
+using ECoffee.Application.DTOs.Response;
 
 namespace ECoffee.Application.Services
 {
@@ -50,6 +51,18 @@ namespace ECoffee.Application.Services
             _orderRepository.SaveChanges();
 
             return order.Id; // Trả về mã Id vừa được tạo trong DB
+        }
+
+        public async Task<List<OrderResponse>> FindAllByCreatedAtAsync(DateTime from, DateTime to)
+        {
+            from = from.Date;
+            to = to.Date.AddDays(1).AddTicks(-1);
+            return _orderRepository.FindAllByCreatedAtAsync(from, to);
+        }
+
+        public async Task<List<OrderItemResponse>> FindAllOrderItemById(long orderId)
+        {
+            return _orderRepository.FindAllOrderItemById(orderId);
         }
 
         public long GetNextOrderId()
