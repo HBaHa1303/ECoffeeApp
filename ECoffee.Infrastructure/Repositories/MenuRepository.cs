@@ -41,6 +41,7 @@ namespace ECoffee.Infrastructure.Repositories
             
             var entities = _db.Menus
                 .Include(m => m.Prices) 
+                .Where(m => m.IsActive)
                 .ToList();
 
            

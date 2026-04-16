@@ -23,9 +23,29 @@ namespace ECoffee.Infrastructure.Repositories
 
         public void Add(Order order)
         {
-            var entity = order.Adapt<OrderEntity>();
-
-            entity.TotalAmount = order.CalculateTotal();
+            var now = DateTime.Now;
+            var entity = new OrderEntity
+            {
+                UserId = order.UserId,
+                ShiftId = order.ShiftId,
+                Status = order.Status,
+                TotalAmount = order.CalculateTotal(),
+                CreatedAt = now,
+                UpdatedAt = now,
+                CreatedBy = "system",
+                UpdatedBy = "system",
+                Items = order.Items.Select(item => new OrderItemEntity
+                {
+                    MenuId = item.MenuId,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice,
+                    Size = item.Size,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    CreatedBy = "system",
+                    UpdatedBy = "system"
+                }).ToList()
+            };
 
             _db.Orders.Add(entity);
         }

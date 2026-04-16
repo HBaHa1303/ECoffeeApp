@@ -1,4 +1,4 @@
-namespace ECoffee.Presentation
+namespace ECoffee.Presentation.Forms
 {
     partial class ShiftForm
     {

@@ -3,7 +3,6 @@ using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
 using ECoffee.Infrastructure.Repositories;
-using ECoffee.Presentation.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ECoffee.Presentation
+namespace ECoffee.Presentation.Forms
 {
     public partial class POSForm : Form
     {
@@ -25,7 +24,8 @@ namespace ECoffee.Presentation
         private readonly OrderService _orderService;
         private readonly KdsService _kdsService;
         private readonly ShiftService _shiftService;
-        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService, CategoryService categoryService, ShiftService shiftService)
+        private readonly AuthService _authService;
+        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService, CategoryService categoryService, ShiftService shiftService, AuthService authService)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
@@ -35,6 +35,7 @@ namespace ECoffee.Presentation
             _kdsService = kdsService;
             _categoryService = categoryService;
             _shiftService = shiftService;
+            _authService = authService;
         }
         private void CategoryButton_Click(object sender, EventArgs e)
         {
@@ -282,7 +283,7 @@ namespace ECoffee.Presentation
                         {
                             MenuId = product.Id,
                             Quantity = quantity,
-                            Size = ECoffee.Application.Models.MenuSize.Medium // TODO: lấy size thực tế từ UI
+                            Size = ECoffee.Application.Models.MenuSize.Medium 
                         });
                     }
                 }
@@ -299,6 +300,15 @@ namespace ECoffee.Presentation
             {
                 MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Có lỗi xảy ra", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes) return;
+
+            _authService.Logout();
+            Close();
         }
     }
 }

@@ -2,7 +2,7 @@ using ECoffee.Application.DTOs.Response;
 using ECoffee.Application.Exceptions;
 using ECoffee.Application.Services;
 
-namespace ECoffee.Presentation
+namespace ECoffee.Presentation.Forms
 {
     public partial class ShiftForm : Form
     {
