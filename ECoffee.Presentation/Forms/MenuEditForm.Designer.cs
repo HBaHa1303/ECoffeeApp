@@ -87,27 +87,27 @@ namespace ECoffee.Presentation.Forms
             // 
             label1.Anchor = AnchorStyles.Left;
             label1.AutoSize = true;
-            label1.Location = new Point(23, 23);
+            label1.Location = new Point(23, 32);
             label1.Name = "label1";
-            label1.Size = new Size(143, 45);
+            label1.Size = new Size(86, 28);
             label1.TabIndex = 0;
             label1.Text = "Tên món";
             // 
             // txtName
             // 
             txtName.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtName.Location = new Point(203, 23);
+            txtName.Location = new Point(203, 29);
             txtName.Name = "txtName";
-            txtName.Size = new Size(458, 50);
+            txtName.Size = new Size(458, 34);
             txtName.TabIndex = 1;
             // 
             // label2
             // 
             label2.Anchor = AnchorStyles.Left;
             label2.AutoSize = true;
-            label2.Location = new Point(23, 75);
+            label2.Location = new Point(23, 84);
             label2.Name = "label2";
-            label2.Size = new Size(158, 45);
+            label2.Size = new Size(97, 28);
             label2.TabIndex = 2;
             label2.Text = "Loại nước";
             // 
@@ -116,28 +116,28 @@ namespace ECoffee.Presentation.Forms
             cboCategory.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             cboCategory.DropDownStyle = ComboBoxStyle.DropDownList;
             cboCategory.FormattingEnabled = true;
-            cboCategory.Location = new Point(203, 78);
+            cboCategory.Location = new Point(203, 84);
             cboCategory.Name = "cboCategory";
-            cboCategory.Size = new Size(458, 53);
+            cboCategory.Size = new Size(458, 36);
             cboCategory.TabIndex = 3;
             // 
             // label3
             // 
             label3.Anchor = AnchorStyles.Left;
             label3.AutoSize = true;
-            label3.Location = new Point(23, 127);
+            label3.Location = new Point(23, 136);
             label3.Name = "label3";
-            label3.Size = new Size(154, 45);
+            label3.Size = new Size(94, 28);
             label3.TabIndex = 4;
             label3.Text = "Giá size S";
             // 
             // nudPriceS
             // 
             nudPriceS.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nudPriceS.Location = new Point(203, 127);
+            nudPriceS.Location = new Point(203, 133);
             nudPriceS.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudPriceS.Name = "nudPriceS";
-            nudPriceS.Size = new Size(458, 50);
+            nudPriceS.Size = new Size(458, 34);
             nudPriceS.TabIndex = 5;
             nudPriceS.ThousandsSeparator = true;
             // 
@@ -145,19 +145,19 @@ namespace ECoffee.Presentation.Forms
             // 
             label4.Anchor = AnchorStyles.Left;
             label4.AutoSize = true;
-            label4.Location = new Point(23, 179);
+            label4.Location = new Point(23, 188);
             label4.Name = "label4";
-            label4.Size = new Size(166, 45);
+            label4.Size = new Size(101, 28);
             label4.TabIndex = 6;
             label4.Text = "Giá size M";
             // 
             // nudPriceM
             // 
             nudPriceM.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nudPriceM.Location = new Point(203, 179);
+            nudPriceM.Location = new Point(203, 185);
             nudPriceM.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudPriceM.Name = "nudPriceM";
-            nudPriceM.Size = new Size(458, 50);
+            nudPriceM.Size = new Size(458, 34);
             nudPriceM.TabIndex = 7;
             nudPriceM.ThousandsSeparator = true;
             // 
@@ -165,19 +165,19 @@ namespace ECoffee.Presentation.Forms
             // 
             label5.Anchor = AnchorStyles.Left;
             label5.AutoSize = true;
-            label5.Location = new Point(23, 231);
+            label5.Location = new Point(23, 240);
             label5.Name = "label5";
-            label5.Size = new Size(152, 45);
+            label5.Size = new Size(92, 28);
             label5.TabIndex = 8;
             label5.Text = "Giá size L";
             // 
             // nudPriceL
             // 
             nudPriceL.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nudPriceL.Location = new Point(203, 231);
+            nudPriceL.Location = new Point(203, 237);
             nudPriceL.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudPriceL.Name = "nudPriceL";
-            nudPriceL.Size = new Size(458, 50);
+            nudPriceL.Size = new Size(458, 34);
             nudPriceL.TabIndex = 9;
             nudPriceL.ThousandsSeparator = true;
             // 
@@ -185,38 +185,38 @@ namespace ECoffee.Presentation.Forms
             // 
             label6.Anchor = AnchorStyles.Left;
             label6.AutoSize = true;
-            label6.Location = new Point(23, 280);
+            label6.Location = new Point(23, 292);
             label6.Name = "label6";
-            label6.Size = new Size(157, 52);
+            label6.Size = new Size(165, 28);
             label6.TabIndex = 10;
             label6.Text = "Số lượng tồn kho";
             // 
             // nudQuantity
             // 
             nudQuantity.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nudQuantity.Location = new Point(203, 283);
+            nudQuantity.Location = new Point(203, 289);
             nudQuantity.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudQuantity.Name = "nudQuantity";
-            nudQuantity.Size = new Size(458, 50);
+            nudQuantity.Size = new Size(458, 34);
             nudQuantity.TabIndex = 11;
             // 
             // label7
             // 
             label7.Anchor = AnchorStyles.Left;
             label7.AutoSize = true;
-            label7.Location = new Point(23, 332);
+            label7.Location = new Point(23, 344);
             label7.Name = "label7";
-            label7.Size = new Size(172, 52);
+            label7.Size = new Size(125, 28);
             label7.TabIndex = 12;
             label7.Text = "Mức nhập lại";
             // 
             // nudReorder
             // 
             nudReorder.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nudReorder.Location = new Point(203, 335);
+            nudReorder.Location = new Point(203, 341);
             nudReorder.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudReorder.Name = "nudReorder";
-            nudReorder.Size = new Size(458, 50);
+            nudReorder.Size = new Size(458, 34);
             nudReorder.TabIndex = 13;
             // 
             // chkIsActive
@@ -225,9 +225,9 @@ namespace ECoffee.Presentation.Forms
             chkIsActive.AutoSize = true;
             chkIsActive.Checked = true;
             chkIsActive.CheckState = CheckState.Checked;
-            chkIsActive.Location = new Point(203, 387);
+            chkIsActive.Location = new Point(203, 390);
             chkIsActive.Name = "chkIsActive";
-            chkIsActive.Size = new Size(189, 39);
+            chkIsActive.Size = new Size(119, 32);
             chkIsActive.TabIndex = 14;
             chkIsActive.Text = "Đang bán";
             chkIsActive.UseVisualStyleBackColor = true;
@@ -265,7 +265,7 @@ namespace ECoffee.Presentation.Forms
             // 
             // MenuEditForm
             // 
-            AutoScaleDimensions = new SizeF(18F, 45F);
+            AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(684, 495);
             Controls.Add(tableLayoutPanel1);

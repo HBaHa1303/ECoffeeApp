@@ -22,35 +22,44 @@ namespace ECoffee.Application.Services
             _menuRepository = menuRepository;
         }
 
-        
 
 
-        public long Create(CreateOrderRequest request, long userId, long shiftId)
+
+        public long Create(CreateOrderRequest request, long userId, long shiftId,long preSelectedId)
         {
             var order = new Order
             {
+                Id = preSelectedId,
                 UserId = userId,
                 ShiftId = shiftId,
                 Status = OrderStatus.Submitted,
-                CreatedAt = DateTime.Now // Đảm bảo có ngày tạo
+                PromotionId = null,
+                CreatedAt = DateTime.Now, // Tự động lấy giờ hiện tại
+                UpdatedAt = DateTime.Now,
+                CreatedBy = "System", // Có thể thay bằng tên User nếu muốn
+                UpdatedBy = "System",
+                TotalAmount = 0,
+                Items = new List<OrderItem>()
             };
 
             foreach (var itemReq in request.Items)
             {
                 var price = _menuRepository.GetPrice(itemReq.MenuId, itemReq.Size);
+                order.TotalAmount += price * itemReq.Quantity;
+
                 order.Items.Add(new OrderItem
                 {
                     MenuId = itemReq.MenuId,
                     Quantity = itemReq.Quantity,
                     Size = itemReq.Size,
-                    UnitPrice = price
+                    UnitPrice = price,
+                    Note = itemReq.Note
                 });
             }
 
             _orderRepository.Add(order);
             _orderRepository.SaveChanges();
-
-            return order.Id; // Trả về mã Id vừa được tạo trong DB
+            return order.Id;
         }
 
         public async Task<List<OrderResponse>> FindAllByCreatedAtAsync(DateTime from, DateTime to)
@@ -67,11 +76,12 @@ namespace ECoffee.Application.Services
 
         public long GetNextOrderId()
         {
-            var orders = _orderRepository.GetAll();
-            if (orders == null || !orders.Any()) return 1;
+            //var orders = _orderRepository.GetAll();
+            //if (orders == null || !orders.Any()) return 1;
 
-            // Lấy ID lớn nhất trong bảng Orders
-            return orders.Max(o => o.Id) + 1;
+            //// Lấy ID lớn nhất trong bảng Orders
+            //return orders.Max(o => o.Id) + 1;
+            return _orderRepository.GetNextSequenceValue();
         }
 
 

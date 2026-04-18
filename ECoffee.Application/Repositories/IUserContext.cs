@@ -19,5 +19,6 @@ namespace ECoffee.Application.Repositories
         void Clear();
 
         bool HasRole(string role);
+        long Id { get; set; }
     }
 }

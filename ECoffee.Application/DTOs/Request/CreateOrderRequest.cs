@@ -18,5 +18,6 @@ namespace ECoffee.Application.DTOs.Request
         public long MenuId { get; set; }
         public int Quantity { get; set; }
         public MenuSize Size { get; set; }
+        public string? Note { get; set; }
     }
 }

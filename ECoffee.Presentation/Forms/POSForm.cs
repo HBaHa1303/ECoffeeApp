@@ -2,15 +2,14 @@
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
+using ECoffee.Application.Enums; // Thêm nếu cần cho MenuSize
 using ECoffee.Infrastructure.Repositories;
+using ECoffee.Presentation.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -25,18 +24,88 @@ namespace ECoffee.Presentation.Forms
         private readonly KdsService _kdsService;
         private readonly ShiftService _shiftService;
         private readonly AuthService _authService;
-        public POSForm(IServiceProvider serviceProvider, IMenuRepository menuRepository, OrderService orderService, KdsService kdsService, CategoryService categoryService, ShiftService shiftService, AuthService authService)
+        private readonly UserService _userService;
+
+        private long currentUserId;
+        private long currentShiftId;
+        public POSForm(IServiceProvider serviceProvider,
+            IMenuRepository menuRepository,
+            OrderService orderService,
+            KdsService kdsService,
+            CategoryService categoryService,
+            ShiftService shiftService,
+            AuthService authService,
+            UserService userService)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
             _menuRepository = menuRepository;
             _orderService = orderService;
-
             _kdsService = kdsService;
             _categoryService = categoryService;
             _shiftService = shiftService;
             _authService = authService;
+            _userService = userService;
         }
+
+
+        private async void POSForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Tự động lấy User đầu tiên có trong bảng Users của máy đó
+                var loggedInUserId = _serviceProvider.GetRequiredService<IUserContext>().Id;
+                if (loggedInUserId != 0)
+                {
+                    currentUserId = loggedInUserId;
+                }
+                else
+                {
+                    // Nếu Context chưa có ID, ta mới dùng phương án dự phòng (hoặc báo lỗi)
+                    var allUsers = await _userService.FindAllAsync();
+                    currentUserId = allUsers.First().Id;
+                }
+                // 2. Tự động lấy hoặc tạo Ca làm việc (Shift)
+                // Gọi hàm kiểm tra ca dựa trên giờ hệ thống
+                currentShiftId = _kdsService.GetCurrentShiftId();
+
+                // Load dữ liệu lên giao diện
+                LoadAllProducts();
+                await LoadCategories();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi đồng bộ dữ liệu ban đầu: " + ex.Message);
+            }
+        }
+
+
+        private void LoadAllProducts()
+        {
+            var products = _menuRepository.GetAllProducts();
+            flbItems.Controls.Clear(); // Xóa các món cũ
+
+            foreach (var item in products)
+            {
+
+                var priceInfo = item.Prices?.FirstOrDefault();
+                if (priceInfo != null)
+                {
+                    item.Price = priceInfo.Price;
+                }
+
+                // Tạo UserControl cho từng món
+                ItemBox uc = new ItemBox();
+                uc.labelNameItem.Text = item.Name;
+                uc.labelPrice.Text = item.Price.ToString("N0") + " VNĐ";
+
+                // Gắn sự kiện: Khi nhấn vào món này thì thêm vào Giỏ hàng bên phải
+                uc.OnSelect += (s, ev) => AddToOrder(item);
+
+                flbItems.Controls.Add(uc);
+            }
+        }
+
         private void CategoryButton_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -93,39 +162,9 @@ namespace ECoffee.Presentation.Forms
             shiftForm.ShowDialog(this);
         }
 
-        private async void POSForm_Load(object sender, EventArgs e)
-        {
-            //UpdateNextOrderIdDisplay();
-            LoadAllProducts();
-            // load categories btn
-            await LoadCategories();
-        }
+        
 
-        private void LoadAllProducts()
-        {
-            var products = _menuRepository.GetAllProducts();
-            flbItems.Controls.Clear(); // Xóa các món cũ
-
-            foreach (var item in products)
-            {
-
-                var priceInfo = item.Prices?.FirstOrDefault();
-                if (priceInfo != null)
-                {
-                    item.Price = priceInfo.Price;
-                }
-
-                // Tạo UserControl cho từng món
-                ItemBox uc = new ItemBox();
-                uc.labelNameItem.Text = item.Name;
-                uc.labelPrice.Text = item.Price.ToString("N0") + " VNĐ";
-
-                // Gắn sự kiện: Khi nhấn vào món này thì thêm vào Giỏ hàng bên phải
-                uc.OnSelect += (s, ev) => AddToOrder(item);
-
-                flbItems.Controls.Add(uc);
-            }
-        }
+       
         private void AddToOrder(ECoffee.Application.Models.Menu item)
         {
 
@@ -158,7 +197,8 @@ namespace ECoffee.Presentation.Forms
                 // Nếu chưa có: Tạo dòng mới
                 ucOrderItem newItem = new ucOrderItem();
                 newItem.labelTenMon.Text = item.Name;
-                newItem.UpdateItemTotal(1, item.Price); // Số lượng mặc định là 1
+                newItem.Tag = item.Id; // LƯU ID MÓN ĂN VÀO ĐÂY
+                newItem.UpdateItemTotal(1, item.Price);
                 newItem.OnSelect += (s, ev) => UpdateTotalPrice();
                 flpOrderList.Controls.Add(newItem);
             }
@@ -289,7 +329,13 @@ namespace ECoffee.Presentation.Forms
                 }
 
                 var request = new CreateOrderRequest { Items = orderItems };
-                long orderId = _orderService.Create(request, _shiftService.GetOpenShift()!.UserId, openShift.Id);
+
+                if (!long.TryParse(lbOrderId.Text, out long currentIdOnUI))
+                {
+                    currentIdOnUI = 0;
+                }
+
+                long orderId = _orderService.Create(request, _shiftService.GetOpenShift()!.UserId, openShift.Id,currentIdOnUI);
 
                 MessageBox.Show($"Đặt hàng thành công! Mã đơn: {orderId}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -310,5 +356,7 @@ namespace ECoffee.Presentation.Forms
             _authService.Logout();
             Close();
         }
+
+        
     }
 }

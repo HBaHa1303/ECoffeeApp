@@ -16,14 +16,19 @@ namespace ECoffee.Presentation
         public ItemBox()
         {
             InitializeComponent();
+
+            // Gán cho chính cái UserControl (vùng nền xám)
             this.Click += ItemBox_Click;
 
-            // 2. Gắn sự kiện click cho các thành phần con bên trong
-            // Thay 'labelNameItem' và 'labelPrice' bằng tên thật của bạn ở Design
-            if (labelNameItem != null) labelNameItem.Click += ItemBox_Click;
-            if (labelPrice != null) labelPrice.Click += ItemBox_Click;
+            // Duyệt qua mọi control con (Label, Panel, v.v.) để gán sự kiện
+            foreach (Control c in this.Controls)
+            {
+                c.Click += ItemBox_Click;
+                // Thêm dòng này để người dùng biết là bấm được (hiện hình bàn tay)
+                c.Cursor = Cursors.Hand;
+            }
+            this.Cursor = Cursors.Hand;
         }
-
 
         private void ItemBox_Click(object sender, EventArgs e)
         {

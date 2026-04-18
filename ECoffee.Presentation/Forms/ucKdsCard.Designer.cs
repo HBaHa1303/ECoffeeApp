@@ -42,8 +42,9 @@
             // lblOrderNumber
             // 
             lblOrderNumber.AutoSize = true;
+            lblOrderNumber.Dock = DockStyle.Top;
             lblOrderNumber.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblOrderNumber.Location = new Point(18, 9);
+            lblOrderNumber.Location = new Point(0, 0);
             lblOrderNumber.Name = "lblOrderNumber";
             lblOrderNumber.Size = new Size(133, 23);
             lblOrderNumber.TabIndex = 0;
@@ -51,34 +52,49 @@
             // 
             // flpItems
             // 
-            flpItems.Location = new Point(3, 54);
+            flpItems.AutoSize = true;
+            flpItems.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            flpItems.Dock = DockStyle.Fill;
+            flpItems.FlowDirection = FlowDirection.TopDown;
+            flpItems.Location = new Point(0, 43);
+            flpItems.Margin = new Padding(0);
             flpItems.Name = "flpItems";
-            flpItems.Size = new Size(244, 128);
+            flpItems.Size = new Size(250, 0);
             flpItems.TabIndex = 1;
+            flpItems.WrapContents = false;
             // 
             // panel1
             // 
+            panel1.AutoSize = true;
+            panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            panel1.BackColor = SystemColors.ActiveCaption;
             panel1.Controls.Add(lblNote);
-            panel1.Location = new Point(0, 185);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 43);
+            panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(247, 36);
+            panel1.Size = new Size(250, 20);
             panel1.TabIndex = 2;
             // 
             // lblNote
             // 
             lblNote.AutoSize = true;
-            lblNote.Location = new Point(18, 0);
+            lblNote.BackColor = Color.FromArgb(255, 255, 128);
+            lblNote.Dock = DockStyle.Top;
+            lblNote.Location = new Point(0, 0);
             lblNote.Name = "lblNote";
-            lblNote.Size = new Size(42, 20);
+            lblNote.Size = new Size(0, 20);
             lblNote.TabIndex = 0;
-            lblNote.Text = "Note";
+            lblNote.Visible = false;
             // 
             // panel2
             // 
             panel2.Controls.Add(btnAction);
-            panel2.Location = new Point(18, 239);
+            panel2.Dock = DockStyle.Bottom;
+            panel2.Location = new Point(0, 63);
+            panel2.Margin = new Padding(0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(201, 47);
+            panel2.Size = new Size(250, 60);
             panel2.TabIndex = 3;
             // 
             // btnAction
@@ -86,7 +102,7 @@
             btnAction.Dock = DockStyle.Fill;
             btnAction.Location = new Point(0, 0);
             btnAction.Name = "btnAction";
-            btnAction.Size = new Size(201, 47);
+            btnAction.Size = new Size(250, 60);
             btnAction.TabIndex = 0;
             btnAction.Text = "Hoàn tất";
             btnAction.UseVisualStyleBackColor = true;
@@ -95,7 +111,8 @@
             // lblTimeAgo
             // 
             lblTimeAgo.AutoSize = true;
-            lblTimeAgo.Location = new Point(18, 32);
+            lblTimeAgo.Dock = DockStyle.Top;
+            lblTimeAgo.Location = new Point(0, 23);
             lblTimeAgo.Name = "lblTimeAgo";
             lblTimeAgo.Size = new Size(42, 20);
             lblTimeAgo.TabIndex = 4;
@@ -105,14 +122,19 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = SystemColors.ActiveCaption;
-            Controls.Add(lblTimeAgo);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
             Controls.Add(flpItems);
+            Controls.Add(panel1);
+            Controls.Add(panel2);
+            Controls.Add(lblTimeAgo);
             Controls.Add(lblOrderNumber);
+            Margin = new Padding(5, 10, 5, 10);
+            MaximumSize = new Size(250, 0);
+            MinimumSize = new Size(250, 0);
             Name = "ucKdsCard";
-            Size = new Size(250, 300);
+            Size = new Size(250, 123);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
