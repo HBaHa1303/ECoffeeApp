@@ -38,7 +38,7 @@ namespace ECoffee.Infrastructure.Configurations
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<ShiftEntity>().ToTable("ShiftEntity");
             ConfigureRelationships(modelBuilder);
             ConfigureKeys(modelBuilder);
             ConfigureHiLo(modelBuilder);

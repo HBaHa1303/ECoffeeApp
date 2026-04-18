@@ -33,6 +33,8 @@
             labelTongTienItem = new Label();
             label4 = new Label();
             nmrSoLuong = new NumericUpDown();
+            cboSize = new ComboBox();
+            btnXoa = new Button();
             ((System.ComponentModel.ISupportInitialize)nmrSoLuong).BeginInit();
             SuspendLayout();
             // 
@@ -57,7 +59,7 @@
             // labelTongTienItem
             // 
             labelTongTienItem.AutoSize = true;
-            labelTongTienItem.Location = new Point(180, 41);
+            labelTongTienItem.Location = new Point(180, 27);
             labelTongTienItem.Name = "labelTongTienItem";
             labelTongTienItem.Size = new Size(72, 20);
             labelTongTienItem.TabIndex = 2;
@@ -74,17 +76,38 @@
             // 
             // nmrSoLuong
             // 
-            nmrSoLuong.Location = new Point(129, 39);
+            nmrSoLuong.Location = new Point(115, 27);
             nmrSoLuong.Name = "nmrSoLuong";
-            nmrSoLuong.Size = new Size(45, 27);
+            nmrSoLuong.Size = new Size(59, 27);
             nmrSoLuong.TabIndex = 4;
-            this.nmrSoLuong.ValueChanged += new System.EventHandler(this.nmrSoLuong_ValueChanged);
+            nmrSoLuong.ValueChanged += nmrSoLuong_ValueChanged;
+            // 
+            // cboSize
+            // 
+            cboSize.FormattingEnabled = true;
+            cboSize.Location = new Point(115, 60);
+            cboSize.Name = "cboSize";
+            cboSize.Size = new Size(59, 28);
+            cboSize.TabIndex = 5;
+            cboSize.SelectedIndexChanged += cboSize_SelectedIndexChanged;
+            // 
+            // btnXoa
+            // 
+            btnXoa.Location = new Point(193, 60);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new Size(43, 29);
+            btnXoa.TabIndex = 6;
+            btnXoa.Text = "X";
+            btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
             // 
             // ucOrderItem
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonShadow;
+            Controls.Add(btnXoa);
+            Controls.Add(cboSize);
             Controls.Add(nmrSoLuong);
             Controls.Add(label4);
             Controls.Add(labelTongTienItem);
@@ -103,5 +126,7 @@
         public Label labelGiaMon;
         public Label labelTongTienItem;
         public NumericUpDown nmrSoLuong;
+        private Button btnXoa;
+        public ComboBox cboSize;
     }
 }

@@ -65,8 +65,6 @@
             label13 = new Label();
             label12 = new Label();
             label11 = new Label();
-            btnMangDi = new Button();
-            btnTaiCho = new Button();
             lbOrderId = new Label();
             label10 = new Label();
             panel4 = new Panel();
@@ -367,7 +365,7 @@
             flbItems.BackColor = SystemColors.ButtonHighlight;
             flbItems.Dock = DockStyle.Fill;
             flbItems.Location = new Point(0, 149);
-            flbItems.Margin = new Padding(5, 5, 5, 5);
+            flbItems.Margin = new Padding(5);
             flbItems.Name = "flbItems";
             flbItems.Padding = new Padding(10, 11, 10, 11);
             flbItems.Size = new Size(772, 456);
@@ -425,6 +423,7 @@
             txtTimKiem.PlaceholderText = "Nhập tên món";
             txtTimKiem.Size = new Size(228, 27);
             txtTimKiem.TabIndex = 1;
+            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             // 
             // label1
             // 
@@ -442,8 +441,6 @@
             panel3.Controls.Add(label13);
             panel3.Controls.Add(label12);
             panel3.Controls.Add(label11);
-            panel3.Controls.Add(btnMangDi);
-            panel3.Controls.Add(btnTaiCho);
             panel3.Controls.Add(lbOrderId);
             panel3.Controls.Add(label10);
             panel3.Dock = DockStyle.Top;
@@ -478,24 +475,6 @@
             label11.Size = new Size(66, 20);
             label11.TabIndex = 4;
             label11.Text = "Tên món";
-            // 
-            // btnMangDi
-            // 
-            btnMangDi.Location = new Point(91, 39);
-            btnMangDi.Name = "btnMangDi";
-            btnMangDi.Size = new Size(94, 29);
-            btnMangDi.TabIndex = 3;
-            btnMangDi.Text = "Mang đi";
-            btnMangDi.UseVisualStyleBackColor = true;
-            // 
-            // btnTaiCho
-            // 
-            btnTaiCho.Location = new Point(3, 39);
-            btnTaiCho.Name = "btnTaiCho";
-            btnTaiCho.Size = new Size(94, 29);
-            btnTaiCho.TabIndex = 2;
-            btnTaiCho.Text = "Tại chỗ";
-            btnTaiCho.UseVisualStyleBackColor = true;
             // 
             // lbOrderId
             // 
@@ -715,8 +694,6 @@
         private Label label13;
         private Label label12;
         private Label label11;
-        private Button btnMangDi;
-        private Button btnTaiCho;
         private Label label10;
         private Panel panel4;
         private Label label15;

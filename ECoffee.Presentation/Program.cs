@@ -54,6 +54,7 @@ namespace ECoffee.Presentation
             services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IShiftRepository, ShiftRepository>();
+            
 
             // contexts
             services.AddScoped<IUserContext, UserContext>();

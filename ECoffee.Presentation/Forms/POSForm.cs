@@ -1,10 +1,13 @@
 ﻿using ECoffee.Application.DTOs.Request;
+using ECoffee.Application.Enums; // Thêm nếu cần cho MenuSize
 using ECoffee.Application.Models;
 using ECoffee.Application.Repositories;
 using ECoffee.Application.Services;
-using ECoffee.Application.Enums; // Thêm nếu cần cho MenuSize
+using ECoffee.Infrastructure.Entities;
 using ECoffee.Infrastructure.Repositories;
 using ECoffee.Presentation.Forms;
+using ECoffee.Presentation.Services;
+using ECoffee.Presentation.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,6 +15,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MenuSize = ECoffee.Application.Enums.MenuSize;
 
 namespace ECoffee.Presentation.Forms
 {
@@ -25,7 +29,7 @@ namespace ECoffee.Presentation.Forms
         private readonly ShiftService _shiftService;
         private readonly AuthService _authService;
         private readonly UserService _userService;
-
+        private readonly PaymentModuleService _paymentModuleService;
         private long currentUserId;
         private long currentShiftId;
         public POSForm(IServiceProvider serviceProvider,
@@ -35,7 +39,9 @@ namespace ECoffee.Presentation.Forms
             CategoryService categoryService,
             ShiftService shiftService,
             AuthService authService,
-            UserService userService)
+            UserService userService,
+            PaymentModuleService paymentModuleService
+             )
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
@@ -46,6 +52,7 @@ namespace ECoffee.Presentation.Forms
             _shiftService = shiftService;
             _authService = authService;
             _userService = userService;
+            _paymentModuleService = paymentModuleService;
         }
 
 
@@ -162,48 +169,61 @@ namespace ECoffee.Presentation.Forms
             shiftForm.ShowDialog(this);
         }
 
-        
 
-       
+
+
         private void AddToOrder(ECoffee.Application.Models.Menu item)
         {
 
-            if (flpOrderList.Controls.Count == 0)
-            {
-                UpdateNextOrderIdDisplay(); // Hàm này sẽ lấy (Max ID trong DB + 1)
-            }
+            if (flpOrderList.Controls.Count == 0) UpdateNextOrderIdDisplay();
 
-            // 1. Kiểm tra xem món này đã có trong giỏ hàng (flpCheckOut) chưa
-            ucOrderItem existingItem = null;
+            // 1. Kiểm tra trùng món
             foreach (Control ctrl in flpOrderList.Controls)
             {
                 if (ctrl is ucOrderItem row && row.labelTenMon.Text == item.Name)
                 {
-                    existingItem = row;
-                    break;
+                    row.nmrSoLuong.Value += 1;
+                    // Lấy giá hiện tại đang hiển thị trên label để update tổng dòng
+                    decimal currentPrice = decimal.Parse(row.labelGiaMon.Text.Replace(".", "").Replace(",", ""));
+                    row.UpdateItemTotal((int)row.nmrSoLuong.Value, currentPrice);
+                    UpdateTotalPrice();
+                    return;
                 }
             }
 
-            if (existingItem != null)
-            {
-                // Nếu đã có: Tăng số lượng lên 1
-                //int currentQty = (int)existingItem.nmrSoLuong.Value + 1;
-                existingItem.nmrSoLuong.Value = (decimal)existingItem.nmrSoLuong.Value + 1;
-                existingItem.UpdateItemTotal((int)existingItem.nmrSoLuong.Value, item.Price);
-                //existingItem.UpdateItemTotal(currentQty, item.Price);
-            }
-            else
-            {
-                // Nếu chưa có: Tạo dòng mới
-                ucOrderItem newItem = new ucOrderItem();
-                newItem.labelTenMon.Text = item.Name;
-                newItem.Tag = item.Id; // LƯU ID MÓN ĂN VÀO ĐÂY
-                newItem.UpdateItemTotal(1, item.Price);
-                newItem.OnSelect += (s, ev) => UpdateTotalPrice();
-                flpOrderList.Controls.Add(newItem);
-            }
+            // 2. Tạo món mới
+            ucOrderItem newItem = new ucOrderItem();
+            newItem.labelTenMon.Text = item.Name;
+            newItem.Tag = item.Id;
 
-            // 2. Cuối cùng luôn gọi tính tổng tất cả các món để hiện ở labelTongTien
+            newItem.OnRemoveClicked += (s, ev) => {
+                
+                flpOrderList.Controls.Remove(newItem);
+                
+                UpdateTotalPrice();
+            };
+
+           
+            newItem.OnDataChanged += (s, ev) => {
+               
+                var currentSize = (ECoffee.Application.Models.MenuSize)newItem.cboSize.SelectedItem;
+                decimal newPrice = _menuRepository.GetPrice(item.Id, currentSize);
+
+               
+                newItem.UpdateItemTotal((int)newItem.nmrSoLuong.Value, newPrice);
+                UpdateTotalPrice();
+            };
+
+            // 3. Nạp dữ liệu Size và chọn mặc định
+            newItem.cboSize.DataSource = Enum.GetValues(typeof(ECoffee.Application.Models.MenuSize));
+            var defaultSize = ECoffee.Application.Models.MenuSize.Medium;
+            newItem.cboSize.SelectedItem = defaultSize;
+
+            // 4. Lấy giá Medium ban đầu
+            decimal priceMedium = _menuRepository.GetPrice(item.Id, defaultSize);
+            newItem.UpdateItemTotal(1, priceMedium);
+
+            flpOrderList.Controls.Add(newItem);
             UpdateTotalPrice();
         }
 
@@ -288,7 +308,7 @@ namespace ECoffee.Presentation.Forms
             }
         }
 
-        private void btThanhToan_Click(object sender, EventArgs e)
+        private async void btThanhToan_Click(object sender, EventArgs e)
         {
             try
             {
@@ -304,7 +324,7 @@ namespace ECoffee.Presentation.Forms
                     MessageBox.Show("Chưa có ca làm việc nào được mở. Vui lòng mở ca trước khi thanh toán.", "Chưa mở ca", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
+                string phuongThucThanhToan = "Cash";
                 var orderItems = new List<OrderItemRequest>();
                 foreach (Control ctrl in flpOrderList.Controls)
                 {
@@ -313,31 +333,44 @@ namespace ECoffee.Presentation.Forms
                         string menuName = row.labelTenMon.Text;
                         int quantity = (int)row.nmrSoLuong.Value;
 
+                        // LẤY SIZE TỪ COMBOBOX CỦA DÒNG ĐÓ
+                        MenuSize selectedSize = (MenuSize)row.cboSize.SelectedItem;
+
                         var product = _menuRepository.GetAllProducts().FirstOrDefault(p => p.Name == menuName);
                         if (product == null) continue;
-
-                        var priceInfo = product.Prices?.FirstOrDefault();
-                        if (priceInfo == null) continue;
 
                         orderItems.Add(new OrderItemRequest
                         {
                             MenuId = product.Id,
                             Quantity = quantity,
-                            Size = ECoffee.Application.Models.MenuSize.Medium 
+                            Size = (ECoffee.Application.Models.MenuSize)selectedSize // Gán size thực tế đã chọn
                         });
                     }
                 }
 
                 var request = new CreateOrderRequest { Items = orderItems };
 
-                if (!long.TryParse(lbOrderId.Text, out long currentIdOnUI))
+                //if (!long.TryParse(lbOrderId.Text, out long currentIdOnUI))
+                //{
+                //    currentIdOnUI = 0;
+                //}
+
+                long orderId = _orderService.Create(request, _shiftService.GetOpenShift()!.UserId, openShift.Id);
+
+                var paymentModel = new PaymentCreateViewModel
                 {
-                    currentIdOnUI = 0;
-                }
+                    OrderId = orderId,
+                    Method = PaymentMethod.Cash, // Lấy từ bước chọn loại thanh toán
+                    Amount = decimal.Parse(lbThanhTien.Text.Replace("VND", "").Trim()), // Tổng tiền trên UI
+                    Status = ECoffee.Infrastructure.Entities.PaymentStatus.Paid,
+                    CreatedBy = currentUserId.ToString()// Thay bằng ID nhân viên thực tế
+                };
 
-                long orderId = _orderService.Create(request, _shiftService.GetOpenShift()!.UserId, openShift.Id,currentIdOnUI);
 
-                MessageBox.Show($"Đặt hàng thành công! Mã đơn: {orderId}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                long paymentId = await _paymentModuleService.CreatePaymentAsync(paymentModel);
+
+                MessageBox.Show($"Thanh toán thành công!\nĐơn hàng: {orderId}\n Giao dịch: {paymentId}",
+                                "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 flpOrderList.Controls.Clear();
                 UpdateTotalPrice();
@@ -357,6 +390,48 @@ namespace ECoffee.Presentation.Forms
             Close();
         }
 
-        
+        private void txtTimKiem_TextChanged(object sender, EventArgs e)
+        {
+            // Lấy nội dung chữ đang gõ
+            string keyword = txtTimKiem.Text.Trim();
+
+            // Gọi hàm lọc món ăn
+            SearchProducts(keyword);
+        }
+
+
+        private void SearchProducts(string keyword)
+        {
+            // 1. Lấy tất cả sản phẩm từ Repository
+            var allProducts = _menuRepository.GetAllProducts();
+
+            // 2. Lọc sản phẩm theo tên (không phân biệt hoa thường)
+            var filteredProducts = allProducts
+                .Where(p => string.IsNullOrEmpty(keyword) ||
+                            p.Name.ToLower().Contains(keyword.ToLower()))
+                .ToList();
+
+            // 3. Xóa các món cũ trên giao diện
+            flbItems.Controls.Clear();
+
+            // 4. Nạp lại các món đã lọc
+            foreach (var item in filteredProducts)
+            {
+                // Xử lý giá tiền (giống như hàm LoadAllProducts bạn đã viết)
+                var priceInfo = item.Prices?.FirstOrDefault();
+                if (priceInfo != null) item.Price = priceInfo.Price;
+
+                ItemBox uc = new ItemBox();
+                uc.labelNameItem.Text = item.Name;
+                uc.labelPrice.Text = item.Price.ToString("N0") + " VNĐ";
+
+                // Gắn lại sự kiện chọn món
+                uc.OnSelect += (s, ev) => AddToOrder(item);
+
+                flbItems.Controls.Add(uc);
+            }
+        }
+
+
     }
 }

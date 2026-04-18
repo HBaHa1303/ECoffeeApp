@@ -198,7 +198,7 @@ namespace ECoffee.Presentation.Forms
             cboMethod.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             cboMethod.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMethod.FormattingEnabled = true;
-            cboMethod.Location = new Point(148, 70);
+            cboMethod.Location = new Point(148, 68);
             cboMethod.Name = "cboMethod";
             cboMethod.Size = new Size(263, 36);
             cboMethod.TabIndex = 3;

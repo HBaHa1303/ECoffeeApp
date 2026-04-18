@@ -12,6 +12,10 @@ namespace ECoffee.Presentation.Forms
 {
     public partial class ucOrderItem : UserControl
     {
+        public event EventHandler OnDataChanged; // Báo khi đổi Size hoặc Số lượng
+        public event EventHandler OnRemoveClicked;
+
+
         public event EventHandler? OnSelect;
         public ucOrderItem()
         {
@@ -42,7 +46,26 @@ namespace ECoffee.Presentation.Forms
 
             // 3. Gọi Form chính tính lại tổng cộng
             // OnSelect là event bạn đã tạo ở các bước trước
-            OnSelect?.Invoke(this, e);
+            OnDataChanged?.Invoke(this, e);
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            OnRemoveClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void cboSize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          
+            OnDataChanged?.Invoke(this, EventArgs.Empty);
+
+            
+            decimal price = 0;
+            string priceText = labelGiaMon.Text.Replace(".", "").Replace(",", "");
+            decimal.TryParse(priceText, out price);
+
+            decimal totalRow = nmrSoLuong.Value * price;
+            labelTongTienItem.Text = totalRow.ToString("N0");
         }
     }
 }

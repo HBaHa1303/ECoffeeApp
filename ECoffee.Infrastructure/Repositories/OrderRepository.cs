@@ -49,6 +49,8 @@ namespace ECoffee.Infrastructure.Repositories
             };
 
             _db.Orders.Add(entity);
+            _db.SaveChanges();
+            order.Id = entity.Id;
         }
 
         public void SaveChanges()

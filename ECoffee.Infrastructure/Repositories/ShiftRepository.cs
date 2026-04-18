@@ -124,6 +124,19 @@ namespace ECoffee.Infrastructure.Repositories
             _db.SaveChanges();
         }
 
-        
+        public void Add(Shift shift)
+        {
+
+            var entity = new ShiftEntity
+            {
+                UserId = shift.UserId,
+                StartTime = shift.StartTime,
+                EndTime = shift.EndTime,
+                OpeningCash = shift.OpeningCash,
+                ClosingCash = shift.ClosingCash,
+                Status = (ShiftStatus)shift.Status // Ép kiểu về Enum của Entity
+            };
+            _db.Shifts.Add(entity);
+        }
     }
 }

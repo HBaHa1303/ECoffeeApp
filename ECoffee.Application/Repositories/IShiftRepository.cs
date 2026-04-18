@@ -16,7 +16,7 @@ namespace ECoffee.Application.Repositories
         bool HasOpenShift();
         IEnumerable<Shift> GetAll();
         Shift GetById(long id);
-        //void Add(Shift shift);
+        void Add(Shift shift);
         void SaveChanges();
     }
 }

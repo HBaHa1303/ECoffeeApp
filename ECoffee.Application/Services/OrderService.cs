@@ -25,11 +25,11 @@ namespace ECoffee.Application.Services
 
 
 
-        public long Create(CreateOrderRequest request, long userId, long shiftId,long preSelectedId)
+        public long Create(CreateOrderRequest request, long userId, long shiftId)
         {
             var order = new Order
             {
-                Id = preSelectedId,
+                //Id = preSelectedId,
                 UserId = userId,
                 ShiftId = shiftId,
                 Status = OrderStatus.Submitted,
