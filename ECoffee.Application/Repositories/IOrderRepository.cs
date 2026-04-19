@@ -28,5 +28,6 @@ namespace ECoffee.Application.Repositories
         List<OrderResponse> FindAllByCreatedAtAsync(DateTime from, DateTime to);
         List<OrderItemResponse> FindAllOrderItemById(long orderId);
         long GetNextSequenceValue();
+        long GetLastOrderId();
     }
 }

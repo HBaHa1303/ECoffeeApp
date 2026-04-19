@@ -30,8 +30,10 @@ namespace ECoffee.Presentation.Forms
         private readonly AuthService _authService;
         private readonly UserService _userService;
         private readonly PaymentModuleService _paymentModuleService;
+        private readonly PromotionService _promotionService;
         private long currentUserId;
         private long currentShiftId;
+        private long currentPendingOrderId;
         public POSForm(IServiceProvider serviceProvider,
             IMenuRepository menuRepository,
             OrderService orderService,
@@ -40,7 +42,7 @@ namespace ECoffee.Presentation.Forms
             ShiftService shiftService,
             AuthService authService,
             UserService userService,
-            PaymentModuleService paymentModuleService
+            PaymentModuleService paymentModuleService, PromotionService promotionService
              )
         {
             InitializeComponent();
@@ -53,6 +55,7 @@ namespace ECoffee.Presentation.Forms
             _authService = authService;
             _userService = userService;
             _paymentModuleService = paymentModuleService;
+            _promotionService = promotionService;
         }
 
 
@@ -76,14 +79,25 @@ namespace ECoffee.Presentation.Forms
                 // Gọi hàm kiểm tra ca dựa trên giờ hệ thống
                 currentShiftId = _kdsService.GetCurrentShiftId();
 
+
+                cboTypeOrder.Items.Clear();
+                cboTypeOrder.Items.Add("Cash");
+                cboTypeOrder.Items.Add("Card");
+                cboTypeOrder.SelectedIndex = 0;
+
+
+                //currentPendingOrderId = _orderService.GetNextOrderId();
+                lbOrderId.Text = "NEW";
                 // Load dữ liệu lên giao diện
                 LoadAllProducts();
                 await LoadCategories();
+                await LoadPromotions();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi đồng bộ dữ liệu ban đầu: " + ex.Message);
             }
+
         }
 
 
@@ -175,15 +189,14 @@ namespace ECoffee.Presentation.Forms
         private void AddToOrder(ECoffee.Application.Models.Menu item)
         {
 
-            if (flpOrderList.Controls.Count == 0) UpdateNextOrderIdDisplay();
+            lbOrderId.Text = "NEW";
 
-            // 1. Kiểm tra trùng món
+            // 1. Kiểm tra trùng món (Giữ nguyên)
             foreach (Control ctrl in flpOrderList.Controls)
             {
                 if (ctrl is ucOrderItem row && row.labelTenMon.Text == item.Name)
                 {
                     row.nmrSoLuong.Value += 1;
-                    // Lấy giá hiện tại đang hiển thị trên label để update tổng dòng
                     decimal currentPrice = decimal.Parse(row.labelGiaMon.Text.Replace(".", "").Replace(",", ""));
                     row.UpdateItemTotal((int)row.nmrSoLuong.Value, currentPrice);
                     UpdateTotalPrice();
@@ -196,33 +209,36 @@ namespace ECoffee.Presentation.Forms
             newItem.labelTenMon.Text = item.Name;
             newItem.Tag = item.Id;
 
-            newItem.OnRemoveClicked += (s, ev) => {
-                
-                flpOrderList.Controls.Remove(newItem);
-                
-                UpdateTotalPrice();
-            };
-
-           
-            newItem.OnDataChanged += (s, ev) => {
-               
-                var currentSize = (ECoffee.Application.Models.MenuSize)newItem.cboSize.SelectedItem;
-                decimal newPrice = _menuRepository.GetPrice(item.Id, currentSize);
-
-               
-                newItem.UpdateItemTotal((int)newItem.nmrSoLuong.Value, newPrice);
-                UpdateTotalPrice();
-            };
-
-            // 3. Nạp dữ liệu Size và chọn mặc định
+            // 3. Nạp dữ liệu vào ComboBox TRƯỚC
             newItem.cboSize.DataSource = Enum.GetValues(typeof(ECoffee.Application.Models.MenuSize));
             var defaultSize = ECoffee.Application.Models.MenuSize.Medium;
             newItem.cboSize.SelectedItem = defaultSize;
 
-            // 4. Lấy giá Medium ban đầu
+            // 4. Đăng ký sự kiện thay đổi Size/Số lượng (Sau khi đã có Data)
+            newItem.OnDataChanged += (s, ev) =>
+            {
+                if (newItem.cboSize.SelectedItem != null)
+                {
+                    // Ép kiểu an toàn bằng Enum.Parse
+                    var currentSize = (ECoffee.Application.Models.MenuSize)Enum.Parse(typeof(ECoffee.Application.Models.MenuSize), newItem.cboSize.SelectedItem.ToString());
+                    decimal newPrice = _menuRepository.GetPrice(item.Id, currentSize);
+                    newItem.UpdateItemTotal((int)newItem.nmrSoLuong.Value, newPrice);
+                    UpdateTotalPrice();
+                }
+            };
+
+            // 5. Sự kiện xóa món
+            newItem.OnRemoveClicked += (s, ev) =>
+            {
+                flpOrderList.Controls.Remove(newItem);
+                UpdateTotalPrice();
+            };
+
+            // 6. Tính giá mặc định ban đầu cho món mới
             decimal priceMedium = _menuRepository.GetPrice(item.Id, defaultSize);
             newItem.UpdateItemTotal(1, priceMedium);
 
+            // 7. Thêm vào danh sách hiển thị
             flpOrderList.Controls.Add(newItem);
             UpdateTotalPrice();
         }
@@ -236,11 +252,7 @@ namespace ECoffee.Presentation.Forms
             {
                 if (ctrl is ucOrderItem row)
                 {
-                    // Lấy giá trị từ labelThanhTien của từng dòng
-                    //if (decimal.TryParse(row.labelTongTienItem.Text.Replace(".", "").Replace(",", ""), out decimal rowSum))
-                    //{
-                    //    grandTotal += rowSum;
-                    //}
+                    
                     string cleanAmount = row.labelTongTienItem.Text.Replace("VND", "").Replace(".", "").Replace(",", "").Trim();
                     if (decimal.TryParse(cleanAmount, out decimal rowSum))
                     {
@@ -249,6 +261,31 @@ namespace ECoffee.Presentation.Forms
                 }
             }
 
+            if (cboPromotion.SelectedItem is PromotionResponse selectedPromo)
+            {
+                decimal discount = 0;
+
+                // Xử lý theo từng loại PromotionType (Dựa trên PromotionResponse của bạn)
+                switch (selectedPromo.Type)
+                {
+                    case PromotionType.FixedAmount:
+                        // Sử dụng .GetValueOrDefault() để tránh lỗi null sang decimal
+                        discount = selectedPromo.DiscountAmount.GetValueOrDefault();
+                        break;
+
+                    case PromotionType.Percent:
+                        decimal percent = selectedPromo.DiscountPercent.GetValueOrDefault();
+                        discount = grandTotal * (percent / 100);
+                        break;
+
+                        // Bạn có thể thêm xử lý cho BuyXGetYFree ở đây nếu cần
+                }
+                discount = Math.Round(discount, 0);
+                grandTotal -= discount;
+            }
+
+            // Đảm bảo tổng tiền không bị âm
+            if (grandTotal < 0) grandTotal = 0;
             // Hiển thị con số cuối cùng (ví dụ 70.000) lên Form chính
             lbThanhTien.Text = grandTotal.ToString("N0") + " VND";
         }
@@ -312,72 +349,98 @@ namespace ECoffee.Presentation.Forms
         {
             try
             {
+                // 1. Kiểm tra giỏ hàng
                 if (flpOrderList.Controls.Count == 0)
                 {
-                    MessageBox.Show("Vui lòng thêm món vào đơn hàng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Vui lòng thêm món!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+                // 2. Kiểm tra ca làm việc
                 var openShift = _shiftService.GetOpenShift();
                 if (openShift == null)
                 {
-                    MessageBox.Show("Chưa có ca làm việc nào được mở. Vui lòng mở ca trước khi thanh toán.", "Chưa mở ca", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Chưa mở ca làm việc!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                string phuongThucThanhToan = "Cash";
-                var orderItems = new List<OrderItemRequest>();
+
+                // 3. Lấy phương thức thanh toán từ ComboBox bạn đã nạp ở Load
+                string paymentMethodStr = cboTypeOrder.SelectedItem?.ToString() ?? "Cash";
+
+                // 4. Tạo Request và GÁN TRẠNG THÁI PAID (3)
+                long? selectedPromoId = null;
+                if (cboPromotion.SelectedValue != null && cboPromotion.SelectedIndex != -1)
+                {
+                    selectedPromoId = Convert.ToInt64(cboPromotion.SelectedValue);
+                }
+
+                var request = new CreateOrderRequest
+                {
+                    Items = new List<OrderItemRequest>(),
+                    Status = OrderStatus.Paid, // Đơn hàng sẽ có Status = 3 ngay khi tạo
+                    Id = currentPendingOrderId,
+                    //Note = txtNote.Text
+                    PromotionId = selectedPromoId
+
+                };
+                string generalNote = txtNote.Text.Trim();
+                
                 foreach (Control ctrl in flpOrderList.Controls)
                 {
                     if (ctrl is ucOrderItem row)
                     {
-                        string menuName = row.labelTenMon.Text;
-                        int quantity = (int)row.nmrSoLuong.Value;
-
-                        // LẤY SIZE TỪ COMBOBOX CỦA DÒNG ĐÓ
-                        MenuSize selectedSize = (MenuSize)row.cboSize.SelectedItem;
-
+                        var menuName = row.labelTenMon.Text;
                         var product = _menuRepository.GetAllProducts().FirstOrDefault(p => p.Name == menuName);
                         if (product == null) continue;
 
-                        orderItems.Add(new OrderItemRequest
+                        var itemRequest = new OrderItemRequest
                         {
                             MenuId = product.Id,
-                            Quantity = quantity,
-                            Size = (ECoffee.Application.Models.MenuSize)selectedSize // Gán size thực tế đã chọn
-                        });
+                            Quantity = (int)row.nmrSoLuong.Value,
+                            // Ép kiểu tường minh để tránh lỗi Ambiguous
+                            Size = (ECoffee.Application.Models.MenuSize)row.cboSize.SelectedItem,
+                            Note = generalNote
+                        };
+                        
+
+                        request.Items.Add(itemRequest);
                     }
                 }
 
-                var request = new CreateOrderRequest { Items = orderItems };
+                // 5. Lưu vào Database
+                long orderId = _orderService.Create(request, currentUserId, openShift.Id);
+                decimal finalAmount = 0;
+                string rawAmount = lbThanhTien.Text.ToUpper().Replace("VND", "").Replace(".", "").Replace(",", "").Trim();
+                decimal.TryParse(rawAmount, out finalAmount);
 
-                //if (!long.TryParse(lbOrderId.Text, out long currentIdOnUI))
-                //{
-                //    currentIdOnUI = 0;
-                //}
-
-                long orderId = _orderService.Create(request, _shiftService.GetOpenShift()!.UserId, openShift.Id);
-
+               
+                // 6. Tạo thông tin thanh toán (Payment)
                 var paymentModel = new PaymentCreateViewModel
                 {
                     OrderId = orderId,
-                    Method = PaymentMethod.Cash, // Lấy từ bước chọn loại thanh toán
-                    Amount = decimal.Parse(lbThanhTien.Text.Replace("VND", "").Trim()), // Tổng tiền trên UI
+                    Method = paymentMethodStr == "Card" ? PaymentMethod.Card : PaymentMethod.Cash,
+                    Amount = finalAmount,
                     Status = ECoffee.Infrastructure.Entities.PaymentStatus.Paid,
-                    CreatedBy = currentUserId.ToString()// Thay bằng ID nhân viên thực tế
+                    CreatedBy = currentUserId.ToString()
                 };
 
+                await _paymentModuleService.CreatePaymentAsync(paymentModel);
+                lbOrderId.Text = $"{orderId}";
+                MessageBox.Show($"Thanh toán thành công!\nĐơn hàng: {orderId}\nPhương thức: {paymentMethodStr}",
+                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                long paymentId = await _paymentModuleService.CreatePaymentAsync(paymentModel);
-
-                MessageBox.Show($"Thanh toán thành công!\nĐơn hàng: {orderId}\n Giao dịch: {paymentId}",
-                                "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                // 7. Làm sạch giao diện
                 flpOrderList.Controls.Clear();
+                cboPromotion.SelectedIndex = -1; // Reset lại khuyến mãi về trống
+                txtNote.Clear(); // Xóa ghi chú cũ
                 UpdateTotalPrice();
+
+                //currentPendingOrderId = _orderService.GetNextOrderId();
+                lbOrderId.Text = paymentModel.OrderId.ToString();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Có lỗi xảy ra", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi thanh toán: " + ex.Message);
             }
         }
 
@@ -432,6 +495,33 @@ namespace ECoffee.Presentation.Forms
             }
         }
 
+        private async Task LoadPromotions()
+        {
+            try
+            {
+                // Truyền chuỗi rỗng "" để Service lấy tất cả các mã đang hoạt động
+                var promos = await _promotionService.FindAllActiveAsync("");
 
+                // Dòng này để bạn tự kiểm tra xem đã lấy được dữ liệu chưa
+                //MessageBox.Show($"mã giảm giá promo.count ={promos.Count}");
+
+                cboPromotion.DataSource = promos;
+                cboPromotion.DisplayMember = "Name";
+                cboPromotion.ValueMember = "Id";
+
+                // Để ô chọn trống ban đầu, khách muốn dùng thì mới chọn
+                cboPromotion.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                // Tránh việc lỗi load mã làm treo cả ứng dụng
+                MessageBox.Show("Lỗi thực sự là: " + ex.Message);
+            }
+        }
+
+        private void cboPromotion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateTotalPrice();
+        }
     }
 }

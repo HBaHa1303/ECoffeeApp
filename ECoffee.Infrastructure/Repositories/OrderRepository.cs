@@ -30,7 +30,8 @@ namespace ECoffee.Infrastructure.Repositories
                 UserId = order.UserId,
                 ShiftId = order.ShiftId,
                 Status = order.Status,
-                TotalAmount = order.CalculateTotal(),
+                PromotionId = order.PromotionId,
+                TotalAmount = order.TotalAmount,
                 CreatedAt = now,
                 UpdatedAt = now,
                 CreatedBy = "system",
@@ -40,7 +41,8 @@ namespace ECoffee.Infrastructure.Repositories
                     MenuId = item.MenuId,
                     Quantity = item.Quantity,
                     UnitPrice = item.UnitPrice,
-                    Size = item.Size,
+                    Size = (ECoffee.Application.Models.MenuSize)item.Size,
+                    Note = item.Note ?? "",
                     CreatedAt = now,
                     UpdatedAt = now,
                     CreatedBy = "system",
@@ -233,6 +235,29 @@ namespace ECoffee.Infrastructure.Repositories
                 if (connection.State != ConnectionState.Open) connection.Open();
                 return (long)command.ExecuteScalar();
             }
+        }
+
+        // Thêm vào file OrderRepository.cs (ECoffee.Infrastructure.Repositories)
+        public long GetLastOrderId()
+        {
+            long lastId = 0;
+
+            using (var command = _db.Database.GetDbConnection().CreateCommand())
+            {
+                // Chỉ lấy số lớn nhất hiện tại, không thêm thắt gì cả
+                command.CommandText = "SELECT MAX(Id) FROM Orders";
+                _db.Database.OpenConnection();
+
+                var result = command.ExecuteScalar();
+
+                if (result != DBNull.Value && result != null)
+                {
+                    // Lấy đúng số đang có trong DB (ví dụ 1881)
+                    lastId = Convert.ToInt64(result);
+                }
+            }
+
+            return lastId;
         }
     }
 

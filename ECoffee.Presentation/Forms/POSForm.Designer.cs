@@ -68,6 +68,10 @@
             lbOrderId = new Label();
             label10 = new Label();
             panel4 = new Panel();
+            label17 = new Label();
+            label16 = new Label();
+            cboPromotion = new ComboBox();
+            cboTypeOrder = new ComboBox();
             btThanhToan = new Button();
             lbThanhTien = new Label();
             lbThue = new Label();
@@ -499,22 +503,61 @@
             // 
             // panel4
             // 
+            panel4.Controls.Add(label17);
+            panel4.Controls.Add(label16);
+            panel4.Controls.Add(cboPromotion);
+            panel4.Controls.Add(cboTypeOrder);
             panel4.Controls.Add(btThanhToan);
             panel4.Controls.Add(lbThanhTien);
             panel4.Controls.Add(lbThue);
             panel4.Controls.Add(label15);
             panel4.Controls.Add(label14);
             panel4.Dock = DockStyle.Bottom;
-            panel4.Location = new Point(0, 480);
+            panel4.Location = new Point(0, 425);
             panel4.Name = "panel4";
-            panel4.Size = new Size(250, 125);
+            panel4.Size = new Size(250, 180);
             panel4.TabIndex = 1;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(17, 108);
+            label17.Name = "label17";
+            label17.Size = new Size(109, 20);
+            label17.TabIndex = 8;
+            label17.Text = "Mã khuyến mãi";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(17, 74);
+            label16.Name = "label16";
+            label16.Size = new Size(112, 20);
+            label16.TabIndex = 7;
+            label16.Text = "Loại thanh toán";
+            // 
+            // cboPromotion
+            // 
+            cboPromotion.FormattingEnabled = true;
+            cboPromotion.Location = new Point(139, 105);
+            cboPromotion.Name = "cboPromotion";
+            cboPromotion.Size = new Size(87, 28);
+            cboPromotion.TabIndex = 6;
+            cboPromotion.SelectedIndexChanged += cboPromotion_SelectedIndexChanged;
+            // 
+            // cboTypeOrder
+            // 
+            cboTypeOrder.FormattingEnabled = true;
+            cboTypeOrder.Location = new Point(139, 71);
+            cboTypeOrder.Name = "cboTypeOrder";
+            cboTypeOrder.Size = new Size(87, 28);
+            cboTypeOrder.TabIndex = 5;
             // 
             // btThanhToan
             // 
-            btThanhToan.Location = new Point(72, 85);
+            btThanhToan.Location = new Point(35, 139);
             btThanhToan.Name = "btThanhToan";
-            btThanhToan.Size = new Size(94, 29);
+            btThanhToan.Size = new Size(191, 29);
             btThanhToan.TabIndex = 4;
             btThanhToan.Text = "Thanh Toán";
             btThanhToan.UseVisualStyleBackColor = true;
@@ -523,7 +566,7 @@
             // lbThanhTien
             // 
             lbThanhTien.AutoSize = true;
-            lbThanhTien.Location = new Point(169, 61);
+            lbThanhTien.Location = new Point(174, 37);
             lbThanhTien.Name = "lbThanhTien";
             lbThanhTien.Size = new Size(17, 20);
             lbThanhTien.TabIndex = 3;
@@ -532,7 +575,7 @@
             // lbThue
             // 
             lbThue.AutoSize = true;
-            lbThue.Location = new Point(169, 17);
+            lbThue.Location = new Point(174, 17);
             lbThue.Name = "lbThue";
             lbThue.Size = new Size(17, 20);
             lbThue.TabIndex = 2;
@@ -541,7 +584,7 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(19, 61);
+            label15.Location = new Point(17, 37);
             label15.Name = "label15";
             label15.Size = new Size(81, 20);
             label15.TabIndex = 1;
@@ -550,7 +593,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(19, 17);
+            label14.Location = new Point(17, 17);
             label14.Name = "label14";
             label14.Size = new Size(44, 20);
             label14.TabIndex = 0;
@@ -563,7 +606,7 @@
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(0, 125);
             panel5.Name = "panel5";
-            panel5.Size = new Size(250, 355);
+            panel5.Size = new Size(250, 300);
             panel5.TabIndex = 2;
             // 
             // flpOrderList
@@ -572,14 +615,14 @@
             flpOrderList.Dock = DockStyle.Fill;
             flpOrderList.Location = new Point(0, 0);
             flpOrderList.Name = "flpOrderList";
-            flpOrderList.Size = new Size(250, 323);
+            flpOrderList.Size = new Size(250, 268);
             flpOrderList.TabIndex = 1;
             // 
             // pnlNote
             // 
             pnlNote.Controls.Add(txtNote);
             pnlNote.Dock = DockStyle.Bottom;
-            pnlNote.Location = new Point(0, 323);
+            pnlNote.Location = new Point(0, 268);
             pnlNote.Name = "pnlNote";
             pnlNote.Size = new Size(250, 32);
             pnlNote.TabIndex = 0;
@@ -709,5 +752,9 @@
         public Label lbOrderId;
         private Label lblSystemDateTime;
         private System.Windows.Forms.Timer tmrClock;
+        private ComboBox cboTypeOrder;
+        private ComboBox cboPromotion;
+        private Label label17;
+        private Label label16;
     }
 }

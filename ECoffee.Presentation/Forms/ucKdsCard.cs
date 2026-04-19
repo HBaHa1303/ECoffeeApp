@@ -26,6 +26,7 @@ namespace ECoffee.Presentation.Forms
 
             // 2. Nạp danh sách món ăn (Chỉ hiện Tên, Số lượng và Size)
             flpItems.Controls.Clear();
+            string allItemNotes = "";
             foreach (var item in data.Items)
             {
                 string itemText = $"{item.ProductName} x{item.Quantity}";
@@ -36,6 +37,11 @@ namespace ECoffee.Presentation.Forms
                     itemText += $"\n- Size: {item.SizeName}";
                 }
 
+                if (!string.IsNullOrEmpty(item.Note))
+                {
+                    // Gom ghi chú lại để hiện ở bảng tổng phía dưới
+                    allItemNotes += $"{item.Note}; ";
+                }
                 // --- ĐÃ BỎ ĐOẠN HIỆN NOTE RIÊNG Ở ĐÂY ---
 
                 Label lblItem = new Label
@@ -50,14 +56,16 @@ namespace ECoffee.Presentation.Forms
             }
 
             // 3. Xử lý Ghi chú tổng của đơn hàng (Cái bảng màu vàng bạn muốn giữ)
-            var orderNote = data.Items.FirstOrDefault(x => !string.IsNullOrEmpty(x.Note))?.Note;
+            var finalNote = !string.IsNullOrEmpty(allItemNotes) ? allItemNotes.TrimEnd(' ', ';') : data.OrderNote;
 
-            if (!string.IsNullOrEmpty(orderNote))
+            if (!string.IsNullOrEmpty(finalNote))
             {
-                lblNote.Text = $"* Ghi chú: {orderNote}";
+                lblNote.Text = $"* Ghi chú: {finalNote}";
                 lblNote.Visible = true;
                 panel1.Visible = true;
-                panel1.Height = lblNote.Height + 10;
+                // Để label tự giãn độ cao theo chữ
+                lblNote.AutoSize = true;
+                panel1.Height = lblNote.Height + 15;
             }
             else
             {
@@ -66,14 +74,7 @@ namespace ECoffee.Presentation.Forms
             }
 
             // 4. Cập nhật lại giao diện
-            this.AutoSize = false;
-            this.AutoSize = true;
-            this.PerformLayout();
-
-            if (this.Height < this.PreferredSize.Height)
-            {
-                this.Height = this.PreferredSize.Height;
-            }
+            this.Refresh();
         }
         private void btnAction_Click(object sender, EventArgs e)
         {

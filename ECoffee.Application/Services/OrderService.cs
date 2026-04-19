@@ -15,11 +15,13 @@ namespace ECoffee.Application.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMenuRepository _menuRepository;
+        private readonly IPromotionRepository _promotionRepository;
 
-        public OrderService(IOrderRepository orderRepository, IMenuRepository menuRepository)
+        public OrderService(IOrderRepository orderRepository, IMenuRepository menuRepository, IPromotionRepository promotionRepository)
         {
             _orderRepository = orderRepository;
             _menuRepository = menuRepository;
+            _promotionRepository = promotionRepository;
         }
 
 
@@ -32,21 +34,22 @@ namespace ECoffee.Application.Services
                 //Id = preSelectedId,
                 UserId = userId,
                 ShiftId = shiftId,
-                Status = OrderStatus.Submitted,
-                PromotionId = null,
+                Status = OrderStatus.Paid,
+                PromotionId = request.PromotionId,
                 CreatedAt = DateTime.Now, // Tự động lấy giờ hiện tại
                 UpdatedAt = DateTime.Now,
                 CreatedBy = "System", // Có thể thay bằng tên User nếu muốn
                 UpdatedBy = "System",
-                TotalAmount = 0,
+                //TotalAmount = 0,
                 Items = new List<OrderItem>()
             };
+            decimal finalAmount = 0;
 
+            // 2. Tính tiền gốc từ Items
             foreach (var itemReq in request.Items)
             {
                 var price = _menuRepository.GetPrice(itemReq.MenuId, itemReq.Size);
-                order.TotalAmount += price * itemReq.Quantity;
-
+                finalAmount += price * itemReq.Quantity;
                 order.Items.Add(new OrderItem
                 {
                     MenuId = itemReq.MenuId,
@@ -57,6 +60,29 @@ namespace ECoffee.Application.Services
                 });
             }
 
+            if (request.PromotionId.HasValue && request.PromotionId > 0)
+            {
+                // Sử dụng hàm FindById bạn đã viết trong Repository
+                var promo = _promotionRepository.FindById(request.PromotionId.Value);
+
+                if (promo != null)
+                {
+                    // Gán lại lần nữa cho chắc chắn object order nhận PromotionId
+                    order.PromotionId = promo.Id;
+
+                    if (promo.Type == 0) // Giảm theo %
+                    {
+                        decimal percent = promo.DiscountPercent ?? 0;
+                        finalAmount -= (finalAmount * (percent / 100));
+                    }
+                    else // Giảm theo số tiền cụ thể
+                    {
+                        decimal amount = promo.DiscountAmount ?? 0;
+                        finalAmount -= amount;
+                    }
+                }
+            }
+            order.TotalAmount = finalAmount > 0 ? finalAmount : 0;
             _orderRepository.Add(order);
             _orderRepository.SaveChanges();
             return order.Id;
@@ -90,10 +116,16 @@ namespace ECoffee.Application.Services
             var order = _orderRepository.GetById(orderId);
             if (order != null)
             {
-                order.Status = OrderStatus.Submitted;
+                order.Status = OrderStatus.Paid;
                 _orderRepository.Update(order);
                 _orderRepository.SaveChanges();
             }
+        }
+        
+        public long GetLastOrderId()
+        {
+            // Lấy ID cao nhất hiện tại, nếu không có trả về 0
+            return _orderRepository.GetLastOrderId();
         }
     }
 }
