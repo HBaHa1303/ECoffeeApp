@@ -1,9 +1,13 @@
-using ECoffee.Application.DTOs.Response;
+﻿using ECoffee.Application.DTOs.Response;
 using ECoffee.Application.Enums;
+using ECoffee.Application.Models; // Dùng cho class Shift (DTO/Model)
 using ECoffee.Application.Repositories;
 using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECoffee.Infrastructure.Repositories
 {
@@ -15,6 +19,8 @@ namespace ECoffee.Infrastructure.Repositories
         {
             _db = db;
         }
+
+        // --- NHÓM LOGIC NGHIỆP VỤ (Từ file 1) ---
 
         public ShiftResponse? GetOpenShift()
         {
@@ -34,6 +40,7 @@ namespace ECoffee.Infrastructure.Repositories
                 EndTime = entity.EndTime,
                 OpeningCash = entity.OpeningCash,
                 ClosingCash = entity.ClosingCash,
+                // TotalRevenue được tính từ tổng các đơn hàng trong ca
                 TotalRevenue = entity.Orders.Sum(o => o.TotalAmount),
                 Status = entity.Status
             };
@@ -77,6 +84,59 @@ namespace ECoffee.Infrastructure.Repositories
         public bool HasOpenShift()
         {
             return _db.Shifts.Any(s => s.Status == ShiftStatus.Open);
+        }
+
+        // --- NHÓM LOGIC TRUY XUẤT (Từ file 2) ---
+
+        public IEnumerable<Shift> GetAll()
+        {
+            return _db.Shifts.Select(e => new Shift
+            {
+                Id = e.Id,
+                UserId = e.UserId,
+                StartTime = e.StartTime,
+                EndTime = e.EndTime,
+                OpeningCash = e.OpeningCash,
+                ClosingCash = e.ClosingCash,
+                Status = (int)e.Status
+            }).ToList();
+        }
+
+        public Shift GetById(long id)
+        {
+            var e = _db.Shifts.Find(id);
+            if (e == null) return null;
+
+            return new Shift
+            {
+                Id = e.Id,
+                UserId = e.UserId,
+                StartTime = e.StartTime,
+                EndTime = e.EndTime,
+                OpeningCash = e.OpeningCash,
+                ClosingCash = e.ClosingCash,
+                Status = (int)e.Status
+            };
+        }
+
+        public void SaveChanges()
+        {
+            _db.SaveChanges();
+        }
+
+        public void Add(Shift shift)
+        {
+
+            var entity = new ShiftEntity
+            {
+                UserId = shift.UserId,
+                StartTime = shift.StartTime,
+                EndTime = shift.EndTime,
+                OpeningCash = shift.OpeningCash,
+                ClosingCash = shift.ClosingCash,
+                Status = (ShiftStatus)shift.Status // Ép kiểu về Enum của Entity
+            };
+            _db.Shifts.Add(entity);
         }
     }
 }

@@ -27,5 +27,7 @@ namespace ECoffee.Application.Repositories
         List<KdsOrderDto> GetOrdersByStatus(string status);
         List<OrderResponse> FindAllByCreatedAtAsync(DateTime from, DateTime to);
         List<OrderItemResponse> FindAllOrderItemById(long orderId);
+        long GetNextSequenceValue();
+        long GetLastOrderId();
     }
 }

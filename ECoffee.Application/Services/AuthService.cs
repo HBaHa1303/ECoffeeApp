@@ -38,12 +38,17 @@ namespace ECoffee.Application.Services
                 throw new UnauthorizedException("Tài khoản chưa được gán vai trò! Vui lòng liên hệ quản lý để được cấp quyền");
             }
 
+            string defaultRole = user.Roles.FirstOrDefault() ?? "";
+
             _userContext.Set(new UserSession(
                 user.Id,
-                request.Email,
-                "",
+                //request.Email,
+                //"",
+                user.Email,
+        defaultRole,
                 user.Roles
             ));
+            _userContext.Id = user.Id;
         }
 
         public void Logout()

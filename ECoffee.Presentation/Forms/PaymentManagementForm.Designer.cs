@@ -91,9 +91,9 @@ namespace ECoffee.Presentation.Forms
             lblTitle.Anchor = AnchorStyles.Left;
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblTitle.Location = new Point(15, 25);
+            lblTitle.Location = new Point(15, 21);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(320, 37);
+            lblTitle.Size = new Size(403, 46);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "QUẢN LÝ THANH TOÁN";
             // 
@@ -147,7 +147,7 @@ namespace ECoffee.Presentation.Forms
             tlpCreate.Controls.Add(flowLayoutPanel1, 1, 7);
             tlpCreate.Controls.Add(picQr, 0, 8);
             tlpCreate.Dock = DockStyle.Fill;
-            tlpCreate.Location = new Point(3, 25);
+            tlpCreate.Location = new Point(3, 30);
             tlpCreate.Name = "tlpCreate";
             tlpCreate.Padding = new Padding(10);
             tlpCreate.RowCount = 9;
@@ -160,35 +160,36 @@ namespace ECoffee.Presentation.Forms
             tlpCreate.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
             tlpCreate.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
             tlpCreate.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpCreate.Size = new Size(424, 638);
+            tlpCreate.Size = new Size(424, 633);
             tlpCreate.TabIndex = 0;
             // 
             // label1
             // 
             label1.Anchor = AnchorStyles.Left;
             label1.AutoSize = true;
-            label1.Location = new Point(13, 23);
+            label1.Location = new Point(13, 20);
             label1.Name = "label1";
-            label1.Size = new Size(70, 21);
+            label1.Size = new Size(87, 28);
             label1.TabIndex = 0;
             label1.Text = "Order ID";
             // 
             // nudOrderId
             // 
             nudOrderId.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nudOrderId.Location = new Point(148, 19);
+            nudOrderId.Location = new Point(148, 17);
             nudOrderId.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudOrderId.Name = "nudOrderId";
-            nudOrderId.Size = new Size(263, 29);
+            nudOrderId.ReadOnly = true;
+            nudOrderId.Size = new Size(263, 34);
             nudOrderId.TabIndex = 1;
             // 
             // label2
             // 
             label2.Anchor = AnchorStyles.Left;
             label2.AutoSize = true;
-            label2.Location = new Point(13, 71);
+            label2.Location = new Point(13, 68);
             label2.Name = "label2";
-            label2.Size = new Size(99, 21);
+            label2.Size = new Size(125, 28);
             label2.TabIndex = 2;
             label2.Text = "Phương thức";
             // 
@@ -197,28 +198,28 @@ namespace ECoffee.Presentation.Forms
             cboMethod.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             cboMethod.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMethod.FormattingEnabled = true;
-            cboMethod.Location = new Point(148, 70);
+            cboMethod.Location = new Point(148, 68);
             cboMethod.Name = "cboMethod";
-            cboMethod.Size = new Size(263, 29);
+            cboMethod.Size = new Size(263, 36);
             cboMethod.TabIndex = 3;
             // 
             // label3
             // 
             label3.Anchor = AnchorStyles.Left;
             label3.AutoSize = true;
-            label3.Location = new Point(13, 119);
+            label3.Location = new Point(13, 116);
             label3.Name = "label3";
-            label3.Size = new Size(58, 21);
+            label3.Size = new Size(73, 28);
             label3.TabIndex = 4;
             label3.Text = "Số tiền";
             // 
             // nudAmount
             // 
             nudAmount.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nudAmount.Location = new Point(148, 115);
+            nudAmount.Location = new Point(148, 113);
             nudAmount.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
             nudAmount.Name = "nudAmount";
-            nudAmount.Size = new Size(263, 29);
+            nudAmount.Size = new Size(263, 34);
             nudAmount.TabIndex = 5;
             nudAmount.ThousandsSeparator = true;
             // 
@@ -226,36 +227,36 @@ namespace ECoffee.Presentation.Forms
             // 
             label4.Anchor = AnchorStyles.Left;
             label4.AutoSize = true;
-            label4.Location = new Point(13, 167);
+            label4.Location = new Point(13, 154);
             label4.Name = "label4";
-            label4.Size = new Size(112, 21);
+            label4.Size = new Size(122, 48);
             label4.TabIndex = 6;
             label4.Text = "TransactionRef";
             // 
             // txtTransactionRef
             // 
             txtTransactionRef.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtTransactionRef.Location = new Point(148, 163);
+            txtTransactionRef.Location = new Point(148, 161);
             txtTransactionRef.Name = "txtTransactionRef";
-            txtTransactionRef.Size = new Size(263, 29);
+            txtTransactionRef.Size = new Size(263, 34);
             txtTransactionRef.TabIndex = 7;
             // 
             // label5
             // 
             label5.Anchor = AnchorStyles.Left;
             label5.AutoSize = true;
-            label5.Location = new Point(13, 215);
+            label5.Location = new Point(13, 202);
             label5.Name = "label5";
-            label5.Size = new Size(111, 21);
+            label5.Size = new Size(95, 48);
             label5.TabIndex = 8;
             label5.Text = "Tên ngân hàng";
             // 
             // txtBankName
             // 
             txtBankName.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtBankName.Location = new Point(148, 211);
+            txtBankName.Location = new Point(148, 209);
             txtBankName.Name = "txtBankName";
-            txtBankName.Size = new Size(263, 29);
+            txtBankName.Size = new Size(263, 34);
             txtBankName.TabIndex = 9;
             txtBankName.Text = "MBBank";
             // 
@@ -263,18 +264,18 @@ namespace ECoffee.Presentation.Forms
             // 
             label6.Anchor = AnchorStyles.Left;
             label6.AutoSize = true;
-            label6.Location = new Point(13, 263);
+            label6.Location = new Point(13, 260);
             label6.Name = "label6";
-            label6.Size = new Size(96, 21);
+            label6.Size = new Size(121, 28);
             label6.TabIndex = 10;
             label6.Text = "Số tài khoản";
             // 
             // txtAccountNo
             // 
             txtAccountNo.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtAccountNo.Location = new Point(148, 259);
+            txtAccountNo.Location = new Point(148, 257);
             txtAccountNo.Name = "txtAccountNo";
-            txtAccountNo.Size = new Size(263, 29);
+            txtAccountNo.Size = new Size(263, 34);
             txtAccountNo.TabIndex = 11;
             txtAccountNo.Text = "0123456789";
             // 
@@ -282,18 +283,18 @@ namespace ECoffee.Presentation.Forms
             // 
             label7.Anchor = AnchorStyles.Left;
             label7.AutoSize = true;
-            label7.Location = new Point(13, 311);
+            label7.Location = new Point(13, 298);
             label7.Name = "label7";
-            label7.Size = new Size(110, 21);
+            label7.Size = new Size(80, 48);
             label7.TabIndex = 12;
             label7.Text = "Tên thụ hưởng";
             // 
             // txtAccountName
             // 
             txtAccountName.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtAccountName.Location = new Point(148, 307);
+            txtAccountName.Location = new Point(148, 305);
             txtAccountName.Name = "txtAccountName";
-            txtAccountName.Size = new Size(263, 29);
+            txtAccountName.Size = new Size(263, 34);
             txtAccountName.TabIndex = 13;
             txtAccountName.Text = "E.Coffee";
             // 
@@ -335,7 +336,7 @@ namespace ECoffee.Presentation.Forms
             picQr.Dock = DockStyle.Fill;
             picQr.Location = new Point(13, 405);
             picQr.Name = "picQr";
-            picQr.Size = new Size(398, 220);
+            picQr.Size = new Size(398, 215);
             picQr.SizeMode = PictureBoxSizeMode.Zoom;
             picQr.TabIndex = 15;
             picQr.TabStop = false;
@@ -362,32 +363,32 @@ namespace ECoffee.Presentation.Forms
             tableLayoutPanel2.Controls.Add(btnCheckSuccess, 2, 0);
             tableLayoutPanel2.Controls.Add(dgvPayments, 0, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 25);
+            tableLayoutPanel2.Location = new Point(3, 30);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.Padding = new Padding(10);
             tableLayoutPanel2.RowCount = 2;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(930, 638);
+            tableLayoutPanel2.Size = new Size(930, 633);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // label8
             // 
             label8.Anchor = AnchorStyles.Left;
             label8.AutoSize = true;
-            label8.Location = new Point(13, 24);
+            label8.Location = new Point(13, 21);
             label8.Name = "label8";
-            label8.Size = new Size(74, 21);
+            label8.Size = new Size(91, 28);
             label8.TabIndex = 0;
             label8.Text = "Tìm kiếm";
             // 
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtSearch.Location = new Point(113, 20);
+            txtSearch.Location = new Point(113, 18);
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Nhập orderId hoặc transactionRef...";
-            txtSearch.Size = new Size(614, 29);
+            txtSearch.Size = new Size(614, 34);
             txtSearch.TabIndex = 1;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
@@ -413,8 +414,9 @@ namespace ECoffee.Presentation.Forms
             dgvPayments.Location = new Point(13, 63);
             dgvPayments.Name = "dgvPayments";
             dgvPayments.ReadOnly = true;
+            dgvPayments.RowHeadersWidth = 51;
             dgvPayments.RowTemplate.Height = 28;
-            dgvPayments.Size = new Size(904, 562);
+            dgvPayments.Size = new Size(904, 557);
             dgvPayments.TabIndex = 3;
             dgvPayments.CellContentClick += dgvPayments_CellContentClick;
             // 
@@ -422,6 +424,7 @@ namespace ECoffee.Presentation.Forms
             // 
             PaymentId.DataPropertyName = "Id";
             PaymentId.HeaderText = "PaymentId";
+            PaymentId.MinimumWidth = 6;
             PaymentId.Name = "PaymentId";
             PaymentId.ReadOnly = true;
             PaymentId.Width = 90;
@@ -430,6 +433,7 @@ namespace ECoffee.Presentation.Forms
             // 
             OrderId.DataPropertyName = "OrderId";
             OrderId.HeaderText = "OrderId";
+            OrderId.MinimumWidth = 6;
             OrderId.Name = "OrderId";
             OrderId.ReadOnly = true;
             OrderId.Width = 90;
@@ -438,6 +442,7 @@ namespace ECoffee.Presentation.Forms
             // 
             Method.DataPropertyName = "Method";
             Method.HeaderText = "Method";
+            Method.MinimumWidth = 6;
             Method.Name = "Method";
             Method.ReadOnly = true;
             Method.Width = 120;
@@ -446,6 +451,7 @@ namespace ECoffee.Presentation.Forms
             // 
             Amount.DataPropertyName = "Amount";
             Amount.HeaderText = "Amount";
+            Amount.MinimumWidth = 6;
             Amount.Name = "Amount";
             Amount.ReadOnly = true;
             Amount.Width = 120;
@@ -454,14 +460,17 @@ namespace ECoffee.Presentation.Forms
             // 
             Status.DataPropertyName = "Status";
             Status.HeaderText = "Status";
+            Status.MinimumWidth = 6;
             Status.Name = "Status";
             Status.ReadOnly = true;
+            Status.Width = 125;
             // 
             // TransactionRef
             // 
             TransactionRef.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             TransactionRef.DataPropertyName = "TransactionRef";
             TransactionRef.HeaderText = "TransactionRef";
+            TransactionRef.MinimumWidth = 6;
             TransactionRef.Name = "TransactionRef";
             TransactionRef.ReadOnly = true;
             // 
@@ -469,6 +478,7 @@ namespace ECoffee.Presentation.Forms
             // 
             CreatedAt.DataPropertyName = "CreatedAt";
             CreatedAt.HeaderText = "CreatedAt";
+            CreatedAt.MinimumWidth = 6;
             CreatedAt.Name = "CreatedAt";
             CreatedAt.ReadOnly = true;
             CreatedAt.Width = 150;
@@ -476,6 +486,7 @@ namespace ECoffee.Presentation.Forms
             // ViewPayment
             // 
             ViewPayment.HeaderText = "";
+            ViewPayment.MinimumWidth = 6;
             ViewPayment.Name = "ViewPayment";
             ViewPayment.ReadOnly = true;
             ViewPayment.Text = "Xem";
@@ -484,7 +495,7 @@ namespace ECoffee.Presentation.Forms
             // 
             // PaymentManagementForm
             // 
-            AutoScaleDimensions = new SizeF(9F, 21F);
+            AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1400, 760);
             Controls.Add(tableLayoutPanel1);

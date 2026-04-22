@@ -12,7 +12,8 @@ namespace ECoffee.Application.DTOs.Request
         public string OrderNumber => $"#{OrderId}";
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
-        public List<KdsItemDto> Items { get; set; } = new(); 
+        public List<KdsItemDto> Items { get; set; } = new();
+        public string? OrderNote { get; set; }
     }
 
     public class KdsItemDto

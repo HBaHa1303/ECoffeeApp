@@ -65,11 +65,13 @@
             label13 = new Label();
             label12 = new Label();
             label11 = new Label();
-            btnMangDi = new Button();
-            btnTaiCho = new Button();
             lbOrderId = new Label();
             label10 = new Label();
             panel4 = new Panel();
+            label17 = new Label();
+            label16 = new Label();
+            cboPromotion = new ComboBox();
+            cboTypeOrder = new ComboBox();
             btThanhToan = new Button();
             lbThanhTien = new Label();
             lbThue = new Label();
@@ -101,7 +103,7 @@
             // tblIcon
             // 
             tblIcon.ColumnCount = 1;
-            tblIcon.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 77F));
+            tblIcon.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 88F));
             tblIcon.Controls.Add(btOrderIcon, 0, 0);
             tblIcon.Controls.Add(btSettingIcon, 0, 1);
             tblIcon.Controls.Add(button8, 0, 2);
@@ -113,7 +115,7 @@
             tblIcon.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33333F));
             tblIcon.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33333F));
             tblIcon.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33334F));
-            tblIcon.Size = new Size(77, 454);
+            tblIcon.Size = new Size(88, 605);
             tblIcon.TabIndex = 2;
             // 
             // btOrderIcon
@@ -122,7 +124,7 @@
             btOrderIcon.Location = new Point(0, 0);
             btOrderIcon.Margin = new Padding(0);
             btOrderIcon.Name = "btOrderIcon";
-            btOrderIcon.Size = new Size(77, 151);
+            btOrderIcon.Size = new Size(88, 201);
             btOrderIcon.TabIndex = 1;
             btOrderIcon.Text = "Order";
             btOrderIcon.UseVisualStyleBackColor = true;
@@ -131,10 +133,10 @@
             // btSettingIcon
             // 
             btSettingIcon.Dock = DockStyle.Fill;
-            btSettingIcon.Location = new Point(0, 151);
+            btSettingIcon.Location = new Point(0, 201);
             btSettingIcon.Margin = new Padding(0);
             btSettingIcon.Name = "btSettingIcon";
-            btSettingIcon.Size = new Size(77, 151);
+            btSettingIcon.Size = new Size(88, 201);
             btSettingIcon.TabIndex = 4;
             btSettingIcon.Text = "Ca làm việc";
             btSettingIcon.UseVisualStyleBackColor = true;
@@ -143,10 +145,10 @@
             // button8
             // 
             button8.Dock = DockStyle.Fill;
-            button8.Location = new Point(0, 302);
+            button8.Location = new Point(0, 402);
             button8.Margin = new Padding(0);
             button8.Name = "button8";
-            button8.Size = new Size(77, 152);
+            button8.Size = new Size(88, 203);
             button8.TabIndex = 7;
             button8.Text = "Đăng xuất";
             button8.UseVisualStyleBackColor = true;
@@ -176,7 +178,7 @@
             textBox1.Location = new Point(0, 0);
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Chú thích....";
-            textBox1.Size = new Size(268, 23);
+            textBox1.Size = new Size(268, 27);
             textBox1.TabIndex = 1;
             // 
             // panel2
@@ -198,7 +200,7 @@
             labelThanhTien.AutoSize = true;
             labelThanhTien.Location = new Point(202, 75);
             labelThanhTien.Name = "labelThanhTien";
-            labelThanhTien.Size = new Size(13, 15);
+            labelThanhTien.Size = new Size(17, 20);
             labelThanhTien.TabIndex = 5;
             labelThanhTien.Text = "0";
             // 
@@ -207,7 +209,7 @@
             labelThue.AutoSize = true;
             labelThue.Location = new Point(202, 26);
             labelThue.Name = "labelThue";
-            labelThue.Size = new Size(13, 15);
+            labelThue.Size = new Size(17, 20);
             labelThue.TabIndex = 4;
             labelThue.Text = "0";
             // 
@@ -216,7 +218,7 @@
             label6.AutoSize = true;
             label6.Location = new Point(225, 75);
             label6.Name = "label6";
-            label6.Size = new Size(31, 15);
+            label6.Size = new Size(40, 20);
             label6.TabIndex = 3;
             label6.Text = "VND";
             // 
@@ -225,7 +227,7 @@
             label5.AutoSize = true;
             label5.Location = new Point(225, 26);
             label5.Name = "label5";
-            label5.Size = new Size(31, 15);
+            label5.Size = new Size(40, 20);
             label5.TabIndex = 2;
             label5.Text = "VND";
             // 
@@ -234,7 +236,7 @@
             label4.AutoSize = true;
             label4.Location = new Point(6, 75);
             label4.Name = "label4";
-            label4.Size = new Size(64, 15);
+            label4.Size = new Size(78, 20);
             label4.TabIndex = 1;
             label4.Text = "Thành tiền";
             // 
@@ -243,7 +245,7 @@
             label3.AutoSize = true;
             label3.Location = new Point(6, 26);
             label3.Name = "label3";
-            label3.Size = new Size(37, 15);
+            label3.Size = new Size(44, 20);
             label3.TabIndex = 0;
             label3.Text = "Thuế:";
             // 
@@ -295,27 +297,27 @@
             label7.Location = new Point(3, 38);
             label7.Margin = new Padding(3, 3, 80, 3);
             label7.Name = "label7";
-            label7.Size = new Size(54, 15);
+            label7.Size = new Size(66, 20);
             label7.TabIndex = 2;
             label7.Text = "Tên món";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(140, 38);
+            label8.Location = new Point(152, 38);
             label8.Margin = new Padding(3, 3, 5, 3);
             label8.Name = "label8";
-            label8.Size = new Size(50, 15);
+            label8.Size = new Size(62, 20);
             label8.TabIndex = 3;
             label8.Text = "S.Lượng";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(198, 38);
+            label9.Location = new Point(222, 38);
             label9.Margin = new Padding(3, 3, 10, 3);
             label9.Name = "label9";
-            label9.Size = new Size(24, 15);
+            label9.Size = new Size(31, 20);
             label9.TabIndex = 4;
             label9.Text = "Giá";
             // 
@@ -336,7 +338,7 @@
             label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(3, 0);
             label2.Name = "label2";
-            label2.Size = new Size(64, 25);
+            label2.Size = new Size(75, 31);
             label2.TabIndex = 0;
             label2.Text = "Order";
             // 
@@ -345,9 +347,9 @@
             labelIdOrder.Anchor = AnchorStyles.Bottom;
             labelIdOrder.AutoSize = true;
             labelIdOrder.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelIdOrder.Location = new Point(73, 0);
+            labelIdOrder.Location = new Point(84, 0);
             labelIdOrder.Name = "labelIdOrder";
-            labelIdOrder.Size = new Size(32, 25);
+            labelIdOrder.Size = new Size(38, 31);
             labelIdOrder.TabIndex = 2;
             labelIdOrder.Text = "ID";
             // 
@@ -356,10 +358,9 @@
             pnlCenter.Controls.Add(flbItems);
             pnlCenter.Controls.Add(pnlCategories);
             pnlCenter.Dock = DockStyle.Fill;
-            pnlCenter.Location = new Point(77, 0);
-            pnlCenter.Margin = new Padding(3, 2, 3, 2);
+            pnlCenter.Location = new Point(88, 0);
             pnlCenter.Name = "pnlCenter";
-            pnlCenter.Size = new Size(675, 454);
+            pnlCenter.Size = new Size(772, 605);
             pnlCenter.TabIndex = 6;
             // 
             // flbItems
@@ -367,11 +368,11 @@
             flbItems.AutoScroll = true;
             flbItems.BackColor = SystemColors.ButtonHighlight;
             flbItems.Dock = DockStyle.Fill;
-            flbItems.Location = new Point(0, 112);
-            flbItems.Margin = new Padding(4);
+            flbItems.Location = new Point(0, 149);
+            flbItems.Margin = new Padding(5);
             flbItems.Name = "flbItems";
-            flbItems.Padding = new Padding(9, 8, 9, 8);
-            flbItems.Size = new Size(675, 342);
+            flbItems.Padding = new Padding(10, 11, 10, 11);
+            flbItems.Size = new Size(772, 456);
             flbItems.TabIndex = 4;
             // 
             // pnlCategories
@@ -381,17 +382,16 @@
             pnlCategories.Controls.Add(tableLayoutPanel1);
             pnlCategories.Dock = DockStyle.Top;
             pnlCategories.Location = new Point(0, 0);
-            pnlCategories.Margin = new Padding(3, 2, 3, 2);
             pnlCategories.Name = "pnlCategories";
-            pnlCategories.Size = new Size(675, 112);
+            pnlCategories.Size = new Size(772, 149);
             pnlCategories.TabIndex = 3;
             // 
             // lblSystemDateTime
             // 
             lblSystemDateTime.AutoSize = true;
-            lblSystemDateTime.Location = new Point(11, 53);
+            lblSystemDateTime.Location = new Point(13, 71);
             lblSystemDateTime.Name = "lblSystemDateTime";
-            lblSystemDateTime.Size = new Size(34, 15);
+            lblSystemDateTime.Size = new Size(42, 20);
             lblSystemDateTime.TabIndex = 2;
             lblSystemDateTime.Text = "Time";
             // 
@@ -399,10 +399,9 @@
             // 
             flpCategories.AutoScroll = true;
             flpCategories.Dock = DockStyle.Bottom;
-            flpCategories.Location = new Point(0, 86);
-            flpCategories.Margin = new Padding(3, 2, 3, 2);
+            flpCategories.Location = new Point(0, 114);
             flpCategories.Name = "flpCategories";
-            flpCategories.Size = new Size(675, 26);
+            flpCategories.Size = new Size(772, 35);
             flpCategories.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -414,31 +413,30 @@
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Top;
             tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Margin = new Padding(3, 2, 3, 2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(675, 51);
+            tableLayoutPanel1.Size = new Size(772, 68);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // txtTimKiem
             // 
             txtTimKiem.Anchor = AnchorStyles.Right;
-            txtTimKiem.Location = new Point(472, 14);
-            txtTimKiem.Margin = new Padding(3, 2, 3, 2);
+            txtTimKiem.Location = new Point(541, 20);
             txtTimKiem.Name = "txtTimKiem";
             txtTimKiem.PlaceholderText = "Nhập tên món";
-            txtTimKiem.Size = new Size(200, 23);
+            txtTimKiem.Size = new Size(228, 27);
             txtTimKiem.TabIndex = 1;
+            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             // 
             // label1
             // 
             label1.Anchor = AnchorStyles.Left;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(3, 10);
+            label1.Location = new Point(3, 15);
             label1.Name = "label1";
-            label1.Size = new Size(98, 30);
+            label1.Size = new Size(126, 38);
             label1.TabIndex = 0;
             label1.Text = "E.Coffee";
             // 
@@ -447,71 +445,48 @@
             panel3.Controls.Add(label13);
             panel3.Controls.Add(label12);
             panel3.Controls.Add(label11);
-            panel3.Controls.Add(btnMangDi);
-            panel3.Controls.Add(btnTaiCho);
             panel3.Controls.Add(lbOrderId);
             panel3.Controls.Add(label10);
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 0);
-            panel3.Margin = new Padding(3, 2, 3, 2);
             panel3.Name = "panel3";
-            panel3.Size = new Size(219, 94);
+            panel3.Size = new Size(250, 125);
             panel3.TabIndex = 0;
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(181, 69);
+            label13.Location = new Point(207, 92);
             label13.Name = "label13";
-            label13.Size = new Size(24, 15);
+            label13.Size = new Size(31, 20);
             label13.TabIndex = 6;
             label13.Text = "Giá";
             // 
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(122, 69);
+            label12.Location = new Point(139, 92);
             label12.Name = "label12";
-            label12.Size = new Size(50, 15);
+            label12.Size = new Size(62, 20);
             label12.TabIndex = 5;
             label12.Text = "S.Lượng";
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(15, 69);
+            label11.Location = new Point(17, 92);
             label11.Name = "label11";
-            label11.Size = new Size(54, 15);
+            label11.Size = new Size(66, 20);
             label11.TabIndex = 4;
             label11.Text = "Tên món";
-            // 
-            // btnMangDi
-            // 
-            btnMangDi.Location = new Point(80, 29);
-            btnMangDi.Margin = new Padding(3, 2, 3, 2);
-            btnMangDi.Name = "btnMangDi";
-            btnMangDi.Size = new Size(82, 22);
-            btnMangDi.TabIndex = 3;
-            btnMangDi.Text = "Mang đi";
-            btnMangDi.UseVisualStyleBackColor = true;
-            // 
-            // btnTaiCho
-            // 
-            btnTaiCho.Location = new Point(3, 29);
-            btnTaiCho.Margin = new Padding(3, 2, 3, 2);
-            btnTaiCho.Name = "btnTaiCho";
-            btnTaiCho.Size = new Size(82, 22);
-            btnTaiCho.TabIndex = 2;
-            btnTaiCho.Text = "Tại chỗ";
-            btnTaiCho.UseVisualStyleBackColor = true;
             // 
             // lbOrderId
             // 
             lbOrderId.AutoSize = true;
             lbOrderId.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbOrderId.Location = new Point(63, 0);
+            lbOrderId.Location = new Point(72, 0);
             lbOrderId.Name = "lbOrderId";
-            lbOrderId.Size = new Size(22, 25);
+            lbOrderId.Size = new Size(26, 31);
             lbOrderId.TabIndex = 1;
             lbOrderId.Text = "0";
             // 
@@ -522,30 +497,67 @@
             label10.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label10.Location = new Point(0, 0);
             label10.Name = "label10";
-            label10.Size = new Size(64, 25);
+            label10.Size = new Size(75, 31);
             label10.TabIndex = 0;
             label10.Text = "Order";
             // 
             // panel4
             // 
+            panel4.Controls.Add(label17);
+            panel4.Controls.Add(label16);
+            panel4.Controls.Add(cboPromotion);
+            panel4.Controls.Add(cboTypeOrder);
             panel4.Controls.Add(btThanhToan);
             panel4.Controls.Add(lbThanhTien);
             panel4.Controls.Add(lbThue);
             panel4.Controls.Add(label15);
             panel4.Controls.Add(label14);
             panel4.Dock = DockStyle.Bottom;
-            panel4.Location = new Point(0, 360);
-            panel4.Margin = new Padding(3, 2, 3, 2);
+            panel4.Location = new Point(0, 425);
             panel4.Name = "panel4";
-            panel4.Size = new Size(219, 94);
+            panel4.Size = new Size(250, 180);
             panel4.TabIndex = 1;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(17, 108);
+            label17.Name = "label17";
+            label17.Size = new Size(109, 20);
+            label17.TabIndex = 8;
+            label17.Text = "Mã khuyến mãi";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(17, 74);
+            label16.Name = "label16";
+            label16.Size = new Size(112, 20);
+            label16.TabIndex = 7;
+            label16.Text = "Loại thanh toán";
+            // 
+            // cboPromotion
+            // 
+            cboPromotion.FormattingEnabled = true;
+            cboPromotion.Location = new Point(139, 105);
+            cboPromotion.Name = "cboPromotion";
+            cboPromotion.Size = new Size(87, 28);
+            cboPromotion.TabIndex = 6;
+            cboPromotion.SelectedIndexChanged += cboPromotion_SelectedIndexChanged;
+            // 
+            // cboTypeOrder
+            // 
+            cboTypeOrder.FormattingEnabled = true;
+            cboTypeOrder.Location = new Point(139, 71);
+            cboTypeOrder.Name = "cboTypeOrder";
+            cboTypeOrder.Size = new Size(87, 28);
+            cboTypeOrder.TabIndex = 5;
             // 
             // btThanhToan
             // 
-            btThanhToan.Location = new Point(63, 64);
-            btThanhToan.Margin = new Padding(3, 2, 3, 2);
+            btThanhToan.Location = new Point(35, 139);
             btThanhToan.Name = "btThanhToan";
-            btThanhToan.Size = new Size(82, 22);
+            btThanhToan.Size = new Size(191, 29);
             btThanhToan.TabIndex = 4;
             btThanhToan.Text = "Thanh Toán";
             btThanhToan.UseVisualStyleBackColor = true;
@@ -554,36 +566,36 @@
             // lbThanhTien
             // 
             lbThanhTien.AutoSize = true;
-            lbThanhTien.Location = new Point(148, 46);
+            lbThanhTien.Location = new Point(174, 37);
             lbThanhTien.Name = "lbThanhTien";
-            lbThanhTien.Size = new Size(13, 15);
+            lbThanhTien.Size = new Size(17, 20);
             lbThanhTien.TabIndex = 3;
             lbThanhTien.Text = "0";
             // 
             // lbThue
             // 
             lbThue.AutoSize = true;
-            lbThue.Location = new Point(148, 13);
+            lbThue.Location = new Point(174, 17);
             lbThue.Name = "lbThue";
-            lbThue.Size = new Size(13, 15);
+            lbThue.Size = new Size(17, 20);
             lbThue.TabIndex = 2;
             lbThue.Text = "0";
             // 
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(17, 46);
+            label15.Location = new Point(17, 37);
             label15.Name = "label15";
-            label15.Size = new Size(67, 15);
+            label15.Size = new Size(81, 20);
             label15.TabIndex = 1;
             label15.Text = "Thành tiền:";
             // 
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(17, 13);
+            label14.Location = new Point(17, 17);
             label14.Name = "label14";
-            label14.Size = new Size(37, 15);
+            label14.Size = new Size(44, 20);
             label14.TabIndex = 0;
             label14.Text = "Thuế:";
             // 
@@ -592,39 +604,36 @@
             panel5.Controls.Add(flpOrderList);
             panel5.Controls.Add(pnlNote);
             panel5.Dock = DockStyle.Fill;
-            panel5.Location = new Point(0, 94);
-            panel5.Margin = new Padding(3, 2, 3, 2);
+            panel5.Location = new Point(0, 125);
             panel5.Name = "panel5";
-            panel5.Size = new Size(219, 266);
+            panel5.Size = new Size(250, 300);
             panel5.TabIndex = 2;
             // 
             // flpOrderList
             // 
+            flpOrderList.AutoScroll = true;
             flpOrderList.Dock = DockStyle.Fill;
             flpOrderList.Location = new Point(0, 0);
-            flpOrderList.Margin = new Padding(3, 2, 3, 2);
             flpOrderList.Name = "flpOrderList";
-            flpOrderList.Size = new Size(219, 242);
+            flpOrderList.Size = new Size(250, 268);
             flpOrderList.TabIndex = 1;
             // 
             // pnlNote
             // 
             pnlNote.Controls.Add(txtNote);
             pnlNote.Dock = DockStyle.Bottom;
-            pnlNote.Location = new Point(0, 242);
-            pnlNote.Margin = new Padding(3, 2, 3, 2);
+            pnlNote.Location = new Point(0, 268);
             pnlNote.Name = "pnlNote";
-            pnlNote.Size = new Size(219, 24);
+            pnlNote.Size = new Size(250, 32);
             pnlNote.TabIndex = 0;
             // 
             // txtNote
             // 
             txtNote.Dock = DockStyle.Fill;
             txtNote.Location = new Point(0, 0);
-            txtNote.Margin = new Padding(3, 2, 3, 2);
             txtNote.Name = "txtNote";
             txtNote.PlaceholderText = "Ghi chú...";
-            txtNote.Size = new Size(219, 23);
+            txtNote.Size = new Size(250, 27);
             txtNote.TabIndex = 0;
             // 
             // pnlOrder
@@ -633,10 +642,9 @@
             pnlOrder.Controls.Add(panel4);
             pnlOrder.Controls.Add(panel3);
             pnlOrder.Dock = DockStyle.Right;
-            pnlOrder.Location = new Point(752, 0);
-            pnlOrder.Margin = new Padding(3, 2, 3, 2);
+            pnlOrder.Location = new Point(860, 0);
             pnlOrder.Name = "pnlOrder";
-            pnlOrder.Size = new Size(219, 454);
+            pnlOrder.Size = new Size(250, 605);
             pnlOrder.TabIndex = 5;
             // 
             // tmrClock
@@ -647,13 +655,12 @@
             // 
             // POSForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(971, 454);
+            ClientSize = new Size(1110, 605);
             Controls.Add(pnlCenter);
             Controls.Add(pnlOrder);
             Controls.Add(tblIcon);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "POSForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "POSForm";
@@ -730,8 +737,6 @@
         private Label label13;
         private Label label12;
         private Label label11;
-        private Button btnMangDi;
-        private Button btnTaiCho;
         private Label label10;
         private Panel panel4;
         private Label label15;
@@ -747,5 +752,9 @@
         public Label lbOrderId;
         private Label lblSystemDateTime;
         private System.Windows.Forms.Timer tmrClock;
+        private ComboBox cboTypeOrder;
+        private ComboBox cboPromotion;
+        private Label label17;
+        private Label label16;
     }
 }

@@ -7,6 +7,7 @@ using ECoffee.Infrastructure.Configurations;
 using ECoffee.Infrastructure.Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace ECoffee.Infrastructure.Repositories
 {
@@ -29,7 +30,8 @@ namespace ECoffee.Infrastructure.Repositories
                 UserId = order.UserId,
                 ShiftId = order.ShiftId,
                 Status = order.Status,
-                TotalAmount = order.CalculateTotal(),
+                PromotionId = order.PromotionId,
+                TotalAmount = order.TotalAmount,
                 CreatedAt = now,
                 UpdatedAt = now,
                 CreatedBy = "system",
@@ -39,7 +41,8 @@ namespace ECoffee.Infrastructure.Repositories
                     MenuId = item.MenuId,
                     Quantity = item.Quantity,
                     UnitPrice = item.UnitPrice,
-                    Size = item.Size,
+                    Size = (ECoffee.Application.Models.MenuSize)item.Size,
+                    Note = item.Note ?? "",
                     CreatedAt = now,
                     UpdatedAt = now,
                     CreatedBy = "system",
@@ -48,6 +51,8 @@ namespace ECoffee.Infrastructure.Repositories
             };
 
             _db.Orders.Add(entity);
+            _db.SaveChanges();
+            order.Id = entity.Id;
         }
 
         public void SaveChanges()
@@ -83,25 +88,14 @@ namespace ECoffee.Infrastructure.Repositories
 
 
         /// KDS
-        //public IEnumerable<Order> GetActiveOrders()
-        //{
-        //    var entities = _db.Orders
-        //        .Include(o => o.Items)
-        //            .ThenInclude(i => i.Menu) // Nối từ OrderItems sang Menus để lấy tên món
-        //        .Where(o => o.Status == ECoffee.Infrastructure.Entities.OrderStatus.Submitted
-        //                 || o.Status == ECoffee.Infrastructure.Entities.OrderStatus.Paid)
-        //        .ToList();
-
-        //    return entities.Adapt<IEnumerable<Order>>();
-        //}
-
+       
 
         public IEnumerable<Order> GetActiveOrders()
         {
             var entities = _db.Orders
                 .Include(o => o.Items)
                     .ThenInclude(i => i.Menu) // Quan trọng: Phải nạp bảng Menu
-                .Where(o => o.Status == OrderStatus.Submitted || o.Status == OrderStatus.Paid)
+                .Where(o => o.Status ==  OrderStatus.Paid)
                 .ToList();
 
             // Map thủ công để đảm bảo Items không bị rỗng và có ProductName
@@ -117,6 +111,7 @@ namespace ECoffee.Infrastructure.Repositories
                     UnitPrice = oi.UnitPrice,
                     // Lấy Name từ bảng Menu gán vào ProductName của Domain Model
                     ProductName = oi.Menu?.Name ?? "Món không tên",
+                    Note = oi.Note,
                     Size = (ECoffee.Application.Models.MenuSize)oi.Size
                 }).ToList()
             }).ToList();
@@ -162,7 +157,7 @@ namespace ECoffee.Infrastructure.Repositories
                 {
                     ProductName = oi.Menu?.Name ?? "Không xác định",
                     Quantity = oi.Quantity,
-                    Note = "",// bổ sung sau
+                    Note = oi.Note ?? "",
                     SizeName = oi.Size.ToString()
                 }).ToList()
             }).ToList();
@@ -227,6 +222,42 @@ namespace ECoffee.Infrastructure.Repositories
                     UnitPrice = oi.UnitPrice
                 })
                 .ToList();
+        }
+
+        public long GetNextSequenceValue()
+        {
+            // Truy vấn trực tiếp vào Sequence mà bạn đã khai báo trong AppDbContext
+            // global_seq là tên sequence bạn đặt trong builder.HasSequence
+            var connection = _db.Database.GetDbConnection();
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT NEXT VALUE FOR global_seq";
+                if (connection.State != ConnectionState.Open) connection.Open();
+                return (long)command.ExecuteScalar();
+            }
+        }
+
+        // Thêm vào file OrderRepository.cs (ECoffee.Infrastructure.Repositories)
+        public long GetLastOrderId()
+        {
+            long lastId = 0;
+
+            using (var command = _db.Database.GetDbConnection().CreateCommand())
+            {
+                // Chỉ lấy số lớn nhất hiện tại, không thêm thắt gì cả
+                command.CommandText = "SELECT MAX(Id) FROM Orders";
+                _db.Database.OpenConnection();
+
+                var result = command.ExecuteScalar();
+
+                if (result != DBNull.Value && result != null)
+                {
+                    // Lấy đúng số đang có trong DB (ví dụ 1881)
+                    lastId = Convert.ToInt64(result);
+                }
+            }
+
+            return lastId;
         }
     }
 

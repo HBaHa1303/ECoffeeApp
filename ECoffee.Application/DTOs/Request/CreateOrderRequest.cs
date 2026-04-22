@@ -11,6 +11,10 @@ namespace ECoffee.Application.DTOs.Request
     {
         public List<OrderItemRequest> Items { get; set; } = new();
         public long? PromotionId { get; set; }
+        public ECoffee.Application.Enums.OrderStatus Status { get; set; }
+        public long Id { get; set; }
+        public string? Note { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 
     public class OrderItemRequest
@@ -18,5 +22,6 @@ namespace ECoffee.Application.DTOs.Request
         public long MenuId { get; set; }
         public int Quantity { get; set; }
         public MenuSize Size { get; set; }
+        public string? Note { get; set; }
     }
 }

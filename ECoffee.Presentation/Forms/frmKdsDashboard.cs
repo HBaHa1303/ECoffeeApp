@@ -121,6 +121,12 @@ namespace ECoffee.Presentation.Forms
             flpCompletedOrders.Controls.Clear();
             foreach (var order in completedOrders)
             {
+                //if (order.Items == null || order.Items.Count == 0)
+                //{
+                //    // Nếu nó nhảy vào đây, nghĩa là Service của bạn đang trả về Items rỗng
+                //    // Đó là lý do tại sao card.SetData không tìm thấy Note để hiện màu vàng.
+                //    Console.WriteLine($"LỖI: Đơn #{order.OrderId} bên Hoàn thành không có Items!");
+                //}
                 var card = new ucKdsCard();
                 card.SetData(order);
                 // Có thể gọi card.HideFinishButton() nếu bạn đã viết hàm này
